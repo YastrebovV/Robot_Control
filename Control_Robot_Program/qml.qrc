@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Temp.qml</file>
+        <file>icons/folder.png</file>
+        <file>icons/file.png</file>
+        <file>Test.qml</file>
+        <file>Test2.qml</file>
+        <file>Test3.qml</file>
+        <file>main_копия.qml</file>
+    </qresource>
+</RCC>
