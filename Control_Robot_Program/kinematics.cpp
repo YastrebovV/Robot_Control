@@ -7,8 +7,6 @@ Kinematics::Kinematics()
    
 }
 
-
-
  double angTorad(double angl)
  {
      double radian = angl * M_PI / 180;
