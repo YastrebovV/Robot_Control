@@ -12,6 +12,8 @@ public:
 
 public:
     void JointMove(std::vector<double>& AxisAnglAct, const std::vector<double>& AxisAnglNew);
+    void Joint(const struct ActCoord &NewCoord);
+    void Joint(const std::vector<double>& AxisAnglNew);
     int getCountAx1() { return countAx1; } // геттер для countAx1
     void setCountAx1(int countAx) { countAx1 = countAx; } // сеттер для countAx1
     std::vector<double> getAngelAct() { return AngelAct; }

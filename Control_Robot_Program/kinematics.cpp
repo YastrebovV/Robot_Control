@@ -4,11 +4,7 @@ using namespace std;
 
 Kinematics::Kinematics()
 {
-<<<<<<< HEAD
 
-=======
-   
->>>>>>> d00a617df5c7d0299af55a073f7c364ca93e4bf4
 }
 
  double angTorad(double angl)

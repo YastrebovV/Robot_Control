@@ -45,7 +45,14 @@ RobotControl::RobotControl()
       DH_Param[4][2] = 0;
       DH_Param[5][2] = 0;//
 }
+void RobotControl::Joint(const struct ActCoord &NewCoord)
+{
+    kin.invKinematics(ActCoord, NewCoord, DH_Param, WFrame, TT, AngelAct,Join);
+}
+void RobotControl::Joint(const vector<double>& AxisAnglNew)
+{
 
+}
 void RobotControl::JointMove(vector<double>& AxisAnglAct, const vector<double>& AxisAnglNew)  //осевое перемещение робота
 {
     int AxisAnglIncr[6];
