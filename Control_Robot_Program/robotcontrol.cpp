@@ -46,7 +46,7 @@ RobotControl::RobotControl()
       DH_Param[5][2] = 0;//
 }
 
-void RobotControl::JointMove(double AxisAnglAct[6],double AxisAnglNew[6], double AxisSpeed[6])  //осевое перемещение робота
+void RobotControl::JointMove(vector<double>& AxisAnglAct, const vector<double>& AxisAnglNew)  //осевое перемещение робота
 {
     int AxisAnglIncr[6];
     int dir[6];

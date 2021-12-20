@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "kinematics.h"
+#include <vector>
 
 class RobotControl
 {
@@ -10,9 +11,11 @@ public:
     RobotControl();
 
 public:
-    void JointMove(double AxisAnglAct[6],double AxisAnglNew[6], double AxisSpeed[6]);
+    void JointMove(std::vector<double>& AxisAnglAct, const std::vector<double>& AxisAnglNew);
     int getCountAx1() { return countAx1; } // геттер для countAx1
     void setCountAx1(int countAx) { countAx1 = countAx; } // сеттер для countAx1
+    std::vector<double> getAngelAct() { return AngelAct; }
+
 private:
     double reductionA1 = 30.0;
     double reductionA2 = 50.0;
@@ -25,12 +28,12 @@ private:
     Kinematics::ActCoord ActCoord;
     Kinematics::ActCoord NewCoord;
     Kinematics::Join Join;
-    double AngelAct[6];
-    double WFrame[6];
-    double TFrame[6];
-    double DH_Param[6][3];
-    double TT [4][4];
-    double T5[4][4];
+    std::vector<double> AngelAct;
+    std::vector<double> WFrame;
+    std::vector<double> TFrame;
+    std::vector<std::vector<double>> DH_Param;//[6][3];
+    std::vector<std::vector<double>> TT;//[4][4];
+    std::vector<std::vector<double>> T5;//[4][4];
     int countAx1 = 12;
 
 };

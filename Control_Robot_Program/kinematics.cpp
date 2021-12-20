@@ -4,10 +4,8 @@ using namespace std;
 
 Kinematics::Kinematics()
 {
-   
+
 }
-
-
 
  double angTorad(double angl)
  {
@@ -20,7 +18,8 @@ Kinematics::Kinematics()
      return ang;
  }
 
- void Kinematics::dirKinematics(double angles[6], double WFrame[6], double TFrame[6], double DH_Param[6][3], struct ActCoord *fkv, double **T5,double **TT)
+ void Kinematics::dirKinematics(const vector<double>& angles, const vector<double>& WFrame, const vector<double>& TFrame, const vector<std::vector<double>>& DH_Param, struct ActCoord& fkv,
+          vector<vector<double>>& T5, vector<vector<double>>& TT)
  {
 
      double WFM[4][4];
@@ -319,36 +318,37 @@ Kinematics::Kinematics()
      {
          if(J1[0][3] < 0)
          {
-             fkv->QU_J1 = 1;
+             fkv.QU_J1 = 1;
          }
-         else fkv->QU_J1 = 2;
+         else fkv.QU_J1 = 2;
      }else if (J1[0][3] < 0)
      {
-         fkv->QU_J1 = 4;
-     }else fkv->QU_J1 = 3;
+         fkv.QU_J1 = 4;
+     }else fkv.QU_J1 = 3;
 
      if(T5[1][3] < 0)
      {
          if (T5[0][3] < 0)
          {
-             fkv->QU_J5 = 1;
+             fkv.QU_J5 = 1;
          }
-         else fkv->QU_J5 = 2;
+         else fkv.QU_J5 = 2;
      }else if(T5[0][3] < 0)
      {
-         fkv->QU_J5 = 4;
-     }else fkv->QU_J5 = 3;
+         fkv.QU_J5 = 4;
+     }else fkv.QU_J5 = 3;
      //****************************          
-     fkv->pitch = radToang(atan2(sqrt(pow(TT[0][2],2)+ pow(TT[1][2],2)), -TT[2][2]));
-     fkv->yaw = radToang(atan2(TT[2][0] / fkv->pitch,TT[2][1] / fkv->pitch));
-     fkv->roll = radToang(atan2(TT[0][2] / fkv->pitch,TT[1][2] / fkv->pitch));
+     fkv.pitch = radToang(atan2(sqrt(pow(TT[0][2],2)+ pow(TT[1][2],2)), -TT[2][2]));
+     fkv.yaw = radToang(atan2(TT[2][0] / fkv.pitch,TT[2][1] / fkv.pitch));
+     fkv.roll = radToang(atan2(TT[0][2] / fkv.pitch,TT[1][2] / fkv.pitch));
 
-     fkv->x = T5[0][3];
-     fkv->y = T5[1][3];
-     fkv->z = T5[2][3];
+     fkv.x = T5[0][3];
+     fkv.y = T5[1][3];
+     fkv.z = T5[2][3];
 
  }
- void Kinematics::invKinematics(struct ActCoord ActCoord, struct ActCoord NewCoord, double DH_Param[6][3], double WFrame[6], double TT[4][4], double anglesAct[6], struct Join *Join)
+ void Kinematics::invKinematics(const struct ActCoord &ActCoord, const struct ActCoord &NewCoord, const vector<vector<double>>& DH_Param, const vector<double>& WFrame,
+                    const vector<vector<double>>& TT, const vector<double>& anglesAct, struct Join &Join)
  {
      double armLen1, armLen2, armLen3, armLen3_1, vekP_J2, vekP_J3, armHeight;
      double theta1, theta2_cos, theta2_atan, theta4, theta5, theta6;
@@ -386,17 +386,17 @@ Kinematics::Kinematics()
 
      if (ActCoord.QU_J1 == 1)
      {
-         Join->J1 = (radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x))) - 90) - 90;
+         Join.J1 = (radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x))) - 90) - 90;
      }
      else if (ActCoord.QU_J1 == 2)
      {
-         Join->J1 = radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x)));
+         Join.J1 = radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x)));
      }
      else if (ActCoord.QU_J1 == 3)
      {
-         Join->J1 = radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x)));
+         Join.J1 = radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x)));
      }
-     else Join->J1 = 90 + radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x))) + 90;
+     else Join.J1 = 90 + radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x))) + 90;
 
      armLen1 = sqrt(pow(ActCoord.y + NewCoord.y, 2) + pow(ActCoord.x + NewCoord.x, 2)) + DH_Param[0][2];  //P14
      armLen2 = sqrt(pow(ActCoord.y + NewCoord.y, 2) + pow(ActCoord.x + NewCoord.x, 2));   //P15
@@ -423,28 +423,28 @@ Kinematics::Kinematics()
 
      if (armLen3_1 > 0 && ActCoord.QU_J1 == ActCoord.QU_J5)
      {
-         Join->J2 = -(theta1 + theta2_cos);
+         Join.J2 = -(theta1 + theta2_cos);
      }
      else if (armLen3_1 > 0 && ActCoord.QU_J1 != ActCoord.QU_J5)
      {
-         Join->J2 = -(180 - theta6 + theta2_cos);
+         Join.J2 = -(180 - theta6 + theta2_cos);
      }
      else if (armLen3_1 < 0 && ActCoord.QU_J1 != ActCoord.QU_J5)
      {
-         Join->J2 = -(180 - theta6 + theta2_cos);
+         Join.J2 = -(180 - theta6 + theta2_cos);
      }
      else
      {
-         Join->J2 = -(theta2_cos + theta5 + 90);
+         Join.J2 = -(theta2_cos + theta5 + 90);
      }
 
      theta4 = radToang(acos((pow(vekP_J3, 2) + pow(abs(DH_Param[3][1]), 2) - pow(DH_Param[2][2], 2)) / (2 * vekP_J3 * abs(DH_Param[3][1]))));
-     Join->J3 = 180 - radToang(acos((pow(vekP_J3, 2) + pow(DH_Param[1][2], 2) - pow(vekP_J2, 2)) / (2 * vekP_J3 * DH_Param[1][2]))) + theta4;
+     Join.J3 = 180 - radToang(acos((pow(vekP_J3, 2) + pow(DH_Param[1][2], 2) - pow(vekP_J2, 2)) / (2 * vekP_J3 * DH_Param[1][2]))) + theta4;
 
      //WORK FRAME INPUT
-     DH_Param_Local[0] = angTorad(Join->J1);
-     DH_Param_Local[1] = angTorad(Join->J2);
-     DH_Param_Local[2] = angTorad(Join->J3-90);
+     DH_Param_Local[0] = angTorad(Join.J1);
+     DH_Param_Local[1] = angTorad(Join.J2);
+     DH_Param_Local[2] = angTorad(Join.J3-90);
      DH_Param_Local[3] = angTorad(-90);//DH_Param[0][1];
      DH_Param_Local[4] = angTorad(0);//DH_Param[1][1];
      DH_Param_Local[5] = angTorad(90);//DH_Param[2][1];
@@ -792,25 +792,25 @@ Kinematics::Kinematics()
 
      if(anglesAct[4] > 0 && A5 > 0)
      {
-         Join->J5 = A5;
+         Join.J5 = A5;
      }else
      {
-         Join->J5 = A5_2;
+         Join.J5 = A5_2;
      }
-     if (Join->J5 > 0)
+     if (Join.J5 > 0)
      {
-         Join->J4 = A4;
-     }
-     else
-     {
-         Join->J4 = A4_2;
-     }
-     if (Join->J5 < 0)
-     {
-         Join->J6 = A6_2;
+         Join.J4 = A4;
      }
      else
      {
-         Join->J6 = A6;
+         Join.J4 = A4_2;
+     }
+     if (Join.J5 < 0)
+     {
+         Join.J6 = A6_2;
+     }
+     else
+     {
+         Join.J6 = A6;
      }
  }

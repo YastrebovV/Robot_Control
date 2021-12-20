@@ -2,6 +2,7 @@
 #define KINEMATICS_H
 
 #include <QObject>
+#include <vector>
 
 class Kinematics
 {
@@ -9,8 +10,6 @@ public:
     Kinematics();
 
 public:
-    void dirKinematics(double angles[6], double WFrame[6], double TFrame[6], double DH_Param[6][3], struct ActCoord *fkv, double **T5,double **TT);
-    void invKinematics(struct ActCoord ActCoord, struct ActCoord NewCoord, double DH_Param[6][3], double WFrame[6], double TT[4][4], double anglesAct[6], struct Join *Join);
     struct ActCoord
      {
         double x;
@@ -31,6 +30,13 @@ public:
          double J5;
          double J6;
      };
+
+    void dirKinematics(const std::vector<double>& angles, const std::vector<double>& WFrame, const std::vector<double>& TFrame, const std::vector<std::vector<double>>& DH_Param, struct ActCoord& fkv,
+             std::vector<std::vector<double>>& T5, std::vector<std::vector<double>>& TT);
+    void invKinematics(const struct ActCoord &ActCoord, const struct ActCoord &NewCoord, const std::vector<std::vector<double>>& DH_Param, const std::vector<double>& WFrame,
+                       const std::vector<std::vector<double>>& TT, const std::vector<double>& anglesAct, struct Join &Join);
+
+
 };
 
 #endif // KINEMATICS_H
