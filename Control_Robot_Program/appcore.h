@@ -4,6 +4,8 @@
 #include <QObject>
 #include "filesandfolders.h"
 #include "robotcontrol.h"
+#include <vector>
+#include <string>
 //#include <iostream>
 
 //using namespace std;
@@ -26,13 +28,17 @@ public slots:
     void deleteFile(QString fileName);
     void writeToFile(QString fileName, QString text);
     QString readFromFile(QString fileName);
-    int getCountAx1(); // геттер для countAx1
-    void setCountAx1(int countAx); // сеттер для countAx1
+    void jointManMove(char numAxis, double valueOffset);
+    void cartesianManMove(char axis, double valueOffset);
+
+    std::vector<QString> getActCoord();
+    void setActCoord(Kinematics::ActCoord ActCoord);
 
 private:
     //int count=0;  // Счетчик, которым будем оперировать
     FilesAndFolders FilesAndFolders_C;
     RobotControl RobotControl_C;
+    Kinematics Kinematics_C;
 };
 
 #endif // APPCORE_H

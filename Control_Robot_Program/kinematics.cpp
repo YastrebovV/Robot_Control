@@ -4,11 +4,7 @@ using namespace std;
 
 Kinematics::Kinematics()
 {
-<<<<<<< HEAD
 
-=======
-   
->>>>>>> d00a617df5c7d0299af55a073f7c364ca93e4bf4
 }
 
  double angTorad(double angl)
@@ -24,7 +20,7 @@ Kinematics::Kinematics()
 
  void Kinematics::dirKinematics(const vector<double>& angles, const vector<double>& WFrame, const vector<double>& TFrame, const vector<std::vector<double>>& DH_Param, struct ActCoord& fkv,
           vector<vector<double>>& T5, vector<vector<double>>& TT)
- {
+{
 
      double WFM[4][4];
      double TFM[4][4];
@@ -74,9 +70,9 @@ Kinematics::Kinematics()
      J1[1][2] = -cos(angTorad(angles[0])) * sin(angTorad(DH_Param[0][0]));
      J1[2][2] = cos(angTorad(DH_Param[0][0]));
      J1[3][2] = 0;
-     J1[0][3] = DH_Param[0][2] * cos(angTorad(angles[0]));
-     J1[1][3] = DH_Param[0][2] * sin(angTorad(angles[0])); ;
-     J1[2][3] = DH_Param[0][1];
+     J1[0][3] = DH_Param[2][0] * cos(angTorad(angles[0]));
+     J1[1][3] = DH_Param[2][0] * sin(angTorad(angles[0])); ;
+     J1[2][3] = DH_Param[1][0];
      J1[3][3] = 1;
 
      //JOIN 2 MATRIX 
@@ -84,16 +80,16 @@ Kinematics::Kinematics()
      J2[1][0] = sin(angTorad(angles[1]));
      J2[2][0] = 0;
      J2[3][0] = 0;
-     J2[0][1] = -sin(angTorad(angles[1])) * cos(angTorad(DH_Param[1][0]));
-     J2[1][1] = cos(angTorad(angles[1])) * cos(angTorad(DH_Param[1][0]));
-     J2[2][1] = sin(angTorad(DH_Param[1][0]));
+     J2[0][1] = -sin(angTorad(angles[1])) * cos(angTorad(DH_Param[0][1]));
+     J2[1][1] = cos(angTorad(angles[1])) * cos(angTorad(DH_Param[0][1]));
+     J2[2][1] = sin(angTorad(DH_Param[0][1]));
      J2[3][1] = 0;
-     J2[0][2] = sin(angTorad(angles[1])) * sin(angTorad(DH_Param[1][0]));
-     J2[1][2] = -cos(angTorad(angles[1])) * sin(angTorad(DH_Param[1][0]));
-     J2[2][2] = cos(angTorad(DH_Param[1][0]));
+     J2[0][2] = sin(angTorad(angles[1])) * sin(angTorad(DH_Param[0][1]));
+     J2[1][2] = -cos(angTorad(angles[1])) * sin(angTorad(DH_Param[0][1]));
+     J2[2][2] = cos(angTorad(DH_Param[0][1]));
      J2[3][2] = 0;
-     J2[0][3] = DH_Param[1][2] * cos(angTorad(angles[1]));
-     J2[1][3] = DH_Param[1][2] * sin(angTorad(angles[1])); ;
+     J2[0][3] = DH_Param[2][1] * cos(angTorad(angles[1]));
+     J2[1][3] = DH_Param[2][1] * sin(angTorad(angles[1])); ;
      J2[2][3] = DH_Param[1][1];
      J2[3][3] = 1;
 
@@ -102,17 +98,17 @@ Kinematics::Kinematics()
      J3[1][0] = sin(angTorad(angles[2]));
      J3[2][0] = 0;
      J3[3][0] = 0;
-     J3[0][1] = -sin(angTorad(angles[2])) * cos(angTorad(DH_Param[2][0]));
-     J3[1][1] = cos(angTorad(angles[2])) * cos(angTorad(DH_Param[2][0]));
-     J3[2][1] = sin(angTorad(DH_Param[2][0]));
+     J3[0][1] = -sin(angTorad(angles[2])) * cos(angTorad(DH_Param[0][2]));
+     J3[1][1] = cos(angTorad(angles[2])) * cos(angTorad(DH_Param[0][2]));
+     J3[2][1] = sin(angTorad(DH_Param[0][2]));
      J3[3][1] = 0;
-     J3[0][2] = sin(angTorad(angles[2])) * sin(angTorad(DH_Param[2][0]));
-     J3[1][2] = -cos(angTorad(angles[2])) * sin(angTorad(DH_Param[2][0]));
-     J3[2][2] = cos(angTorad(DH_Param[2][0]));
+     J3[0][2] = sin(angTorad(angles[2])) * sin(angTorad(DH_Param[0][2]));
+     J3[1][2] = -cos(angTorad(angles[2])) * sin(angTorad(DH_Param[0][2]));
+     J3[2][2] = cos(angTorad(DH_Param[0][2]));
      J3[3][2] = 0;
      J3[0][3] = DH_Param[2][2] * cos(angTorad(angles[2]));
      J3[1][3] = DH_Param[2][2] * sin(angTorad(angles[2])); ;
-     J3[2][3] = 0;
+     J3[2][3] = DH_Param[1][2];
      J3[3][3] = 1;
 
 
@@ -121,17 +117,17 @@ Kinematics::Kinematics()
      J4[1][0] = sin(angTorad(angles[3]));
      J4[2][0] = 0;
      J4[3][0] = 0;
-     J4[0][1] = -sin(angTorad(angles[3])) * cos(angTorad(DH_Param[3][0]));
-     J4[1][1] = cos(angTorad(angles[3])) * cos(angTorad(DH_Param[3][0]));
-     J4[2][1] = sin(angTorad(DH_Param[3][0]));
+     J4[0][1] = -sin(angTorad(angles[3])) * cos(angTorad(DH_Param[0][3]));
+     J4[1][1] = cos(angTorad(angles[3])) * cos(angTorad(DH_Param[0][3]));
+     J4[2][1] = sin(angTorad(DH_Param[0][3]));
      J4[3][1] = 0;
-     J4[0][2] = sin(angTorad(angles[3])) * sin(angTorad(DH_Param[3][0]));
-     J4[1][2] = -cos(angTorad(angles[3])) * sin(angTorad(DH_Param[3][0]));
-     J4[2][2] = cos(angTorad(DH_Param[3][0]));
+     J4[0][2] = sin(angTorad(angles[3])) * sin(angTorad(DH_Param[0][3]));
+     J4[1][2] = -cos(angTorad(angles[3])) * sin(angTorad(DH_Param[0][3]));
+     J4[2][2] = cos(angTorad(DH_Param[0][3]));
      J4[3][2] = 0;
-     J4[0][3] = DH_Param[3][2] * cos(angTorad(angles[3]));
-     J4[1][3] = DH_Param[3][2] * sin(angTorad(angles[3])); ;
-     J4[2][3] = DH_Param[3][1];
+     J4[0][3] = DH_Param[2][3] * cos(angTorad(angles[3]));
+     J4[1][3] = DH_Param[2][3] * sin(angTorad(angles[3])); ;
+     J4[2][3] = DH_Param[1][3];
      J4[3][3] = 1;
 
 
@@ -140,17 +136,17 @@ Kinematics::Kinematics()
      J5[1][0] = sin(angTorad(angles[4]));
      J5[2][0] = 0;
      J5[3][0] = 0;
-     J5[0][1] = -sin(angTorad(angles[4])) * cos(angTorad(DH_Param[4][0]));
-     J5[1][1] = cos(angTorad(angles[4])) * cos(angTorad(DH_Param[4][0]));
-     J5[2][1] = sin(angTorad(DH_Param[4][0]));
+     J5[0][1] = -sin(angTorad(angles[4])) * cos(angTorad(DH_Param[0][4]));
+     J5[1][1] = cos(angTorad(angles[4])) * cos(angTorad(DH_Param[0][4]));
+     J5[2][1] = sin(angTorad(DH_Param[0][4]));
      J5[3][1] = 0;
-     J5[0][2] = sin(angTorad(angles[4])) * sin(angTorad(DH_Param[4][0]));
-     J5[1][2] = -cos(angTorad(angles[4])) * sin(angTorad(DH_Param[4][0]));
-     J5[2][2] = cos(angTorad(DH_Param[4][0]));
+     J5[0][2] = sin(angTorad(angles[4])) * sin(angTorad(DH_Param[0][4]));
+     J5[1][2] = -cos(angTorad(angles[4])) * sin(angTorad(DH_Param[0][4]));
+     J5[2][2] = cos(angTorad(DH_Param[0][4]));
      J5[3][2] = 0;
-     J5[0][3] = DH_Param[4][2] * cos(angTorad(angles[4]));
-     J5[1][3] = DH_Param[4][2] * sin(angTorad(angles[4])); ;
-     J5[2][3] = DH_Param[4][1];
+     J5[0][3] = DH_Param[2][4] * cos(angTorad(angles[4]));
+     J5[1][3] = DH_Param[2][4] * sin(angTorad(angles[4])); ;
+     J5[2][3] = DH_Param[1][4];
      J5[3][3] = 1;
 
 
@@ -159,17 +155,17 @@ Kinematics::Kinematics()
      J6[1][0] = sin(angTorad(angles[5]));
      J6[2][0] = 0;
      J6[3][0] = 0;
-     J6[0][1] = -sin(angTorad(angles[5])) * cos(angTorad(DH_Param[5][0]));
-     J6[1][1] = cos(angTorad(angles[5])) * cos(angTorad(DH_Param[5][0]));
-     J6[2][1] = sin(angTorad(DH_Param[5][0]));
+     J6[0][1] = -sin(angTorad(angles[5])) * cos(angTorad(DH_Param[0][5]));
+     J6[1][1] = cos(angTorad(angles[5])) * cos(angTorad(DH_Param[0][5]));
+     J6[2][1] = sin(angTorad(DH_Param[0][5]));
      J6[3][1] = 0;
-     J6[0][2] = sin(angTorad(angles[5])) * sin(angTorad(DH_Param[5][0]));
-     J6[1][2] = -cos(angTorad(angles[5])) * sin(angTorad(DH_Param[5][0]));
-     J6[2][2] = cos(angTorad(DH_Param[5][0]));
+     J6[0][2] = sin(angTorad(angles[5])) * sin(angTorad(DH_Param[0][5]));
+     J6[1][2] = -cos(angTorad(angles[5])) * sin(angTorad(DH_Param[0][5]));
+     J6[2][2] = cos(angTorad(DH_Param[0][5]));
      J6[3][2] = 0;
-     J6[0][3] = DH_Param[5][2] * cos(angTorad(angles[5]));
-     J6[1][3] = DH_Param[5][2] * sin(angTorad(angles[5])); ;
-     J6[2][3] = DH_Param[5][1];
+     J6[0][3] = DH_Param[2][5] * cos(angTorad(angles[5]));
+     J6[1][3] = DH_Param[2][5] * sin(angTorad(angles[5])); ;
+     J6[2][3] = DH_Param[1][5];
      J6[3][3] = 1;
 
 
@@ -265,39 +261,39 @@ Kinematics::Kinematics()
 
      //T5 MATRIX
      T5[0][0] = (T4[0][0] * J5[0][0]) + (T4[0][1] * J5[1][0]) + (T4[0][2] * J5[2][0]) + (T4[0][3] * J5[3][0]);
-     T5[1][0] = (T4[1][0] * J5[0][0]) + (T4[1][1] * J5[1][0]) + (T4[1][2] * J5[2][0]) + (T4[1][3] * J5[3][0]);
-     T5[2][0] = (T4[2][0] * J5[0][0]) + (T4[2][1] * J5[1][0]) + (T4[2][2] * J5[2][0]) + (T4[2][3] * J5[3][0]);
-     T5[3][0] = (T4[3][0] * J5[0][0]) + (T4[3][1] * J5[1][0]) + (T4[3][2] * J5[2][0]) + (T4[3][3] * J5[3][0]);
-     T5[0][1] = (T4[0][0] * J5[0][1]) + (T4[0][1] * J5[1][1]) + (T4[0][2] * J5[2][1]) + (T4[0][3] * J5[3][1]);
+     T5[0][1] = (T4[1][0] * J5[0][0]) + (T4[1][1] * J5[1][0]) + (T4[1][2] * J5[2][0]) + (T4[1][3] * J5[3][0]);
+     T5[0][2] = (T4[2][0] * J5[0][0]) + (T4[2][1] * J5[1][0]) + (T4[2][2] * J5[2][0]) + (T4[2][3] * J5[3][0]);
+     T5[0][3] = (T4[3][0] * J5[0][0]) + (T4[3][1] * J5[1][0]) + (T4[3][2] * J5[2][0]) + (T4[3][3] * J5[3][0]);
+     T5[1][0] = (T4[0][0] * J5[0][1]) + (T4[0][1] * J5[1][1]) + (T4[0][2] * J5[2][1]) + (T4[0][3] * J5[3][1]);
      T5[1][1] = (T4[1][0] * J5[0][1]) + (T4[1][1] * J5[1][1]) + (T4[1][2] * J5[2][1]) + (T4[1][3] * J5[3][1]);
-     T5[2][1] = (T4[2][0] * J5[0][1]) + (T4[2][1] * J5[1][1]) + (T4[2][2] * J5[2][1]) + (T4[2][3] * J5[3][1]);
-     T5[3][1] = (T4[3][0] * J5[0][1]) + (T4[3][1] * J5[1][1]) + (T4[3][2] * J5[2][1]) + (T4[3][3] * J5[3][1]);
-     T5[0][2] = (T4[0][0] * J5[0][2]) + (T4[0][1] * J5[1][2]) + (T4[0][2] * J5[2][2]) + (T4[0][3] * J5[3][2]);
-     T5[1][2] = (T4[1][0] * J5[0][2]) + (T4[1][1] * J5[1][2]) + (T4[1][2] * J5[2][2]) + (T4[1][3] * J5[3][2]);
+     T5[1][2] = (T4[2][0] * J5[0][1]) + (T4[2][1] * J5[1][1]) + (T4[2][2] * J5[2][1]) + (T4[2][3] * J5[3][1]);
+     T5[1][3] = (T4[3][0] * J5[0][1]) + (T4[3][1] * J5[1][1]) + (T4[3][2] * J5[2][1]) + (T4[3][3] * J5[3][1]);
+     T5[2][0] = (T4[0][0] * J5[0][2]) + (T4[0][1] * J5[1][2]) + (T4[0][2] * J5[2][2]) + (T4[0][3] * J5[3][2]);
+     T5[2][1] = (T4[1][0] * J5[0][2]) + (T4[1][1] * J5[1][2]) + (T4[1][2] * J5[2][2]) + (T4[1][3] * J5[3][2]);
      T5[2][2] = (T4[2][0] * J5[0][2]) + (T4[2][1] * J5[1][2]) + (T4[2][2] * J5[2][2]) + (T4[2][3] * J5[3][2]);
-     T5[3][2] = (T4[3][0] * J5[0][2]) + (T4[3][1] * J5[1][2]) + (T4[3][2] * J5[2][2]) + (T4[3][3] * J5[3][2]);
-     T5[0][3] = (T4[0][0] * J5[0][3]) + (T4[0][1] * J5[1][3]) + (T4[0][2] * J5[2][3]) + (T4[0][3] * J5[3][3]);
-     T5[1][3] = (T4[1][0] * J5[0][3]) + (T4[1][1] * J5[1][3]) + (T4[1][2] * J5[2][3]) + (T4[1][3] * J5[3][3]);//j49 -> h5 -> y
-     T5[2][3] = (T4[2][0] * J5[0][3]) + (T4[2][1] * J5[1][3]) + (T4[2][2] * J5[2][3]) + (T4[2][3] * J5[3][3]);
+     T5[2][3] = (T4[3][0] * J5[0][2]) + (T4[3][1] * J5[1][2]) + (T4[3][2] * J5[2][2]) + (T4[3][3] * J5[3][2]);
+     T5[3][0] = (T4[0][0] * J5[0][3]) + (T4[0][1] * J5[1][3]) + (T4[0][2] * J5[2][3]) + (T4[0][3] * J5[3][3]);
+     T5[3][1] = (T4[1][0] * J5[0][3]) + (T4[1][1] * J5[1][3]) + (T4[1][2] * J5[2][3]) + (T4[1][3] * J5[3][3]);//j49 -> h5 -> y
+     T5[3][2] = (T4[2][0] * J5[0][3]) + (T4[2][1] * J5[1][3]) + (T4[2][2] * J5[2][3]) + (T4[2][3] * J5[3][3]);
      T5[3][3] = (T4[3][0] * J5[0][3]) + (T4[3][1] * J5[1][3]) + (T4[3][2] * J5[2][3]) + (T4[3][3] * J5[3][3]);
 
      //T6 MATRIX
-     T6[0][0] = (T5[0][0] * J6[0][0]) + (T5[0][1] * J6[1][0]) + (T5[0][2] * J6[2][0]) + (T5[0][3] * J6[3][0]);
-     T6[1][0] = (T5[1][0] * J6[0][0]) + (T5[1][1] * J6[1][0]) + (T5[1][2] * J6[2][0]) + (T5[1][3] * J6[3][0]);
-     T6[2][0] = (T5[2][0] * J6[0][0]) + (T5[2][1] * J6[1][0]) + (T5[2][2] * J6[2][0]) + (T5[2][3] * J6[3][0]);
-     T6[3][0] = (T5[3][0] * J6[0][0]) + (T5[3][1] * J6[1][0]) + (T5[3][2] * J6[2][0]) + (T5[3][3] * J6[3][0]);
-     T6[0][1] = (T5[0][0] * J6[0][1]) + (T5[0][1] * J6[1][1]) + (T5[0][2] * J6[2][1]) + (T5[0][3] * J6[3][1]);
-     T6[1][1] = (T5[1][0] * J6[0][1]) + (T5[1][1] * J6[1][1]) + (T5[1][2] * J6[2][1]) + (T5[1][3] * J6[3][1]);
-     T6[2][1] = (T5[2][0] * J6[0][1]) + (T5[2][1] * J6[1][1]) + (T5[2][2] * J6[2][1]) + (T5[2][3] * J6[3][1]);
-     T6[3][1] = (T5[3][0] * J6[0][1]) + (T5[3][1] * J6[1][1]) + (T5[3][2] * J6[2][1]) + (T5[3][3] * J6[3][1]);
-     T6[0][2] = (T5[0][0] * J6[0][2]) + (T5[0][1] * J6[1][2]) + (T5[0][2] * J6[2][2]) + (T5[0][3] * J6[3][2]);
-     T6[1][2] = (T5[1][0] * J6[0][2]) + (T5[1][1] * J6[1][2]) + (T5[1][2] * J6[2][2]) + (T5[1][3] * J6[3][2]);
-     T6[2][2] = (T5[2][0] * J6[0][2]) + (T5[2][1] * J6[1][2]) + (T5[2][2] * J6[2][2]) + (T5[2][3] * J6[3][2]);
-     T6[3][2] = (T5[3][0] * J6[0][2]) + (T5[3][1] * J6[1][2]) + (T5[3][2] * J6[2][2]) + (T5[3][3] * J6[3][2]);
-     T6[0][3] = (T5[0][0] * J6[0][3]) + (T5[0][1] * J6[1][3]) + (T5[0][2] * J6[2][3]) + (T5[0][3] * J6[3][3]);
-     T6[1][3] = (T5[1][0] * J6[0][3]) + (T5[1][1] * J6[1][3]) + (T5[1][2] * J6[2][3]) + (T5[1][3] * J6[3][3]);
-     T6[2][3] = (T5[2][0] * J6[0][3]) + (T5[2][1] * J6[1][3]) + (T5[2][2] * J6[2][3]) + (T5[2][3] * J6[3][3]);
-     T6[3][3] = (T5[3][0] * J6[0][3]) + (T5[3][1] * J6[1][3]) + (T5[3][2] * J6[2][3]) + (T5[3][3] * J6[3][3]);
+     T6[0][0] = (T5[0][0] * J6[0][0]) + (T5[1][0] * J6[1][0]) + (T5[2][0] * J6[2][0]) + (T5[3][0] * J6[3][0]);
+     T6[1][0] = (T5[0][1] * J6[0][0]) + (T5[1][1] * J6[1][0]) + (T5[2][1] * J6[2][0]) + (T5[3][1] * J6[3][0]);
+     T6[2][0] = (T5[0][2] * J6[0][0]) + (T5[1][2] * J6[1][0]) + (T5[2][2] * J6[2][0]) + (T5[3][2] * J6[3][0]);
+     T6[3][0] = (T5[0][3] * J6[0][0]) + (T5[1][3] * J6[1][0]) + (T5[2][3] * J6[2][0]) + (T5[3][3] * J6[3][0]);
+     T6[0][1] = (T5[0][0] * J6[0][1]) + (T5[1][0] * J6[1][1]) + (T5[2][0] * J6[2][1]) + (T5[3][0] * J6[3][1]);
+     T6[1][1] = (T5[0][1] * J6[0][1]) + (T5[1][1] * J6[1][1]) + (T5[2][1] * J6[2][1]) + (T5[3][1] * J6[3][1]);
+     T6[2][1] = (T5[0][2] * J6[0][1]) + (T5[1][2] * J6[1][1]) + (T5[2][2] * J6[2][1]) + (T5[3][2] * J6[3][1]);
+     T6[3][1] = (T5[0][3] * J6[0][1]) + (T5[1][3] * J6[1][1]) + (T5[2][3] * J6[2][1]) + (T5[3][3] * J6[3][1]);
+     T6[0][2] = (T5[0][0] * J6[0][2]) + (T5[1][0] * J6[1][2]) + (T5[2][0] * J6[2][2]) + (T5[3][0] * J6[3][2]);
+     T6[1][2] = (T5[0][1] * J6[0][2]) + (T5[1][1] * J6[1][2]) + (T5[2][1] * J6[2][2]) + (T5[3][1] * J6[3][2]);
+     T6[2][2] = (T5[0][2] * J6[0][2]) + (T5[1][2] * J6[1][2]) + (T5[2][2] * J6[2][2]) + (T5[3][2] * J6[3][2]);
+     T6[3][2] = (T5[0][3] * J6[0][2]) + (T5[1][3] * J6[1][2]) + (T5[2][3] * J6[2][2]) + (T5[3][3] * J6[3][2]);
+     T6[0][3] = (T5[0][0] * J6[0][3]) + (T5[1][0] * J6[1][3]) + (T5[2][0] * J6[2][3]) + (T5[3][0] * J6[3][3]);
+     T6[1][3] = (T5[0][1] * J6[0][3]) + (T5[1][1] * J6[1][3]) + (T5[2][1] * J6[2][3]) + (T5[3][1] * J6[3][3]);
+     T6[2][3] = (T5[0][2] * J6[0][3]) + (T5[1][2] * J6[1][3]) + (T5[2][2] * J6[2][3]) + (T5[3][2] * J6[3][3]);
+     T6[3][3] = (T5[0][3] * J6[0][3]) + (T5[1][3] * J6[1][3]) + (T5[2][3] * J6[2][3]) + (T5[3][3] * J6[3][3]);
 
      //TT MATRIX
      TT[0][0] = (T6[0][0] * TFM[0][0]) + (T6[0][1] * TFM[1][0]) + (T6[0][2] * TFM[2][0]) + (T6[0][3] * TFM[3][0]);
@@ -330,14 +326,14 @@ Kinematics::Kinematics()
          fkv.QU_J1 = 4;
      }else fkv.QU_J1 = 3;
 
-     if(T5[1][3] < 0)
+     if(T5[3][1] < 0)
      {
-         if (T5[0][3] < 0)
+         if (T5[3][0] < 0)
          {
              fkv.QU_J5 = 1;
          }
          else fkv.QU_J5 = 2;
-     }else if(T5[0][3] < 0)
+     }else if(T5[3][0] < 0)
      {
          fkv.QU_J5 = 4;
      }else fkv.QU_J5 = 3;
@@ -346,9 +342,9 @@ Kinematics::Kinematics()
      fkv.yaw = radToang(atan2(TT[2][0] / fkv.pitch,TT[2][1] / fkv.pitch));
      fkv.roll = radToang(atan2(TT[0][2] / fkv.pitch,TT[1][2] / fkv.pitch));
 
-     fkv.x = T5[0][3];
-     fkv.y = T5[1][3];
-     fkv.z = T5[2][3];
+     fkv.x = T5[3][0];
+     fkv.y = T5[3][1];
+     fkv.z = T5[3][2];
 
  }
  void Kinematics::invKinematics(const struct ActCoord &ActCoord, const struct ActCoord &NewCoord, const vector<vector<double>>& DH_Param, const vector<double>& WFrame,
@@ -402,11 +398,11 @@ Kinematics::Kinematics()
      }
      else Join.J1 = 90 + radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x))) + 90;
 
-     armLen1 = sqrt(pow(ActCoord.y + NewCoord.y, 2) + pow(ActCoord.x + NewCoord.x, 2)) + DH_Param[0][2];  //P14
+     armLen1 = sqrt(pow(ActCoord.y + NewCoord.y, 2) + pow(ActCoord.x + NewCoord.x, 2)) + DH_Param[2][0];  //P14
      armLen2 = sqrt(pow(ActCoord.y + NewCoord.y, 2) + pow(ActCoord.x + NewCoord.x, 2));   //P15
-     armLen3 = abs(armLen2 - DH_Param[0][2]);   //P16
-     armLen3_1 = armLen2 - DH_Param[0][2];      //Q16
-     armHeight = (ActCoord.z + NewCoord.z) - DH_Param[0][1];  //P17
+     armLen3 = abs(armLen2 - DH_Param[2][0]);   //P16
+     armLen3_1 = armLen2 - DH_Param[2][0];      //Q16
+     armHeight = (ActCoord.z + NewCoord.z) - DH_Param[1][0];  //P17
 
      if (ActCoord.QU_J1 == ActCoord.QU_J5)
      {
@@ -416,14 +412,14 @@ Kinematics::Kinematics()
 
      theta1 = radToang(atan(armHeight / armLen3));
      theta5 = radToang(atan(armLen3 / armHeight));
-     vekP_J3 = sqrt(pow(DH_Param[2][2], 2) + (pow(abs(DH_Param[3][1]), 2)));//P24
+     vekP_J3 = sqrt(pow(DH_Param[2][2], 2) + (pow(abs(DH_Param[1][3]), 2)));//P24
 
      theta6 = radToang(atan(armHeight / armLen1));
-     double test = 2 * DH_Param[1][2] * vekP_J2;
-     double test2 = pow(DH_Param[1][2], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2);
+     double test = 2 * DH_Param[2][1] * vekP_J2;
+     double test2 = pow(DH_Param[2][1], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2);
 
-     theta2_cos = radToang(acos((pow(DH_Param[1][2], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[1][2] * vekP_J2)));
-     theta2_atan = radToang(atan2(sqrt(1 - pow((pow(DH_Param[1][2], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[1][2] * vekP_J2), 2)), pow(DH_Param[1][2], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[1][2] * vekP_J2));
+     theta2_cos = radToang(acos((pow(DH_Param[2][1], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[2][1] * vekP_J2)));
+     theta2_atan = radToang(atan2(sqrt(1 - pow((pow(DH_Param[2][1], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[2][1] * vekP_J2), 2)), pow(DH_Param[2][1], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[2][1] * vekP_J2));
 
      if (armLen3_1 > 0 && ActCoord.QU_J1 == ActCoord.QU_J5)
      {
@@ -442,8 +438,8 @@ Kinematics::Kinematics()
          Join.J2 = -(theta2_cos + theta5 + 90);
      }
 
-     theta4 = radToang(acos((pow(vekP_J3, 2) + pow(abs(DH_Param[3][1]), 2) - pow(DH_Param[2][2], 2)) / (2 * vekP_J3 * abs(DH_Param[3][1]))));
-     Join.J3 = 180 - radToang(acos((pow(vekP_J3, 2) + pow(DH_Param[1][2], 2) - pow(vekP_J2, 2)) / (2 * vekP_J3 * DH_Param[1][2]))) + theta4;
+     theta4 = radToang(acos((pow(vekP_J3, 2) + pow(abs(DH_Param[1][2]), 2) - pow(DH_Param[2][2], 2)) / (2 * vekP_J3 * abs(DH_Param[1][3]))));
+     Join.J3 = 180 - radToang(acos((pow(vekP_J3, 2) + pow(DH_Param[2][1], 2) - pow(vekP_J2, 2)) / (2 * vekP_J3 * DH_Param[2][1]))) + theta4;
 
      //WORK FRAME INPUT
      DH_Param_Local[0] = angTorad(Join.J1);
@@ -488,9 +484,9 @@ Kinematics::Kinematics()
      J1[1][2] = -cos(DH_Param_Local[0]) * sin(DH_Param_Local[3]);
      J1[2][2] = cos(DH_Param_Local[3]);
      J1[3][2] = 0;
-     J1[0][3] = DH_Param[0][2] * cos(DH_Param_Local[0]);
-     J1[1][3] = DH_Param[0][2] * sin(DH_Param_Local[0]);
-     J1[2][3] = DH_Param[0][1];//D1
+     J1[0][3] = DH_Param[2][0] * cos(DH_Param_Local[0]);
+     J1[1][3] = DH_Param[2][0] * sin(DH_Param_Local[0]);
+     J1[2][3] = DH_Param[1][0];//D1
      J1[3][3] = 1;
    
      // J2 FRAME
@@ -506,8 +502,8 @@ Kinematics::Kinematics()
      J2[1][2] = -cos(DH_Param_Local[1]) * sin(DH_Param_Local[4]);
      J2[2][2] = cos(DH_Param_Local[4]);
      J2[3][2] = 0;
-     J2[0][3] = DH_Param[1][2] * cos(DH_Param_Local[1]);
-     J2[1][3] = DH_Param[1][2] * sin(DH_Param_Local[1]);
+     J2[0][3] = DH_Param[2][1] * cos(DH_Param_Local[1]);
+     J2[1][3] = DH_Param[2][1] * sin(DH_Param_Local[1]);
      J2[2][3] = DH_Param[1][1];
      J2[3][3] = 1;
     

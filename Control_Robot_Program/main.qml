@@ -413,11 +413,33 @@ ApplicationWindow {
                             color: but_A1_Plus.down ? "white" : "#4c4e50"
                             radius: 5
                         }
+onPressed: {
+    appCore.cartesianManMove(0,0)
+    let actCoord = []
+    actCoord = appCore.getActCoord()
+    label3.text = "x " + actCoord[0] + "; "
+    label3.text += "y " + actCoord[1] + "; "
+    label3.text += "z " + actCoord[2] + "; "
+    label3.text += "p " + actCoord[3] + "; "
+    label3.text += "r " + actCoord[4] + "; "
+    label3.text += "y " + actCoord[5] + "; "
+}
+onReleased: {
+
+}
 
                         onClicked: {
-                          counAx1++
-                          appCore.setCountAx1(counAx1)
-                          label3.text = appCore.getCountAx1()
+                            //если выбрано перемещение по осям
+                            if(comboBox1.currentIndex==0){
+
+                            }
+                            if(comboBox1.currentIndex==1){
+
+                            }
+
+//                          counAx1++
+//                          appCore.setCountAx1(counAx1)
+//                          label3.text = appCore.getCountAx1()
                         }
                 }
 

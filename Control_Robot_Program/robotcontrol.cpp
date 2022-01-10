@@ -5,13 +5,15 @@ using namespace std;
 RobotControl::RobotControl()
 {
    //при создании класса загрузить данные из конфигурационного файла
-      AngelAct[0] = 0;
-      AngelAct[1] = 0;
-      AngelAct[2] = 0;
-      AngelAct[3] = 0;
-      AngelAct[4] = 0;
-      AngelAct[5] = 0;
+      AngelAct.resize(6);
+      AngelAct[0] = 0.000001;
+      AngelAct[1] = -90;
+      AngelAct[2] = 90;
+      AngelAct[3] = 0.000001;
+      AngelAct[4] = 0.000001;
+      AngelAct[5] = 0.000001;
 
+      WFrame.resize(6);
       WFrame[0] = 0;
       WFrame[1] = 0;
       WFrame[2] = 0;
@@ -19,6 +21,7 @@ RobotControl::RobotControl()
       WFrame[4] = 0;
       WFrame[5] = 0;
 
+      TFrame.resize(6);
       TFrame[0] = 0;
       TFrame[1] = 0;
       TFrame[2] = 0;
@@ -26,24 +29,71 @@ RobotControl::RobotControl()
       TFrame[4] = 0;
       TFrame[5] = 0;
 
+      DH_Param.resize(3);
+      for(unsigned int i=0; i<3; i++)
+         DH_Param[i].resize(6);
+
+      //DH_Param[0, 0] = -90;//alpha
+      //DH_Param[1, 0] = 0;
+      //DH_Param[2, 0] = 90;
+      //DH_Param[3, 0] = -90;
+      //DH_Param[4, 0] = 90;
+      //DH_Param[5, 0] = 0;//
+      //DH_Param[0, 1] = 169.77;//d
+      //DH_Param[1, 1] = 0;
+      //DH_Param[2, 1] = 0;
+      //DH_Param[3, 1] = -222.63;
+      //DH_Param[4, 1] = 0;
+      //DH_Param[5, 1] = -36.25;//
+      //DH_Param[0, 2] = 64.2;//a
+      //DH_Param[1, 2] = 305;
+      //DH_Param[2, 2] = 0;
+      //DH_Param[3, 2] = 0;
+      //DH_Param[4, 2] = 0;
+      //DH_Param[5, 2] = 0;//
+//      DH_Param[0][0] = -90;//alpha
+//      DH_Param[0][1] = 0;
+//      DH_Param[0][2] = 90;
+//      DH_Param[0][3] = -90;
+//      DH_Param[0][4] = 90;
+//      DH_Param[0][5] = 0;//
+//      DH_Param[1][0] = 253.69;//d
+//      DH_Param[1][1] = 0;
+//      DH_Param[1][2] = 0;
+//      DH_Param[1][3] = -287.95;
+//      DH_Param[1][4] = 0;
+//      DH_Param[1][5] = -56;//
+//      DH_Param[2][0] = 109.36;//a
+//      DH_Param[2][1] = 235;
+//      DH_Param[2][2] = 79.95;
+//      DH_Param[2][3] = 0;
+//      DH_Param[2][4] = 0;
+//      DH_Param[2][5] = 0;//
       DH_Param[0][0] = -90;//alpha
-      DH_Param[1][0] = 0;
-      DH_Param[2][0] = 90;
-      DH_Param[3][0] = -90;
-      DH_Param[4][0] = 90;
-      DH_Param[5][0] = 0;//
-      DH_Param[0][1] = 253.69;//d
+      DH_Param[0][1] = 0;
+      DH_Param[0][2] = 90;
+      DH_Param[0][3] = -90;
+      DH_Param[0][4] = 90;
+      DH_Param[0][5] = 0;//
+      DH_Param[1][0] = 169.77;//d
       DH_Param[1][1] = 0;
-      DH_Param[2][1] = 0;
-      DH_Param[3][1] = -287.95;
-      DH_Param[4][1] = 0;
-      DH_Param[5][1] = -56;//
-      DH_Param[0][2] = 109.36;//a
-      DH_Param[1][2] = 235;
-      DH_Param[2][2] = 79.95;
-      DH_Param[3][2] = 0;
-      DH_Param[4][2] = 0;
-      DH_Param[5][2] = 0;//
+      DH_Param[1][2] = 0;
+      DH_Param[1][3] = -222.63;
+      DH_Param[1][4] = 0;
+      DH_Param[1][5] = -36.25;//
+      DH_Param[2][0] = 64.2;//a
+      DH_Param[2][1] = 305;
+      DH_Param[2][2] = 0;
+      DH_Param[2][3] = 0;
+      DH_Param[2][4] = 0;
+      DH_Param[2][5] = 0;//
+
+      T5.resize(4);
+      for(unsigned int i=0; i<4; i++)
+         T5[i].resize(4);
+      TT.resize(4);
+      for(unsigned int i=0; i<4; i++)
+         TT[i].resize(4);
 }
 
 void RobotControl::JointMove(vector<double>& AxisAnglAct, const vector<double>& AxisAnglNew)  //осевое перемещение робота
