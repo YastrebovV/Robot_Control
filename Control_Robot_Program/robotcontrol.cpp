@@ -95,7 +95,14 @@ RobotControl::RobotControl()
       for(unsigned int i=0; i<4; i++)
          TT[i].resize(4);
 }
+void RobotControl::Joint(const struct ActCoord &NewCoord)
+{
+    kin.invKinematics(ActCoord, NewCoord, DH_Param, WFrame, TT, AngelAct,Join);
+}
+void RobotControl::Joint(const vector<double>& AxisAnglNew)
+{
 
+}
 void RobotControl::JointMove(vector<double>& AxisAnglAct, const vector<double>& AxisAnglNew)  //осевое перемещение робота
 {
     int AxisAnglIncr[6];
