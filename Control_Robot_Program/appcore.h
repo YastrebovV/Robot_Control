@@ -32,6 +32,7 @@ public slots:
     void cartesianManMove(char axis, double valueOffset);
 
     std::vector<QString> getActCoord();
+    std::vector<QString> getActAngles();
     void setActCoord(Kinematics::ActCoord ActCoord);
 
 private:

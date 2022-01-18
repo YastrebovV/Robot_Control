@@ -5,13 +5,13 @@ using namespace std;
 RobotControl::RobotControl()
 {
    //при создании класса загрузить данные из конфигурационного файла
-      AngelAct.resize(6);
-      AngelAct[0] = 0.000001;
-      AngelAct[1] = -90;
-      AngelAct[2] = 90;
-      AngelAct[3] = 0.000001;
-      AngelAct[4] = 0.000001;
-      AngelAct[5] = 0.000001;
+
+      Join.J1 = 0.000001;
+      Join.J2 = -90;
+      Join.J3 = 90;
+      Join.J4 = 0.000001;
+      Join.J5 = 0.000001;
+      Join.J6 = 0.000001;
 
       WFrame.resize(6);
       WFrame[0] = 0;
@@ -33,24 +33,6 @@ RobotControl::RobotControl()
       for(unsigned int i=0; i<3; i++)
          DH_Param[i].resize(6);
 
-      //DH_Param[0, 0] = -90;//alpha
-      //DH_Param[1, 0] = 0;
-      //DH_Param[2, 0] = 90;
-      //DH_Param[3, 0] = -90;
-      //DH_Param[4, 0] = 90;
-      //DH_Param[5, 0] = 0;//
-      //DH_Param[0, 1] = 169.77;//d
-      //DH_Param[1, 1] = 0;
-      //DH_Param[2, 1] = 0;
-      //DH_Param[3, 1] = -222.63;
-      //DH_Param[4, 1] = 0;
-      //DH_Param[5, 1] = -36.25;//
-      //DH_Param[0, 2] = 64.2;//a
-      //DH_Param[1, 2] = 305;
-      //DH_Param[2, 2] = 0;
-      //DH_Param[3, 2] = 0;
-      //DH_Param[4, 2] = 0;
-      //DH_Param[5, 2] = 0;//
 //      DH_Param[0][0] = -90;//alpha
 //      DH_Param[0][1] = 0;
 //      DH_Param[0][2] = 90;

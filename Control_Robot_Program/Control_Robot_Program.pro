@@ -19,7 +19,7 @@ SOURCES += \
         filesandfolders.cpp \
         kinematics.cpp \
         main.cpp \
-    robotcontrol.cpp
+        robotcontrol.cpp
 
 RESOURCES += qml.qrc \
     qml.qrc

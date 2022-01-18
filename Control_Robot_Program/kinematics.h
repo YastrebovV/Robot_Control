@@ -31,10 +31,10 @@ public:
          double J6;
      };
 
-    void dirKinematics(const std::vector<double>& angles, const std::vector<double>& WFrame, const std::vector<double>& TFrame, const std::vector<std::vector<double>>& DH_Param, struct ActCoord& fkv,
+    void dirKinematics(const struct Join &Join, const std::vector<double>& WFrame, const std::vector<double>& TFrame, const std::vector<std::vector<double>>& DH_Param, struct ActCoord& fkv,
              std::vector<std::vector<double>>& T5, std::vector<std::vector<double>>& TT);
     void invKinematics(const struct ActCoord &ActCoord, const struct ActCoord &NewCoord, const std::vector<std::vector<double>>& DH_Param, const std::vector<double>& WFrame,
-                       const std::vector<std::vector<double>>& TT, const std::vector<double>& anglesAct, struct Join &Join);
+                       const std::vector<std::vector<double>>& TT, const struct Join &JoinAct, struct Join &Join);
 
 
 };

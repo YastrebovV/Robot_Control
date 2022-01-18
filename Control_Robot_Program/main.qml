@@ -417,12 +417,20 @@ onPressed: {
     appCore.cartesianManMove(0,0)
     let actCoord = []
     actCoord = appCore.getActCoord()
-    label3.text = "x " + actCoord[0] + "; "
-    label3.text += "y " + actCoord[1] + "; "
-    label3.text += "z " + actCoord[2] + "; "
-    label3.text += "p " + actCoord[3] + "; "
-    label3.text += "r " + actCoord[4] + "; "
-    label3.text += "y " + actCoord[5] + "; "
+    textRobotProgram.text = "x " + actCoord[0] + "; "
+    textRobotProgram.text += "y " + actCoord[1] + "; "
+    textRobotProgram.text += "z " + actCoord[2] + "; "
+    textRobotProgram.text += "p " + actCoord[3] + "; "
+    textRobotProgram.text += "r " + actCoord[4] + "; "
+    textRobotProgram.text += "y " + actCoord[5] + "; " + "\n"
+
+    actCoord = appCore.getActAngles()
+    textRobotProgram.text += "J1 " + actCoord[0] + "; "
+    textRobotProgram.text += "J2 " + actCoord[1] + "; "
+    textRobotProgram.text += "J3 " + actCoord[2] + "; "
+    textRobotProgram.text += "J4 " + actCoord[3] + "; "
+    textRobotProgram.text += "J5 " + actCoord[4] + "; "
+    textRobotProgram.text += "J6 " + actCoord[5] + "; " + "\n"
 }
 onReleased: {
 
