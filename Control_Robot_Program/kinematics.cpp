@@ -438,7 +438,7 @@ Kinematics::Kinematics()
          Join.J2 = -(theta2_cos + theta5 + 90);
      }
 
-     theta4 = radToang(acos((pow(vekP_J3, 2) + pow(abs(DH_Param[1][2]), 2) - pow(DH_Param[2][2], 2)) / (2 * vekP_J3 * abs(DH_Param[1][3]))));
+     theta4 = radToang(acos((pow(vekP_J3, 2) + pow(abs(DH_Param[1][3]), 2) - pow(DH_Param[2][2], 2)) / (2 * vekP_J3 * abs(DH_Param[1][3]))));
      Join.J3 = 180 - radToang(acos((pow(vekP_J3, 2) + pow(DH_Param[2][1], 2) - pow(vekP_J2, 2)) / (2 * vekP_J3 * DH_Param[2][1]))) + theta4;
 
      //WORK FRAME INPUT

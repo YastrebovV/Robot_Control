@@ -28,8 +28,8 @@ public slots:
     void deleteFile(QString fileName);
     void writeToFile(QString fileName, QString text);
     QString readFromFile(QString fileName);
-    void jointManMove(char numAxis, double valueOffset);
-    void cartesianManMove(char axis, double valueOffset);
+    void jointManMove(int numAxis, double valueOffset);
+    void cartesianManMove(int axis, double valueOffset);
 
     std::vector<QString> getActCoord();
     std::vector<QString> getActAngles();

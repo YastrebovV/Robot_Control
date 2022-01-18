@@ -10,7 +10,7 @@ RobotControl::RobotControl()
       Join.J2 = -90;
       Join.J3 = 90;
       Join.J4 = 0.000001;
-      Join.J5 = 0.000001;
+      Join.J5 = 0.001;
       Join.J6 = 0.000001;
 
       WFrame.resize(6);
@@ -33,42 +33,42 @@ RobotControl::RobotControl()
       for(unsigned int i=0; i<3; i++)
          DH_Param[i].resize(6);
 
-//      DH_Param[0][0] = -90;//alpha
-//      DH_Param[0][1] = 0;
-//      DH_Param[0][2] = 90;
-//      DH_Param[0][3] = -90;
-//      DH_Param[0][4] = 90;
-//      DH_Param[0][5] = 0;//
-//      DH_Param[1][0] = 253.69;//d
-//      DH_Param[1][1] = 0;
-//      DH_Param[1][2] = 0;
-//      DH_Param[1][3] = -287.95;
-//      DH_Param[1][4] = 0;
-//      DH_Param[1][5] = -56;//
-//      DH_Param[2][0] = 109.36;//a
-//      DH_Param[2][1] = 235;
-//      DH_Param[2][2] = 79.95;
-//      DH_Param[2][3] = 0;
-//      DH_Param[2][4] = 0;
-//      DH_Param[2][5] = 0;//
       DH_Param[0][0] = -90;//alpha
       DH_Param[0][1] = 0;
       DH_Param[0][2] = 90;
       DH_Param[0][3] = -90;
       DH_Param[0][4] = 90;
       DH_Param[0][5] = 0;//
-      DH_Param[1][0] = 169.77;//d
+      DH_Param[1][0] = 253.69;//d
       DH_Param[1][1] = 0;
       DH_Param[1][2] = 0;
-      DH_Param[1][3] = -222.63;
+      DH_Param[1][3] = -287.95;
       DH_Param[1][4] = 0;
-      DH_Param[1][5] = -36.25;//
-      DH_Param[2][0] = 64.2;//a
-      DH_Param[2][1] = 305;
-      DH_Param[2][2] = 0;
+      DH_Param[1][5] = -56;//
+      DH_Param[2][0] = 109.36;//a
+      DH_Param[2][1] = 235;
+      DH_Param[2][2] = 79.95;
       DH_Param[2][3] = 0;
       DH_Param[2][4] = 0;
       DH_Param[2][5] = 0;//
+//      DH_Param[0][0] = -90;//alpha
+//      DH_Param[0][1] = 0;
+//      DH_Param[0][2] = 90;
+//      DH_Param[0][3] = -90;
+//      DH_Param[0][4] = 90;
+//      DH_Param[0][5] = 0;//
+//      DH_Param[1][0] = 169.77;//d
+//      DH_Param[1][1] = 0;
+//      DH_Param[1][2] = 0;
+//      DH_Param[1][3] = -222.63;
+//      DH_Param[1][4] = 0;
+//      DH_Param[1][5] = -36.25;//
+//      DH_Param[2][0] = 64.2;//a
+//      DH_Param[2][1] = 305;
+//      DH_Param[2][2] = 0;
+//      DH_Param[2][3] = 0;
+//      DH_Param[2][4] = 0;
+//      DH_Param[2][5] = 0;//
 
       T5.resize(4);
       for(unsigned int i=0; i<4; i++)
@@ -78,97 +78,97 @@ RobotControl::RobotControl()
          TT[i].resize(4);
 }
 
-void RobotControl::JointMove(vector<double>& AxisAnglAct, const vector<double>& AxisAnglNew)  //осевое перемещение робота
+void RobotControl::JointMove(Kinematics::Join Join, Kinematics::Join NewJoin)  //осевое перемещение робота
 {
     int AxisAnglIncr[6];
     int dir[6];
 
-    AxisAnglIncr[0] = int(abs((AxisAnglAct[0] - AxisAnglNew[0]) / (1.8/ reductionA1)));
+    AxisAnglIncr[0] = int(abs((Join.J1 - NewJoin.J1) / (1.8/ reductionA1)));
 
-    pos_error[0] += abs((AxisAnglAct[0] - AxisAnglNew[0]) / (1.8 / reductionA1)) - trunc(abs((AxisAnglAct[0] -
-        AxisAnglNew[0]) / (1.8 / reductionA1)));
+    pos_error[0] += abs((Join.J1 - NewJoin.J1) / (1.8 / reductionA1)) - trunc(abs((Join.J1 -
+        NewJoin.J1) / (1.8 / reductionA1)));
 
     if (pos_error[0] > 1)
     {
         AxisAnglIncr[0] += 1;
         pos_error[0] = pos_error[0] - 1; ;
     }
-    if ((AxisAnglAct[0] - AxisAnglNew[0]) > 0)
+    if ((Join.J1 - NewJoin.J1) > 0)
      {
         dir[0] = 1;
      }
      else dir[0] = 0;
 
-    AxisAnglIncr[1] = int(abs((AxisAnglAct[1] - AxisAnglNew[1]) / (1.8 / reductionA2)));
-    pos_error[1] += abs((AxisAnglAct[1] - AxisAnglNew[1]) / (1.8 / reductionA2)) - trunc(abs((AxisAnglAct[1] -
-       AxisAnglNew[1]) / (1.8 / reductionA2)));
+    AxisAnglIncr[1] = int(abs((Join.J2 - NewJoin.J2) / (1.8 / reductionA2)));
+    pos_error[1] += abs((Join.J2 - NewJoin.J2) / (1.8 / reductionA2)) - trunc(abs((Join.J2 -
+       NewJoin.J2) / (1.8 / reductionA2)));
     if (pos_error[1] > 1)
     {
         AxisAnglIncr[1] += 1;
         pos_error[1] = pos_error[1]-1;
     }
 
-    if ((AxisAnglAct[1] - AxisAnglNew[1]) > 0)
+    if ((Join.J2 - NewJoin.J2) > 0)
     {
         dir[1] = 1;
     }
     else dir[1] = 0;
 
-    AxisAnglIncr[2] = int(abs((AxisAnglAct[2] - AxisAnglNew[2]) / (1.8 / reductionA3)));
-    pos_error[2] += abs((AxisAnglAct[2] - AxisAnglNew[2]) / (1.8 / reductionA3)) - trunc(abs((AxisAnglAct[2] -
-        AxisAnglNew[2]) / (1.8 / reductionA3)));
+    AxisAnglIncr[2] = int(abs((Join.J3 - NewJoin.J3) / (1.8 / reductionA3)));
+    pos_error[2] += abs((Join.J3 - NewJoin.J3) / (1.8 / reductionA3)) - trunc(abs((Join.J3 -
+        NewJoin.J3) / (1.8 / reductionA3)));
     if (pos_error[2] > 1)
     {
         AxisAnglIncr[2] += 1;
         pos_error[2] = pos_error[2] - 1;
     }
 
-    if ((AxisAnglAct[2] - AxisAnglNew[2]) > 0)
+    if ((Join.J3 - NewJoin.J3) > 0)
     {
         dir[2] = 1;
     }
     else dir[2] = 0;
 
-    AxisAnglIncr[3] = int(abs((AxisAnglAct[3] - AxisAnglNew[3]) / (1.8 / reductionA4)));
-    pos_error[3] += abs((AxisAnglAct[3] - AxisAnglNew[3]) / (1.8 / reductionA4)) - trunc(abs((AxisAnglAct[3] -
-       AxisAnglNew[3]) / (1.8 / reductionA4)));
+    AxisAnglIncr[3] = int(abs((Join.J4 - NewJoin.J4) / (1.8 / reductionA4)));
+    pos_error[3] += abs((Join.J4 - NewJoin.J4) / (1.8 / reductionA4)) - trunc(abs((Join.J4 -
+       NewJoin.J4) / (1.8 / reductionA4)));
     if (pos_error[3] > 1)
     {
         AxisAnglIncr[3] += 1;
         pos_error[3] = pos_error[3] - 1;
     }
 
-    if ((AxisAnglAct[3] - AxisAnglNew[3]) > 0)
+    if ((Join.J4 - NewJoin.J4) > 0)
     {
         dir[3] = 1;
     }
     else dir[3] = 0;
 
-    AxisAnglIncr[4] = int(abs((AxisAnglAct[4] - AxisAnglNew[4]) / (1.8 / reductionA5)));
-    pos_error[4] += abs((AxisAnglAct[4] - AxisAnglNew[4]) / (1.8 / reductionA5)) - trunc(abs((AxisAnglAct[4] -
-        AxisAnglNew[4]) / (1.8 / reductionA5)));
+    AxisAnglIncr[4] = int(abs((Join.J5 - NewJoin.J5) / (1.8 / reductionA5)));
+    pos_error[4] += abs((Join.J5 - NewJoin.J5) / (1.8 / reductionA5)) - trunc(abs((Join.J5 -
+        NewJoin.J5) / (1.8 / reductionA5)));
     if (pos_error[4] > 1)
     {
         AxisAnglIncr[4] += 1;
         pos_error[4] = pos_error[4] - 1;
     }
 
-    if ((AxisAnglAct[4] - AxisAnglNew[4]) > 0)
+    if ((Join.J5 - NewJoin.J5) > 0)
     {
         dir[4] = 1;
     }
     else dir[4] = 0;
 
-    AxisAnglIncr[5] = int(abs((AxisAnglAct[5] - AxisAnglNew[5]) / (1.8 / reductionA6)));
-    pos_error[5] += abs((AxisAnglAct[5] - AxisAnglNew[5]) / (1.8 / reductionA6)) - trunc(abs((AxisAnglAct[5] -
-         AxisAnglNew[5]) / (1.8 / reductionA6)));
+    AxisAnglIncr[5] = int(abs((Join.J6 - NewJoin.J6) / (1.8 / reductionA6)));
+    pos_error[5] += abs((Join.J6 - NewJoin.J6) / (1.8 / reductionA6)) - trunc(abs((Join.J6 -
+         NewJoin.J6) / (1.8 / reductionA6)));
     if (pos_error[5] > 1)
     {
         AxisAnglIncr[5] += 1;
         pos_error[5] = pos_error[5] - 1;
     }
 
-    if ((AxisAnglAct[5] - AxisAnglNew[5]) > 0)
+    if ((Join.J6 - NewJoin.J6) > 0)
     {
         dir[5] = 1;
     }

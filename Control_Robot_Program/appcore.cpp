@@ -66,25 +66,23 @@ void AppCore::setActCoord(Kinematics::ActCoord ActCoord)
     RobotControl_C.setActCoord(ActCoord);
 }
 
-void AppCore::jointManMove(char numAxis, double valueOffset)
+void AppCore::jointManMove(int numAxis, double valueOffset)
 {
-//    std::vector<double> AxisAnglAct = RobotControl_C.getAngelAct();
-//    std::vector<double> AxisAnglNew;
+    Kinematics::Join Join = RobotControl_C.getAngelAct();
+    Kinematics::Join JoinNew = Join;
 
-//    AxisAnglNew = AxisAnglAct;
+    switch (numAxis){
+        case 1: JoinNew.J1=Join.J1+valueOffset; break;
+        case 2: JoinNew.J2=Join.J2+valueOffset; break;
+        case 3: JoinNew.J3=Join.J3+valueOffset; break;
+        case 4: JoinNew.J4=Join.J4+valueOffset; break;
+        case 5: JoinNew.J5=Join.J5+valueOffset; break;
+        case 6: JoinNew.J6=Join.J6+valueOffset; break;
+    }
 
-//    switch (numAxis){
-//        case 1: AxisAnglNew[0]=AxisAnglAct[0]+valueOffset; break;
-//        case 2: AxisAnglNew[1]=AxisAnglAct[1]+valueOffset; break;
-//        case 3: AxisAnglNew[2]=AxisAnglAct[2]+valueOffset; break;
-//        case 4: AxisAnglNew[3]=AxisAnglAct[3]+valueOffset; break;
-//        case 5: AxisAnglNew[4]=AxisAnglAct[4]+valueOffset; break;
-//        case 6: AxisAnglNew[5]=AxisAnglAct[5]+valueOffset; break;
-//    }
-
-//    RobotControl_C.JointMove(AxisAnglAct, AxisAnglNew);
+    RobotControl_C.JointMove(Join, JoinNew);
 }
-void AppCore::cartesianManMove(char axis, double valueOffset)
+void AppCore::cartesianManMove(int axis, double valueOffset)
 {
     std::vector<double> WFrame = RobotControl_C.getWFrame();
     std::vector<double> TFrame = RobotControl_C.getTFrame();
@@ -101,9 +99,19 @@ void AppCore::cartesianManMove(char axis, double valueOffset)
     JoinNew = Join;
 
     Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
-    ActCoordNew = ActCoord;
-    Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, JoinNew, Join);
+    switch (axis){
+        case 1: ActCoordNew.x = valueOffset; break;
+        case 2: ActCoordNew.y = valueOffset; break;
+        case 3: ActCoordNew.z = valueOffset; break;
+        case 4: ActCoordNew.yaw = valueOffset; break;
+        case 5: ActCoordNew.pitch = valueOffset; break;
+        case 6: ActCoordNew.roll = valueOffset; break;
+    }
 
-    RobotControl_C.setActCoord(ActCoord);
-    RobotControl_C.setJoin(Join);
+    Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, Join, JoinNew);
+
+   //RobotControl_C.setActCoord(ActCoord);
+  //  RobotControl_C.setJoin(JoinNew);
+
+    RobotControl_C.JointMove(Join, JoinNew);
 }

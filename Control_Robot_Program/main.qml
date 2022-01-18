@@ -413,42 +413,20 @@ ApplicationWindow {
                             color: but_A1_Plus.down ? "white" : "#4c4e50"
                             radius: 5
                         }
-onPressed: {
-    appCore.cartesianManMove(0,0)
-    let actCoord = []
-    actCoord = appCore.getActCoord()
-    textRobotProgram.text = "x " + actCoord[0] + "; "
-    textRobotProgram.text += "y " + actCoord[1] + "; "
-    textRobotProgram.text += "z " + actCoord[2] + "; "
-    textRobotProgram.text += "p " + actCoord[3] + "; "
-    textRobotProgram.text += "r " + actCoord[4] + "; "
-    textRobotProgram.text += "y " + actCoord[5] + "; " + "\n"
-
-    actCoord = appCore.getActAngles()
-    textRobotProgram.text += "J1 " + actCoord[0] + "; "
-    textRobotProgram.text += "J2 " + actCoord[1] + "; "
-    textRobotProgram.text += "J3 " + actCoord[2] + "; "
-    textRobotProgram.text += "J4 " + actCoord[3] + "; "
-    textRobotProgram.text += "J5 " + actCoord[4] + "; "
-    textRobotProgram.text += "J6 " + actCoord[5] + "; " + "\n"
-}
-onReleased: {
-
-}
-
-                        onClicked: {
+                        onPressed: {
+                            var tempFloor = Number.parseFloat(comboBox.currentText);
                             //если выбрано перемещение по осям
                             if(comboBox1.currentIndex==0){
-
+                                appCore.jointManMove(1, tempFloor)
                             }
                             if(comboBox1.currentIndex==1){
-
+                                appCore.cartesianManMove(1, tempFloor)
                             }
-
-//                          counAx1++
-//                          appCore.setCountAx1(counAx1)
-//                          label3.text = appCore.getCountAx1()
                         }
+                        onReleased: {
+                            //здесь должен вызываться метод обрабатывающий остановку движения по оси
+                        }
+
                 }
 
                 Button {
@@ -476,11 +454,18 @@ onReleased: {
                         color: but_A1_Minus.down ? "white" : "#4c4e50"
                         radius: 5
                     }
-
-                    onClicked: {
-                        counAx1--
-                        appCore.setCountAx1(counAx1)
-                        label3.text = appCore.getCountAx1()
+                    onPressed: {
+                        var tempFloor = -(Number.parseFloat(comboBox.currentText));
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(1, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(1, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        //здесь должен вызываться метод обрабатывающий остановку движения по оси
                     }
                 }
 

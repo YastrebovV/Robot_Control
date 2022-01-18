@@ -11,7 +11,7 @@ public:
     RobotControl();
 
 public:
-    void JointMove(std::vector<double>& AxisAnglAct, const std::vector<double>& AxisAnglNew);
+    void JointMove(Kinematics::Join Join, Kinematics::Join NewJoin);
     int getCountAx1() { return countAx1; } // геттер для countAx1
     void setCountAx1(int countAx) { countAx1 = countAx; } // сеттер для countAx1
     Kinematics::Join getAngelAct() { return Join; }
