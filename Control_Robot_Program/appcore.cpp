@@ -7,18 +7,6 @@ AppCore::AppCore(QObject *parent) : QObject(parent)
 
 }
 
-//void AppCore::receiveFromQml()
-//{
-//    count++;
-//    emit sendToQml(count);
-//}
-
-//void AppCore::testMetod()
-//{
-//    count = 0;
-//    emit sendToQml(count);
-//}
-
 void AppCore::createFile(QString fileName, QString text)
 {
     FilesAndFolders_C.createFile(fileName, text);
