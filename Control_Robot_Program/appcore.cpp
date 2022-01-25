@@ -1,7 +1,5 @@
 #include "appcore.h"
 
-//using namespace std;
-
 AppCore::AppCore(QObject *parent) : QObject(parent)
 {
 
