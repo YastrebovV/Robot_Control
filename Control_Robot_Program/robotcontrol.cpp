@@ -6,12 +6,13 @@ RobotControl::RobotControl()
 {
    //при создании класса загрузить данные из конфигурационного файла
 
-      Join.J1 = 0.000001;
-      Join.J2 = -90;
-      Join.J3 = 90;
-      Join.J4 = 0.000001;
-      Join.J5 = 0.001;
-      Join.J6 = 0.000001;
+      Join.resize(6);
+      Join[0]= 0.000001;
+      Join[1] = -90;
+      Join[2] = 90;
+      Join[3] = 0.000001;
+      Join[4] = 0.001;
+      Join[5] = 0.000001;
 
       WFrame.resize(6);
       WFrame[0] = 0;
@@ -78,97 +79,97 @@ RobotControl::RobotControl()
          TT[i].resize(4);
 }
 
-void RobotControl::JointMove(Kinematics::Join Join, Kinematics::Join NewJoin)  //осевое перемещение робота
+void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJoin)  //осевое перемещение робота
 {
     int AxisAnglIncr[6];
-    int dir[6];
+    bool dir[6];
 
-    AxisAnglIncr[0] = int(abs((Join.J1 - NewJoin.J1) / (1.8/ reductionA1)));
+    AxisAnglIncr[0] = int(abs((Join[0] - NewJoin[0]) / (1.8/ reductionA1)));
 
-    pos_error[0] += abs((Join.J1 - NewJoin.J1) / (1.8 / reductionA1)) - trunc(abs((Join.J1 -
-        NewJoin.J1) / (1.8 / reductionA1)));
+    pos_error[0] += abs((Join[0] - NewJoin[0]) / (1.8 / reductionA1)) - trunc(abs((Join[0] -
+        NewJoin[0]) / (1.8 / reductionA1)));
 
     if (pos_error[0] > 1)
     {
         AxisAnglIncr[0] += 1;
         pos_error[0] = pos_error[0] - 1; ;
     }
-    if ((Join.J1 - NewJoin.J1) > 0)
+    if ((Join[0] - NewJoin[0]) > 0)
      {
         dir[0] = 1;
      }
      else dir[0] = 0;
 
-    AxisAnglIncr[1] = int(abs((Join.J2 - NewJoin.J2) / (1.8 / reductionA2)));
-    pos_error[1] += abs((Join.J2 - NewJoin.J2) / (1.8 / reductionA2)) - trunc(abs((Join.J2 -
-       NewJoin.J2) / (1.8 / reductionA2)));
+    AxisAnglIncr[1] = int(abs((Join[1] - NewJoin[1]) / (1.8 / reductionA2)));
+    pos_error[1] += abs((Join[1] - NewJoin[1]) / (1.8 / reductionA2)) - trunc(abs((Join[1] -
+       NewJoin[1]) / (1.8 / reductionA2)));
     if (pos_error[1] > 1)
     {
         AxisAnglIncr[1] += 1;
         pos_error[1] = pos_error[1]-1;
     }
 
-    if ((Join.J2 - NewJoin.J2) > 0)
+    if ((Join[1] - NewJoin[1]) > 0)
     {
         dir[1] = 1;
     }
     else dir[1] = 0;
 
-    AxisAnglIncr[2] = int(abs((Join.J3 - NewJoin.J3) / (1.8 / reductionA3)));
-    pos_error[2] += abs((Join.J3 - NewJoin.J3) / (1.8 / reductionA3)) - trunc(abs((Join.J3 -
-        NewJoin.J3) / (1.8 / reductionA3)));
+    AxisAnglIncr[2] = int(abs((Join[2] - NewJoin[2]) / (1.8 / reductionA3)));
+    pos_error[2] += abs((Join[2] - NewJoin[2]) / (1.8 / reductionA3)) - trunc(abs((Join[2] -
+        NewJoin[2]) / (1.8 / reductionA3)));
     if (pos_error[2] > 1)
     {
         AxisAnglIncr[2] += 1;
         pos_error[2] = pos_error[2] - 1;
     }
 
-    if ((Join.J3 - NewJoin.J3) > 0)
+    if ((Join[2] - NewJoin[2]) > 0)
     {
         dir[2] = 1;
     }
     else dir[2] = 0;
 
-    AxisAnglIncr[3] = int(abs((Join.J4 - NewJoin.J4) / (1.8 / reductionA4)));
-    pos_error[3] += abs((Join.J4 - NewJoin.J4) / (1.8 / reductionA4)) - trunc(abs((Join.J4 -
-       NewJoin.J4) / (1.8 / reductionA4)));
+    AxisAnglIncr[3] = int(abs((Join[3] - NewJoin[3]) / (1.8 / reductionA4)));
+    pos_error[3] += abs((Join[3] - NewJoin[3]) / (1.8 / reductionA4)) - trunc(abs((Join[3] -
+       NewJoin[3]) / (1.8 / reductionA4)));
     if (pos_error[3] > 1)
     {
         AxisAnglIncr[3] += 1;
         pos_error[3] = pos_error[3] - 1;
     }
 
-    if ((Join.J4 - NewJoin.J4) > 0)
+    if ((Join[3] - NewJoin[3]) > 0)
     {
         dir[3] = 1;
     }
     else dir[3] = 0;
 
-    AxisAnglIncr[4] = int(abs((Join.J5 - NewJoin.J5) / (1.8 / reductionA5)));
-    pos_error[4] += abs((Join.J5 - NewJoin.J5) / (1.8 / reductionA5)) - trunc(abs((Join.J5 -
-        NewJoin.J5) / (1.8 / reductionA5)));
+    AxisAnglIncr[4] = int(abs((Join[4] - NewJoin[4]) / (1.8 / reductionA5)));
+    pos_error[4] += abs((Join[4] - NewJoin[4]) / (1.8 / reductionA5)) - trunc(abs((Join[4] -
+        NewJoin[4]) / (1.8 / reductionA5)));
     if (pos_error[4] > 1)
     {
         AxisAnglIncr[4] += 1;
         pos_error[4] = pos_error[4] - 1;
     }
 
-    if ((Join.J5 - NewJoin.J5) > 0)
+    if ((Join[4] - NewJoin[4]) > 0)
     {
         dir[4] = 1;
     }
     else dir[4] = 0;
 
-    AxisAnglIncr[5] = int(abs((Join.J6 - NewJoin.J6) / (1.8 / reductionA6)));
-    pos_error[5] += abs((Join.J6 - NewJoin.J6) / (1.8 / reductionA6)) - trunc(abs((Join.J6 -
-         NewJoin.J6) / (1.8 / reductionA6)));
+    AxisAnglIncr[5] = int(abs((Join[5] - NewJoin[5]) / (1.8 / reductionA6)));
+    pos_error[5] += abs((Join[5] - NewJoin[5]) / (1.8 / reductionA6)) - trunc(abs((Join[5] -
+         NewJoin[5]) / (1.8 / reductionA6)));
     if (pos_error[5] > 1)
     {
         AxisAnglIncr[5] += 1;
         pos_error[5] = pos_error[5] - 1;
     }
 
-    if ((Join.J6 - NewJoin.J6) > 0)
+    if ((Join[5] - NewJoin[5]) > 0)
     {
         dir[5] = 1;
     }
@@ -176,7 +177,16 @@ void RobotControl::JointMove(Kinematics::Join Join, Kinematics::Join NewJoin)  /
 
     for (int i = 0; i < 6; i++)
     {
-     //   Send(Convert.ToString(i + 1) + "," + dir + "," + Convert.ToString(AxisAnglIncr[i]) + "," + Convert.ToString(AxisSpeed[i]) + "^");
+        ethercatRT->setSteps(i+1, AxisAnglIncr[i]);
+        ethercatRT->setDir_mt(i+1, dir[i]);
+        ethercatRT->setStart(i+1, true);
     }
-    //Send("*");
+}
+
+void RobotControl::RobotStoped()
+{
+    for (int i = 0; i < 6; i++)
+    {
+        ethercatRT->setStart(i+1, false);
+    }
 }

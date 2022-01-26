@@ -10,32 +10,11 @@ public:
     Kinematics();
 
 public:
-    struct ActCoord
-     {
-        double x;
-        double y;
-        double z;
-        double yaw;//R-Z
-        double pitch;//R-Y
-        double roll;//R-Z
-        int QU_J1;
-        int QU_J5;
-     };
-     struct Join
-     {
-         double J1;
-         double J2;
-         double J3;
-         double J4;
-         double J5;
-         double J6;
-     };
 
-    void dirKinematics(const struct Join &Join, const std::vector<double>& WFrame, const std::vector<double>& TFrame, const std::vector<std::vector<double>>& DH_Param, struct ActCoord& fkv,
+    void dirKinematics(const std::vector<double> &Join, const std::vector<double>& WFrame, const std::vector<double>& TFrame, const std::vector<std::vector<double>>& DH_Param, std::vector<double>& ActCoord,
              std::vector<std::vector<double>>& T5, std::vector<std::vector<double>>& TT);
-    void invKinematics(const struct ActCoord &ActCoord, const struct ActCoord &NewCoord, const std::vector<std::vector<double>>& DH_Param, const std::vector<double>& WFrame,
-                       const std::vector<std::vector<double>>& TT, const struct Join &JoinAct, struct Join &Join);
-
+    void invKinematics(const std::vector<double> &ActCoord, const std::vector<double> &NewCoord, const std::vector<std::vector<double>>& DH_Param, const std::vector<double>& WFrame,
+                       const std::vector<std::vector<double>>& TT, const std::vector<double>&JoinAct, std::vector<double> &Join);
 
 };
 

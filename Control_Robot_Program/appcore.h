@@ -6,9 +6,6 @@
 #include "robotcontrol.h"
 #include <vector>
 #include <string>
-//#include <iostream>
-
-//using namespace std;
 
 class AppCore : public QObject
 {
@@ -21,9 +18,6 @@ public:
    // void sendToQml(int count);
 
 public slots:
-    // Слоты для приёма данных из qml-интерфейса
-    //void receiveFromQml();
-    //void testMetod();
     void createFile(QString fileName, QString text);
     void deleteFile(QString fileName);
     void writeToFile(QString fileName, QString text);
@@ -33,10 +27,9 @@ public slots:
 
     std::vector<QString> getActCoord();
     std::vector<QString> getActAngles();
-    void setActCoord(Kinematics::ActCoord ActCoord);
+    void setActCoord(std::vector<double>ActCoord);
 
 private:
-    //int count=0;  // Счетчик, которым будем оперировать
     FilesAndFolders FilesAndFolders_C;
     RobotControl RobotControl_C;
     Kinematics Kinematics_C;

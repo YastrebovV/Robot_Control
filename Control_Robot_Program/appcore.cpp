@@ -28,42 +28,43 @@ QString AppCore::readFromFile(QString fileName)
 std::vector<QString> AppCore::getActCoord()
 {
     std::vector<QString> vecStr;
-    vecStr.push_back(QString::number(RobotControl_C.getActCoord().x));
-    vecStr.push_back(QString::number(RobotControl_C.getActCoord().y));
-    vecStr.push_back(QString::number(RobotControl_C.getActCoord().z));
-    vecStr.push_back(QString::number(RobotControl_C.getActCoord().pitch));
-    vecStr.push_back(QString::number(RobotControl_C.getActCoord().roll));
-    vecStr.push_back(QString::number(RobotControl_C.getActCoord().yaw));
+    std::vector<double> actCoord = RobotControl_C.getActCoord();
+    vecStr.push_back(QString::number(actCoord[0]));
+    vecStr.push_back(QString::number(actCoord[1]));
+    vecStr.push_back(QString::number(actCoord[2]));
+    vecStr.push_back(QString::number(actCoord[4]));
+    vecStr.push_back(QString::number(actCoord[5]));
+    vecStr.push_back(QString::number(actCoord[3]));
     return vecStr;
 }
 std::vector<QString> AppCore::getActAngles()
 {
     std::vector<QString> vecStr;
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct().J1));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct().J2));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct().J3));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct().J4));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct().J5));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct().J6));
+    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[0]));
+    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[1]));
+    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[2]));
+    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[3]));
+    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[4]));
+    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[5]));
     return vecStr;
 }
-void AppCore::setActCoord(Kinematics::ActCoord ActCoord)
+void AppCore::setActCoord(std::vector<double> ActCoord)
 {
     RobotControl_C.setActCoord(ActCoord);
 }
 
 void AppCore::jointManMove(int numAxis, double valueOffset)
 {
-    Kinematics::Join Join = RobotControl_C.getAngelAct();
-    Kinematics::Join JoinNew = Join;
+    std::vector<double> Join = RobotControl_C.getAngelAct();
+    std::vector<double> JoinNew = Join;
 
     switch (numAxis){
-        case 1: JoinNew.J1=Join.J1+valueOffset; break;
-        case 2: JoinNew.J2=Join.J2+valueOffset; break;
-        case 3: JoinNew.J3=Join.J3+valueOffset; break;
-        case 4: JoinNew.J4=Join.J4+valueOffset; break;
-        case 5: JoinNew.J5=Join.J5+valueOffset; break;
-        case 6: JoinNew.J6=Join.J6+valueOffset; break;
+        case 1: JoinNew[0]=Join[0]+valueOffset; break;
+        case 2: JoinNew[1]=Join[1]+valueOffset; break;
+        case 3: JoinNew[2]=Join[2]+valueOffset; break;
+        case 4: JoinNew[3]=Join[3]+valueOffset; break;
+        case 5: JoinNew[4]=Join[4]+valueOffset; break;
+        case 6: JoinNew[5]=Join[5]+valueOffset; break;
     }
 
     RobotControl_C.JointMove(Join, JoinNew);
@@ -75,23 +76,23 @@ void AppCore::cartesianManMove(int axis, double valueOffset)
     std::vector<std::vector<double>> DH_Param = RobotControl_C.getDH_Param();
     std::vector<std::vector<double>> TT = RobotControl_C.getTT();
     std::vector<std::vector<double>> T5 = RobotControl_C.getT5();;
-    Kinematics::ActCoord ActCoord = RobotControl_C.getActCoord();
-    Kinematics::ActCoord ActCoordNew = ActCoord;
-    Kinematics::Join Join = RobotControl_C.getAngelAct();
-    Kinematics::Join JoinNew = Join;
+    std::vector<double> ActCoord = RobotControl_C.getActCoord();
+    std::vector<double> ActCoordNew = ActCoord;
+    std::vector<double> Join = RobotControl_C.getAngelAct();
+    std::vector<double> JoinNew = Join;
 
-    Join.J3 = Join.J3 -90;
-    Join.J6 = Join.J6 +180;
+    Join[2] = Join[2] -90;
+    Join[5] = Join[5] +180;
     JoinNew = Join;
 
     Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
     switch (axis){
-        case 1: ActCoordNew.x = valueOffset; break;
-        case 2: ActCoordNew.y = valueOffset; break;
-        case 3: ActCoordNew.z = valueOffset; break;
-        case 4: ActCoordNew.yaw = valueOffset; break;
-        case 5: ActCoordNew.pitch = valueOffset; break;
-        case 6: ActCoordNew.roll = valueOffset; break;
+        case 1: ActCoordNew[0] = valueOffset; break;
+        case 2: ActCoordNew[1] = valueOffset; break;
+        case 3: ActCoordNew[2] = valueOffset; break;
+        case 4: ActCoordNew[3] = valueOffset; break;
+        case 5: ActCoordNew[4] = valueOffset; break;
+        case 6: ActCoordNew[5] = valueOffset; break;
     }
 
     Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, Join, JoinNew);

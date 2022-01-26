@@ -18,8 +18,8 @@ Kinematics::Kinematics()
      return ang;
  }
 
- void Kinematics::dirKinematics(const struct Join &Join, const vector<double>& WFrame, const vector<double>& TFrame, const vector<std::vector<double>>& DH_Param, struct ActCoord& fkv,
-          vector<vector<double>>& T5, vector<vector<double>>& TT)
+ void Kinematics::dirKinematics(const vector<double> &Join, const vector<double>& WFrame, const vector<double>& TFrame,
+       const vector<std::vector<double>>& DH_Param, vector<double> & ActCoord,vector<vector<double>>& T5, vector<vector<double>>& TT)
 {
 
      double WFM[4][4];
@@ -58,113 +58,113 @@ Kinematics::Kinematics()
      WFM[3][3] = 1;
 
      //JOIN 1 MATRIX 
-     J1[0][0] = cos(angTorad(Join.J1));
-     J1[1][0] = sin(angTorad(Join.J1));
+     J1[0][0] = cos(angTorad(Join[0]));
+     J1[1][0] = sin(angTorad(Join[0]));
      J1[2][0] = 0;
      J1[3][0] = 0;
-     J1[0][1] = -sin(angTorad(Join.J1)) * cos(angTorad(DH_Param[0][0]));
-     J1[1][1] = cos(angTorad(Join.J1)) * cos(angTorad(DH_Param[0][0]));
+     J1[0][1] = -sin(angTorad(Join[0])) * cos(angTorad(DH_Param[0][0]));
+     J1[1][1] = cos(angTorad(Join[0])) * cos(angTorad(DH_Param[0][0]));
      J1[2][1] = sin(angTorad(DH_Param[0][0]));
      J1[3][1] = 0;
-     J1[0][2] = sin(angTorad(Join.J1)) * sin(angTorad(DH_Param[0][0]));
-     J1[1][2] = -cos(angTorad(Join.J1)) * sin(angTorad(DH_Param[0][0]));
+     J1[0][2] = sin(angTorad(Join[0])) * sin(angTorad(DH_Param[0][0]));
+     J1[1][2] = -cos(angTorad(Join[0])) * sin(angTorad(DH_Param[0][0]));
      J1[2][2] = cos(angTorad(DH_Param[0][0]));
      J1[3][2] = 0;
-     J1[0][3] = DH_Param[2][0] * cos(angTorad(Join.J1));
-     J1[1][3] = DH_Param[2][0] * sin(angTorad(Join.J1)); ;
+     J1[0][3] = DH_Param[2][0] * cos(angTorad(Join[0]));
+     J1[1][3] = DH_Param[2][0] * sin(angTorad(Join[0])); ;
      J1[2][3] = DH_Param[1][0];
      J1[3][3] = 1;
 
      //JOIN 2 MATRIX 
-     J2[0][0] = cos(angTorad(Join.J2));
-     J2[1][0] = sin(angTorad(Join.J2));
+     J2[0][0] = cos(angTorad(Join[1]));
+     J2[1][0] = sin(angTorad(Join[1]));
      J2[2][0] = 0;
      J2[3][0] = 0;
-     J2[0][1] = -sin(angTorad(Join.J2)) * cos(angTorad(DH_Param[0][1]));
-     J2[1][1] = cos(angTorad(Join.J2)) * cos(angTorad(DH_Param[0][1]));
+     J2[0][1] = -sin(angTorad(Join[1])) * cos(angTorad(DH_Param[0][1]));
+     J2[1][1] = cos(angTorad(Join[1])) * cos(angTorad(DH_Param[0][1]));
      J2[2][1] = sin(angTorad(DH_Param[0][1]));
      J2[3][1] = 0;
-     J2[0][2] = sin(angTorad(Join.J2)) * sin(angTorad(DH_Param[0][1]));
-     J2[1][2] = -cos(angTorad(Join.J2)) * sin(angTorad(DH_Param[0][1]));
+     J2[0][2] = sin(angTorad(Join[1])) * sin(angTorad(DH_Param[0][1]));
+     J2[1][2] = -cos(angTorad(Join[1])) * sin(angTorad(DH_Param[0][1]));
      J2[2][2] = cos(angTorad(DH_Param[0][1]));
      J2[3][2] = 0;
-     J2[0][3] = DH_Param[2][1] * cos(angTorad(Join.J2));
-     J2[1][3] = DH_Param[2][1] * sin(angTorad(Join.J2)); ;
+     J2[0][3] = DH_Param[2][1] * cos(angTorad(Join[1]));
+     J2[1][3] = DH_Param[2][1] * sin(angTorad(Join[1])); ;
      J2[2][3] = DH_Param[1][1];
      J2[3][3] = 1;
 
      //JOIN 3 MATRIX 
-     J3[0][0] = cos(angTorad(Join.J3));
-     J3[1][0] = sin(angTorad(Join.J3));
+     J3[0][0] = cos(angTorad(Join[2]));
+     J3[1][0] = sin(angTorad(Join[2]));
      J3[2][0] = 0;
      J3[3][0] = 0;
-     J3[0][1] = -sin(angTorad(Join.J3)) * cos(angTorad(DH_Param[0][2]));
-     J3[1][1] = cos(angTorad(Join.J3)) * cos(angTorad(DH_Param[0][2]));
+     J3[0][1] = -sin(angTorad(Join[2])) * cos(angTorad(DH_Param[0][2]));
+     J3[1][1] = cos(angTorad(Join[2])) * cos(angTorad(DH_Param[0][2]));
      J3[2][1] = sin(angTorad(DH_Param[0][2]));
      J3[3][1] = 0;
-     J3[0][2] = sin(angTorad(Join.J3)) * sin(angTorad(DH_Param[0][2]));
-     J3[1][2] = -cos(angTorad(Join.J3)) * sin(angTorad(DH_Param[0][2]));
+     J3[0][2] = sin(angTorad(Join[2])) * sin(angTorad(DH_Param[0][2]));
+     J3[1][2] = -cos(angTorad(Join[2])) * sin(angTorad(DH_Param[0][2]));
      J3[2][2] = cos(angTorad(DH_Param[0][2]));
      J3[3][2] = 0;
-     J3[0][3] = DH_Param[2][2] * cos(angTorad(Join.J3));
-     J3[1][3] = DH_Param[2][2] * sin(angTorad(Join.J3)); ;
+     J3[0][3] = DH_Param[2][2] * cos(angTorad(Join[2]));
+     J3[1][3] = DH_Param[2][2] * sin(angTorad(Join[2])); ;
      J3[2][3] = DH_Param[1][2];
      J3[3][3] = 1;
 
 
      //JOIN 4 MATRIX 
-     J4[0][0] = cos(angTorad(Join.J4));
-     J4[1][0] = sin(angTorad(Join.J4));
+     J4[0][0] = cos(angTorad(Join[3]));
+     J4[1][0] = sin(angTorad(Join[3]));
      J4[2][0] = 0;
      J4[3][0] = 0;
-     J4[0][1] = -sin(angTorad(Join.J4)) * cos(angTorad(DH_Param[0][3]));
-     J4[1][1] = cos(angTorad(Join.J4)) * cos(angTorad(DH_Param[0][3]));
+     J4[0][1] = -sin(angTorad(Join[3])) * cos(angTorad(DH_Param[0][3]));
+     J4[1][1] = cos(angTorad(Join[3])) * cos(angTorad(DH_Param[0][3]));
      J4[2][1] = sin(angTorad(DH_Param[0][3]));
      J4[3][1] = 0;
-     J4[0][2] = sin(angTorad(Join.J4)) * sin(angTorad(DH_Param[0][3]));
-     J4[1][2] = -cos(angTorad(Join.J4)) * sin(angTorad(DH_Param[0][3]));
+     J4[0][2] = sin(angTorad(Join[3])) * sin(angTorad(DH_Param[0][3]));
+     J4[1][2] = -cos(angTorad(Join[3])) * sin(angTorad(DH_Param[0][3]));
      J4[2][2] = cos(angTorad(DH_Param[0][3]));
      J4[3][2] = 0;
-     J4[0][3] = DH_Param[2][3] * cos(angTorad(Join.J4));
-     J4[1][3] = DH_Param[2][3] * sin(angTorad(Join.J4)); ;
+     J4[0][3] = DH_Param[2][3] * cos(angTorad(Join[3]));
+     J4[1][3] = DH_Param[2][3] * sin(angTorad(Join[3])); ;
      J4[2][3] = DH_Param[1][3];
      J4[3][3] = 1;
 
 
      //JOIN 5 MATRIX 
-     J5[0][0] = cos(angTorad(Join.J5));
-     J5[1][0] = sin(angTorad(Join.J5));
+     J5[0][0] = cos(angTorad(Join[4]));
+     J5[1][0] = sin(angTorad(Join[4]));
      J5[2][0] = 0;
      J5[3][0] = 0;
-     J5[0][1] = -sin(angTorad(Join.J5)) * cos(angTorad(DH_Param[0][4]));
-     J5[1][1] = cos(angTorad(Join.J5)) * cos(angTorad(DH_Param[0][4]));
+     J5[0][1] = -sin(angTorad(Join[4])) * cos(angTorad(DH_Param[0][4]));
+     J5[1][1] = cos(angTorad(Join[4])) * cos(angTorad(DH_Param[0][4]));
      J5[2][1] = sin(angTorad(DH_Param[0][4]));
      J5[3][1] = 0;
-     J5[0][2] = sin(angTorad(Join.J5)) * sin(angTorad(DH_Param[0][4]));
-     J5[1][2] = -cos(angTorad(Join.J5)) * sin(angTorad(DH_Param[0][4]));
+     J5[0][2] = sin(angTorad(Join[4])) * sin(angTorad(DH_Param[0][4]));
+     J5[1][2] = -cos(angTorad(Join[4])) * sin(angTorad(DH_Param[0][4]));
      J5[2][2] = cos(angTorad(DH_Param[0][4]));
      J5[3][2] = 0;
-     J5[0][3] = DH_Param[2][4] * cos(angTorad(Join.J5));
-     J5[1][3] = DH_Param[2][4] * sin(angTorad(Join.J5)); ;
+     J5[0][3] = DH_Param[2][4] * cos(angTorad(Join[4]));
+     J5[1][3] = DH_Param[2][4] * sin(angTorad(Join[4])); ;
      J5[2][3] = DH_Param[1][4];
      J5[3][3] = 1;
 
 
      //JOIN 6 MATRIX 
-     J6[0][0] = cos(angTorad(Join.J6));
-     J6[1][0] = sin(angTorad(Join.J6));
+     J6[0][0] = cos(angTorad(Join[5]));
+     J6[1][0] = sin(angTorad(Join[5]));
      J6[2][0] = 0;
      J6[3][0] = 0;
-     J6[0][1] = -sin(angTorad(Join.J6)) * cos(angTorad(DH_Param[0][5]));
-     J6[1][1] = cos(angTorad(Join.J6)) * cos(angTorad(DH_Param[0][5]));
+     J6[0][1] = -sin(angTorad(Join[5])) * cos(angTorad(DH_Param[0][5]));
+     J6[1][1] = cos(angTorad(Join[5])) * cos(angTorad(DH_Param[0][5]));
      J6[2][1] = sin(angTorad(DH_Param[0][5]));
      J6[3][1] = 0;
-     J6[0][2] = sin(angTorad(Join.J6)) * sin(angTorad(DH_Param[0][5]));
-     J6[1][2] = -cos(angTorad(Join.J6)) * sin(angTorad(DH_Param[0][5]));
+     J6[0][2] = sin(angTorad(Join[5])) * sin(angTorad(DH_Param[0][5]));
+     J6[1][2] = -cos(angTorad(Join[5])) * sin(angTorad(DH_Param[0][5]));
      J6[2][2] = cos(angTorad(DH_Param[0][5]));
      J6[3][2] = 0;
-     J6[0][3] = DH_Param[2][5] * cos(angTorad(Join.J6));
-     J6[1][3] = DH_Param[2][5] * sin(angTorad(Join.J6)); ;
+     J6[0][3] = DH_Param[2][5] * cos(angTorad(Join[5]));
+     J6[1][3] = DH_Param[2][5] * sin(angTorad(Join[5])); ;
      J6[2][3] = DH_Param[1][5];
      J6[3][3] = 1;
 
@@ -318,37 +318,37 @@ Kinematics::Kinematics()
      {
          if(J1[0][3] < 0)
          {
-             fkv.QU_J1 = 1;
+             ActCoord[6] = 1;
          }
-         else fkv.QU_J1 = 2;
+         else ActCoord[6] = 2;
      }else if (J1[0][3] < 0)
      {
-         fkv.QU_J1 = 4;
-     }else fkv.QU_J1 = 3;
+         ActCoord[6] = 4;
+     }else ActCoord[6] = 3;
 
      if(T5[3][1] < 0)
      {
          if (T5[3][0] < 0)
          {
-             fkv.QU_J5 = 1;
+             ActCoord[7] = 1;
          }
-         else fkv.QU_J5 = 2;
+         else ActCoord[7] = 2;
      }else if(T5[3][0] < 0)
      {
-         fkv.QU_J5 = 4;
-     }else fkv.QU_J5 = 3;
+         ActCoord[7] = 4;
+     }else ActCoord[7] = 3;
      //****************************          
-     fkv.pitch = radToang(atan2(sqrt(pow(TT[0][2],2)+ pow(TT[1][2],2)), -TT[2][2]));
-     fkv.yaw = radToang(atan2(TT[2][0] / fkv.pitch,TT[2][1] / fkv.pitch));
-     fkv.roll = radToang(atan2(TT[0][2] / fkv.pitch,TT[1][2] / fkv.pitch));
+     ActCoord[4] = radToang(atan2(sqrt(pow(TT[0][2],2)+ pow(TT[1][2],2)), -TT[2][2]));
+     ActCoord[3] = radToang(atan2(TT[2][0] / ActCoord[4],TT[2][1] / ActCoord[4]));
+     ActCoord[5] = radToang(atan2(TT[0][2] / ActCoord[4],TT[1][2] / ActCoord[4]));
 
-     fkv.x = T5[3][0];
-     fkv.y = T5[3][1];
-     fkv.z = T5[3][2];
+     ActCoord[0] = T5[3][0];
+     ActCoord[1] = T5[3][1];
+     ActCoord[2] = T5[3][2];
 
  }
- void Kinematics::invKinematics(const struct ActCoord &ActCoord, const struct ActCoord &NewCoord, const vector<vector<double>>& DH_Param, const vector<double>& WFrame,
-                    const vector<vector<double>>& TT, const struct Join &JoinAct, struct Join &Join)
+ void Kinematics::invKinematics(const vector<double> &ActCoord, const vector<double> &NewCoord, const vector<vector<double>>& DH_Param, const vector<double>& WFrame,
+       const vector<vector<double>>& TT, const vector<double> &JoinAct, vector<double> &Join)
  {
      double armLen1, armLen2, armLen3, armLen3_1, vekP_J2, vekP_J3, armHeight;
      double theta1, theta2_cos, theta2_atan, theta4, theta5, theta6;
@@ -384,27 +384,27 @@ Kinematics::Kinematics()
      double A4, A5, A6, A4_2, A5_2, A6_2;
 
 
-     if (ActCoord.QU_J1 == 1)
+     if (ActCoord[6] == 1)
      {
-         Join.J1 = (radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x))) - 90) - 90;
+         Join[0] = (radToang(atan((ActCoord[1] + NewCoord[1]) / (ActCoord[0] + NewCoord[0]))) - 90) - 90;
      }
-     else if (ActCoord.QU_J1 == 2)
+     else if (ActCoord[6] == 2)
      {
-         Join.J1 = radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x)));
+         Join[0] = radToang(atan((ActCoord[1] + NewCoord[1]) / (ActCoord[0] + NewCoord[0])));
      }
-     else if (ActCoord.QU_J1 == 3)
+     else if (ActCoord[6] == 3)
      {
-         Join.J1 = radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x)));
+         Join[0] = radToang(atan((ActCoord[1] + NewCoord[1]) / (ActCoord[0] + NewCoord[0])));
      }
-     else Join.J1 = 90 + radToang(atan((ActCoord.y + NewCoord.y) / (ActCoord.x + NewCoord.x))) + 90;
+     else Join[0] = 90 + radToang(atan((ActCoord[1] + NewCoord[1]) / (ActCoord[0] + NewCoord[0]))) + 90;
 
-     armLen1 = sqrt(pow(ActCoord.y + NewCoord.y, 2) + pow(ActCoord.x + NewCoord.x, 2)) + DH_Param[2][0];  //P14
-     armLen2 = sqrt(pow(ActCoord.y + NewCoord.y, 2) + pow(ActCoord.x + NewCoord.x, 2));   //P15
+     armLen1 = sqrt(pow(ActCoord[1] + NewCoord[1], 2) + pow(ActCoord[0] + NewCoord[0], 2)) + DH_Param[2][0];  //P14
+     armLen2 = sqrt(pow(ActCoord[1] + NewCoord[1], 2) + pow(ActCoord[0] + NewCoord[0], 2));   //P15
      armLen3 = abs(armLen2 - DH_Param[2][0]);   //P16
      armLen3_1 = armLen2 - DH_Param[2][0];      //Q16
-     armHeight = (ActCoord.z + NewCoord.z) - DH_Param[1][0];  //P17
+     armHeight = (ActCoord[2] + NewCoord[2]) - DH_Param[1][0];  //P17
 
-     if (ActCoord.QU_J1 == ActCoord.QU_J5)
+     if (ActCoord[6] == ActCoord[7])
      {
          vekP_J2 = sqrt(pow(armLen3, 2) + pow(armHeight, 2));//P19
      }
@@ -421,30 +421,30 @@ Kinematics::Kinematics()
      theta2_cos = radToang(acos((pow(DH_Param[2][1], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[2][1] * vekP_J2)));
      theta2_atan = radToang(atan2(sqrt(1 - pow((pow(DH_Param[2][1], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[2][1] * vekP_J2), 2)), pow(DH_Param[2][1], 2) + pow(vekP_J2, 2) - pow(vekP_J3, 2)) / (2 * DH_Param[2][1] * vekP_J2));
 
-     if (armLen3_1 > 0 && ActCoord.QU_J1 == ActCoord.QU_J5)
+     if (armLen3_1 > 0 && ActCoord[6] == ActCoord[7])
      {
-         Join.J2 = -(theta1 + theta2_cos);
+         Join[1] = -(theta1 + theta2_cos);
      }
-     else if (armLen3_1 > 0 && ActCoord.QU_J1 != ActCoord.QU_J5)
+     else if (armLen3_1 > 0 && ActCoord[6] != ActCoord[7])
      {
-         Join.J2 = -(180 - theta6 + theta2_cos);
+         Join[1] = -(180 - theta6 + theta2_cos);
      }
-     else if (armLen3_1 < 0 && ActCoord.QU_J1 != ActCoord.QU_J5)
+     else if (armLen3_1 < 0 && ActCoord[6] != ActCoord[7])
      {
-         Join.J2 = -(180 - theta6 + theta2_cos);
+         Join[1] = -(180 - theta6 + theta2_cos);
      }
      else
      {
-         Join.J2 = -(theta2_cos + theta5 + 90);
+         Join[1] = -(theta2_cos + theta5 + 90);
      }
 
      theta4 = radToang(acos((pow(vekP_J3, 2) + pow(abs(DH_Param[1][3]), 2) - pow(DH_Param[2][2], 2)) / (2 * vekP_J3 * abs(DH_Param[1][3]))));
-     Join.J3 = 180 - radToang(acos((pow(vekP_J3, 2) + pow(DH_Param[2][1], 2) - pow(vekP_J2, 2)) / (2 * vekP_J3 * DH_Param[2][1]))) + theta4;
+     Join[2] = 180 - radToang(acos((pow(vekP_J3, 2) + pow(DH_Param[2][1], 2) - pow(vekP_J2, 2)) / (2 * vekP_J3 * DH_Param[2][1]))) + theta4;
 
      //WORK FRAME INPUT
-     DH_Param_Local[0] = angTorad(Join.J1);
-     DH_Param_Local[1] = angTorad(Join.J2);
-     DH_Param_Local[2] = angTorad(Join.J3-90);
+     DH_Param_Local[0] = angTorad(Join[0]);
+     DH_Param_Local[1] = angTorad(Join[1]);
+     DH_Param_Local[2] = angTorad(Join[2]-90);
      DH_Param_Local[3] = angTorad(-90);//DH_Param[0][1];
      DH_Param_Local[4] = angTorad(0);//DH_Param[1][1];
      DH_Param_Local[5] = angTorad(90);//DH_Param[2][1];
@@ -683,37 +683,37 @@ Kinematics::Kinematics()
    
 
      //Z change
-     Z_Change[0][0] = cos(angTorad(NewCoord.roll));
-     Z_Change[1][0] = sin(angTorad(NewCoord.roll));
+     Z_Change[0][0] = cos(angTorad(NewCoord[5]));
+     Z_Change[1][0] = sin(angTorad(NewCoord[5]));
      Z_Change[2][0] = 0;
-     Z_Change[0][1] = -sin(angTorad(NewCoord.roll));
-     Z_Change[1][1] = cos(angTorad(NewCoord.roll));
+     Z_Change[0][1] = -sin(angTorad(NewCoord[5]));
+     Z_Change[1][1] = cos(angTorad(NewCoord[5]));
      Z_Change[2][1] = 0;
      Z_Change[0][2] = 0;
      Z_Change[1][2] = 0;
      Z_Change[2][2] = 1;
 
      //Y change
-     Y_Change[0][0] = cos(angTorad(NewCoord.pitch));
+     Y_Change[0][0] = cos(angTorad(NewCoord[4]));
      Y_Change[1][0] = 0;
-     Y_Change[2][0] = -sin(angTorad(NewCoord.pitch));
+     Y_Change[2][0] = -sin(angTorad(NewCoord[4]));
      Y_Change[0][1] = 0;
      Y_Change[1][1] = 1;
      Y_Change[2][1] = 0;
-     Y_Change[0][2] = sin(angTorad(NewCoord.pitch));
+     Y_Change[0][2] = sin(angTorad(NewCoord[4]));
      Y_Change[1][2] = 0;
-     Y_Change[2][2] = cos(angTorad(NewCoord.pitch));
+     Y_Change[2][2] = cos(angTorad(NewCoord[4]));
 
      //X change
      X_Change[0][0] = 1;
      X_Change[1][0] = 0;
      X_Change[2][0] = 0;
      X_Change[0][1] = 0;
-     X_Change[1][1] = cos(angTorad(NewCoord.yaw));
-     X_Change[2][1] = sin(angTorad(NewCoord.yaw));
+     X_Change[1][1] = cos(angTorad(NewCoord[3]));
+     X_Change[2][1] = sin(angTorad(NewCoord[3]));
      X_Change[0][2] = 0;
-     X_Change[1][2] = -sin(angTorad(NewCoord.yaw));
-     X_Change[2][2] = cos(angTorad(NewCoord.yaw));
+     X_Change[1][2] = -sin(angTorad(NewCoord[3]));
+     X_Change[2][2] = cos(angTorad(NewCoord[3]));
 
      //Current R 0-T
      Current_R0T[0][0] = TT[0][0];
@@ -790,27 +790,27 @@ Kinematics::Kinematics()
      A4_2 = radToang(atan2(-R_3_6[1][2], -R_3_6[0][2]));
      A5_2 = radToang(atan2(-sqrt(abs(1 - pow(R_3_6[2][2], 2))), R_3_6[2][2]));
 
-     if(JoinAct.J5 > 0 && A5 > 0)
+     if(JoinAct[4] > 0 && A5 > 0)
      {
-         Join.J5 = A5;
+         Join[4] = A5;
      }else
      {
-         Join.J5 = A5_2;
+         Join[4] = A5_2;
      }
-     if (Join.J5 > 0)
+     if (Join[4] > 0)
      {
-         Join.J4 = A4;
-     }
-     else
-     {
-         Join.J4 = A4_2;
-     }
-     if (Join.J5 < 0)
-     {
-         Join.J6 = A6_2;
+         Join[3] = A4;
      }
      else
      {
-         Join.J6 = A6;
+         Join[3] = A4_2;
+     }
+     if (Join[4] < 0)
+     {
+         Join[5] = A6_2;
+     }
+     else
+     {
+         Join[5] = A6;
      }
  }

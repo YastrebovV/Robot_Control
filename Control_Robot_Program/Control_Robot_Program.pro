@@ -19,7 +19,8 @@ SOURCES += \
         filesandfolders.cpp \
         kinematics.cpp \
         main.cpp \
-        robotcontrol.cpp
+        robotcontrol.cpp \
+        rt_ethercat.cpp
 
 RESOURCES += qml.qrc \
     qml.qrc
@@ -29,6 +30,10 @@ QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
+
+
+LIBS += -lalchemy -lcopperplate /usr/xenomai/lib/xenomai/bootstrap-pic.o -Wl,--wrap=main -Wl,--dynamic-list=/usr/xenomai/lib/dynlist.ld -L/usr/xenomai/lib -lcobalt -lpthread -lrt  -L/usr/local/lib -lethercat
+INCLUDEPATH += /usr/xenomai/include/cobalt /usr/xenomai/include -D_GNU_SOURCE -D_REENTRANT -D__COBALT__ -D__COBALT_WRAP__ /usr/xenomai/include/alchemy
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -40,4 +45,5 @@ HEADERS += \
     codeparser.h \
     filesandfolders.h \
     kinematics.h \
-    robotcontrol.h
+    robotcontrol.h \
+    rt_ethercat.h
