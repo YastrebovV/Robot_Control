@@ -6,6 +6,14 @@ RobotControl::RobotControl()
 {
    //при создании класса загрузить данные из конфигурационного файла
 
+      Reduction.resize(6);
+      Reduction[0] = 30.0;
+      Reduction[1] = 50.0;
+      Reduction[2] = 30.0;
+      Reduction[3] = 5.18;
+      Reduction[4] = 5.18;
+      Reduction[5] = 5.18;
+
       Join.resize(6);
       Join[0]= 0.000001;
       Join[1] = -90;
@@ -84,98 +92,26 @@ void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJo
     int AxisAnglIncr[6];
     bool dir[6];
 
-    AxisAnglIncr[0] = int(abs((Join[0] - NewJoin[0]) / (1.8/ reductionA1)));
+    for (unsigned int i = 0; i < 6; i++){
 
-    pos_error[0] += abs((Join[0] - NewJoin[0]) / (1.8 / reductionA1)) - trunc(abs((Join[0] -
-        NewJoin[0]) / (1.8 / reductionA1)));
+        AxisAnglIncr[i] = static_cast<int>(abs((Join[i] - NewJoin[i]) / (1.8/ Reduction[i])));
 
-    if (pos_error[0] > 1)
-    {
-        AxisAnglIncr[0] += 1;
-        pos_error[0] = pos_error[0] - 1; ;
-    }
-    if ((Join[0] - NewJoin[0]) > 0)
-     {
-        dir[0] = 1;
-     }
-     else dir[0] = 0;
+        pos_error[i] += abs((Join[i] - NewJoin[i]) / (1.8 / Reduction[i])) - trunc(abs((Join[i] -
+        NewJoin[i]) / (1.8 / Reduction[i])));
 
-    AxisAnglIncr[1] = int(abs((Join[1] - NewJoin[1]) / (1.8 / reductionA2)));
-    pos_error[1] += abs((Join[1] - NewJoin[1]) / (1.8 / reductionA2)) - trunc(abs((Join[1] -
-       NewJoin[1]) / (1.8 / reductionA2)));
-    if (pos_error[1] > 1)
-    {
-        AxisAnglIncr[1] += 1;
-        pos_error[1] = pos_error[1]-1;
+        if (pos_error[i] > 1)
+        {
+            AxisAnglIncr[i] += 1;
+            pos_error[i] -= 1; ;
+        }
+        if ((Join[i] - NewJoin[i]) > 0)
+        {
+            dir[i] = 1;
+        }
+        else dir[i] = 0;
     }
 
-    if ((Join[1] - NewJoin[1]) > 0)
-    {
-        dir[1] = 1;
-    }
-    else dir[1] = 0;
-
-    AxisAnglIncr[2] = int(abs((Join[2] - NewJoin[2]) / (1.8 / reductionA3)));
-    pos_error[2] += abs((Join[2] - NewJoin[2]) / (1.8 / reductionA3)) - trunc(abs((Join[2] -
-        NewJoin[2]) / (1.8 / reductionA3)));
-    if (pos_error[2] > 1)
-    {
-        AxisAnglIncr[2] += 1;
-        pos_error[2] = pos_error[2] - 1;
-    }
-
-    if ((Join[2] - NewJoin[2]) > 0)
-    {
-        dir[2] = 1;
-    }
-    else dir[2] = 0;
-
-    AxisAnglIncr[3] = int(abs((Join[3] - NewJoin[3]) / (1.8 / reductionA4)));
-    pos_error[3] += abs((Join[3] - NewJoin[3]) / (1.8 / reductionA4)) - trunc(abs((Join[3] -
-       NewJoin[3]) / (1.8 / reductionA4)));
-    if (pos_error[3] > 1)
-    {
-        AxisAnglIncr[3] += 1;
-        pos_error[3] = pos_error[3] - 1;
-    }
-
-    if ((Join[3] - NewJoin[3]) > 0)
-    {
-        dir[3] = 1;
-    }
-    else dir[3] = 0;
-
-    AxisAnglIncr[4] = int(abs((Join[4] - NewJoin[4]) / (1.8 / reductionA5)));
-    pos_error[4] += abs((Join[4] - NewJoin[4]) / (1.8 / reductionA5)) - trunc(abs((Join[4] -
-        NewJoin[4]) / (1.8 / reductionA5)));
-    if (pos_error[4] > 1)
-    {
-        AxisAnglIncr[4] += 1;
-        pos_error[4] = pos_error[4] - 1;
-    }
-
-    if ((Join[4] - NewJoin[4]) > 0)
-    {
-        dir[4] = 1;
-    }
-    else dir[4] = 0;
-
-    AxisAnglIncr[5] = int(abs((Join[5] - NewJoin[5]) / (1.8 / reductionA6)));
-    pos_error[5] += abs((Join[5] - NewJoin[5]) / (1.8 / reductionA6)) - trunc(abs((Join[5] -
-         NewJoin[5]) / (1.8 / reductionA6)));
-    if (pos_error[5] > 1)
-    {
-        AxisAnglIncr[5] += 1;
-        pos_error[5] = pos_error[5] - 1;
-    }
-
-    if ((Join[5] - NewJoin[5]) > 0)
-    {
-        dir[5] = 1;
-    }
-    else dir[5] = 0;
-
-    for (int i = 0; i < 6; i++)
+    for (unsigned int i = 0; i < 6; i++)
     {
         ethercatRT->setSteps(i+1, AxisAnglIncr[i]);
         ethercatRT->setDir_mt(i+1, dir[i]);
@@ -185,8 +121,15 @@ void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJo
 
 void RobotControl::RobotStoped()
 {
-    for (int i = 0; i < 6; i++)
+    for (unsigned int i = 0; i < 6; i++)
     {
         ethercatRT->setStart(i+1, false);
+
+        double temp = static_cast<double>(ethercatRT->getSteps(i)) * (1.8 / Reduction[i]);
+        if(ethercatRT->getDir_mt(i) > 0){
+            RobotControl::setJoin(i,RobotControl::getAngelAct(i) - temp);
+        }else{
+            RobotControl::setJoin(i,RobotControl::getAngelAct(i) + temp);
+        }
     }
 }

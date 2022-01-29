@@ -15,6 +15,7 @@ public:
     void JointMove(std::vector<double> Join, std::vector<double> NewJoin);
     void RobotStoped();
     std::vector<double> getAngelAct() { return Join; }
+    double getAngelAct(unsigned int index) { return Join[index]; }
     std::vector<double> getWFrame() { return WFrame; }
     std::vector<double> getTFrame() { return TFrame; }
     std::vector<std::vector<double>> getDH_Param() { return DH_Param; }
@@ -23,19 +24,15 @@ public:
     std::vector<double> getActCoord() {return ActCoord;}
     void setActCoord(std::vector<double> actCoord) { ActCoord = actCoord; }
     void setJoin(std::vector<double> NewJoin) {Join=NewJoin;}
+    void setJoin(unsigned int index, double angel){Join[index] = angel;}
 
 private:
-    double reductionA1 = 30.0;
-    double reductionA2 = 50.0;
-    double reductionA3 = 30.0;
-    double reductionA4 = 5.18;
-    double reductionA5 = 5.18;
-    double reductionA6 = 5.18;
     double pos_error[6];
     Kinematics kin;
     //Kinematics::ActCoord ActCoord;
     //Kinematics::ActCoord NewCoord;
     //Kinematics::Join Join;
+    std::vector<double> Reduction;
     std::vector<double>ActCoord;
     std::vector<double>NewCoord;
     std::vector<double>Join;
