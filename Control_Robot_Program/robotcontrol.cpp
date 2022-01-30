@@ -6,6 +6,8 @@ RobotControl::RobotControl()
 {
    //при создании класса загрузить данные из конфигурационного файла
 
+      ActCoord.resize(8);
+
       Reduction.resize(6);
       Reduction[0] = 30.0;
       Reduction[1] = 50.0;
@@ -19,7 +21,7 @@ RobotControl::RobotControl()
       Join[1] = -90;
       Join[2] = 90;
       Join[3] = 0.000001;
-      Join[4] = 0.001;
+      Join[4] = 5.001;
       Join[5] = 0.000001;
 
       WFrame.resize(6);
@@ -113,13 +115,13 @@ void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJo
 
     for (unsigned int i = 0; i < 6; i++)
     {
-        ethercatRT->setSteps(i+1, AxisAnglIncr[i]);
-        ethercatRT->setDir_mt(i+1, dir[i]);
-        ethercatRT->setStart(i+1, true);
+        ethercatRT->setSteps(i, AxisAnglIncr[i]);
+        ethercatRT->setDir_mt(i, dir[i]);
+        ethercatRT->setStart(i, true);
     }
 }
 
-void RobotControl::RobotStoped()
+void RobotControl::RobotStop()
 {
     for (unsigned int i = 0; i < 6; i++)
     {

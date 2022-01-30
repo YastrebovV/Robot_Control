@@ -24,6 +24,7 @@ public slots:
     QString readFromFile(QString fileName);
     void jointManMove(int numAxis, double valueOffset);
     void cartesianManMove(int axis, double valueOffset);
+    void stopMove();
 
     std::vector<QString> getActCoord();
     std::vector<QString> getActAngles();
@@ -33,6 +34,7 @@ private:
     FilesAndFolders FilesAndFolders_C;
     RobotControl RobotControl_C;
     Kinematics Kinematics_C;
+    rt_ethercat *ethercatRT;
 };
 
 #endif // APPCORE_H

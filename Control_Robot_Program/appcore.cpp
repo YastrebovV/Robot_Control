@@ -2,7 +2,7 @@
 
 AppCore::AppCore(QObject *parent) : QObject(parent)
 {
-
+    ethercatRT->rt_ethercat_start();
 }
 
 void AppCore::createFile(QString fileName, QString text)
@@ -79,26 +79,32 @@ void AppCore::cartesianManMove(int axis, double valueOffset)
     std::vector<double> ActCoord = RobotControl_C.getActCoord();
     std::vector<double> ActCoordNew = ActCoord;
     std::vector<double> Join = RobotControl_C.getAngelAct();
-    std::vector<double> JoinNew = Join;
+    std::vector<double> JoinNew;
 
     Join[2] = Join[2] -90;
     Join[5] = Join[5] +180;
     JoinNew = Join;
 
     Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
+
     switch (axis){
-        case 1: ActCoordNew[0] = valueOffset; break;
-        case 2: ActCoordNew[1] = valueOffset; break;
-        case 3: ActCoordNew[2] = valueOffset; break;
-        case 4: ActCoordNew[3] = valueOffset; break;
-        case 5: ActCoordNew[4] = valueOffset; break;
-        case 6: ActCoordNew[5] = valueOffset; break;
+        case 1: ActCoordNew[0] += valueOffset; break;
+        case 2: ActCoordNew[1] += valueOffset; break;
+        case 3: ActCoordNew[2] += valueOffset; break;
+        case 4: ActCoordNew[3] += valueOffset; break;
+        case 5: ActCoordNew[4] += valueOffset; break;
+        case 6: ActCoordNew[5] += valueOffset; break;
     }
 
     Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, Join, JoinNew);
 
    //RobotControl_C.setActCoord(ActCoord);
   //  RobotControl_C.setJoin(JoinNew);
-
+    JoinNew[2] = JoinNew[2] -90;
+    JoinNew[5] = JoinNew[5] +180;
     RobotControl_C.JointMove(Join, JoinNew);
+}
+void AppCore::stopMove()
+{
+    RobotControl_C.RobotStop();
 }

@@ -398,6 +398,7 @@ ApplicationWindow {
                         autoRepeat: false
 
                         contentItem: Text {
+                            id: textA1P
                             text: qsTr("A1+")
                             font: but_A1_Plus.font
                             opacity: enabled ? 1.0 : 0.3
@@ -424,9 +425,8 @@ ApplicationWindow {
                             }
                         }
                         onReleased: {
-                            //здесь должен вызываться метод обрабатывающий остановку движения по оси
+                            appCore.stopMove()
                         }
-
                 }
 
                 Button {
@@ -439,6 +439,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA1M
                         text: qsTr("A1-")
                         font: but_A1_Minus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -465,7 +466,7 @@ ApplicationWindow {
                         }
                     }
                     onReleased: {
-                        //здесь должен вызываться метод обрабатывающий остановку движения по оси
+                        appCore.stopMove()
                     }
                 }
 
@@ -475,10 +476,12 @@ ApplicationWindow {
                     y: but_A1_Plus.height + but_A1_Plus.y
                     width: parent.width/2-3
                     height: 48
+                    focusPolicy: Qt.WheelFocus
                     flat: true
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA2P
                         text: qsTr("A2+")
                         font: but_A2_Plus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -495,8 +498,18 @@ ApplicationWindow {
                         radius: 5
                     }
 
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = Number.parseFloat(comboBox.currentText);
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(2, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(2, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
                 Button {
@@ -509,6 +522,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA2M
                         text: qsTr("A2-")
                         font: but_A2_Minus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -525,8 +539,18 @@ ApplicationWindow {
                         radius: 5
                     }
 
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = -(Number.parseFloat(comboBox.currentText));
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(2, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(2, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
 
@@ -540,6 +564,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA3P
                         text: qsTr("A3+")
                         font: but_A3_Plus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -556,8 +581,18 @@ ApplicationWindow {
                         radius: 5
                     }
 
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = Number.parseFloat(comboBox.currentText);
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(3, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(3, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
                 Button {
@@ -570,6 +605,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA3M
                         text: qsTr("A3-")
                         font: but_A3_Minus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -586,8 +622,18 @@ ApplicationWindow {
                         radius: 5
                     }
 
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = -(Number.parseFloat(comboBox.currentText));
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(3, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(3, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
 
@@ -601,6 +647,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA4P
                         text: qsTr("A4+")
                         font: but_A4_Plus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -617,8 +664,18 @@ ApplicationWindow {
                         radius: 5
                     }
 
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = Number.parseFloat(comboBox.currentText);
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(4, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(4, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
                 Button {
@@ -631,6 +688,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA4M
                         text: qsTr("A4-")
                         font: but_A4_Minus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -647,8 +705,18 @@ ApplicationWindow {
                         radius: 5
                     }
 
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = -(Number.parseFloat(comboBox.currentText));
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(1, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==4){
+                            appCore.cartesianManMove(4, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
 
@@ -662,6 +730,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA5P
                         text: qsTr("A5+")
                         font: but_A5_Plus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -677,9 +746,18 @@ ApplicationWindow {
                         color: but_A5_Plus.down ? "white" : "#4c4e50"
                         radius: 5
                     }
-
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = Number.parseFloat(comboBox.currentText);
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(5, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(5, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
                 Button {
@@ -692,6 +770,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA5M
                         text: qsTr("A5-")
                         font: but_A5_Minus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -707,8 +786,18 @@ ApplicationWindow {
                         color: but_A5_Minus.down ? "white" : "#4c4e50"
                         radius: 5
                     }
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = -(Number.parseFloat(comboBox.currentText));
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(5, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(5, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
 
@@ -722,6 +811,7 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
+                        id: textA6P
                         text: qsTr("A6+")
                         font: but_A6_Plus.font
                         opacity: enabled ? 1.0 : 0.3
@@ -737,8 +827,18 @@ ApplicationWindow {
                         color: but_A6_Plus.down ? "white" : "#4c4e50"
                         radius: 5
                     }
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = Number.parseFloat(comboBox.currentText);
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(6, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(6, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
                 Button {
@@ -751,7 +851,8 @@ ApplicationWindow {
                     autoRepeat: false
 
                     contentItem: Text {
-                         text: qsTr("A6-")
+                        id: textA6M
+                        text: qsTr("A6-")
                         font: but_A6_Minus.font
                         opacity: enabled ? 1.0 : 0.3
                         color: but_A6_Minus.down ? "#4c4e50" : "white"
@@ -767,8 +868,18 @@ ApplicationWindow {
                         radius: 5
                     }
 
-                    onClicked: {
-
+                    onPressed: {
+                        var tempFloor = -(Number.parseFloat(comboBox.currentText));
+                        //если выбрано перемещение по осям
+                        if(comboBox1.currentIndex==0){
+                            appCore.jointManMove(6, tempFloor)
+                        }
+                        if(comboBox1.currentIndex==1){
+                            appCore.cartesianManMove(6, tempFloor)
+                        }
+                    }
+                    onReleased: {
+                        appCore.stopMove()
                     }
                 }
 
@@ -782,7 +893,9 @@ ApplicationWindow {
                     flat: true
 
                     contentItem: Text {
-                        text: comboBox.displayText
+                        id: textCB_Inc
+                       // text: comboBox.displayText
+                        text: comboBox.currentText
                         font: comboBox.font
                         opacity: enabled ? 1.0 : 0.3
                         color:  "white"
@@ -805,6 +918,9 @@ ApplicationWindow {
                         ListElement { text: "45" }
                         ListElement { text: "90" }
                         ListElement { text: "Бесконечно" }
+                    }
+                    onActivated: {
+                        textCB_Inc.text = comboBox.currentText
                     }
                 }
 
@@ -848,7 +964,19 @@ ApplicationWindow {
                               model.append({"text":"45"})
                               model.append({"text":"90"})
                               model.append({"text":"Бесконечно"})
-                              comboBox.displayText = "1"
+                              textCB_Inc.text = "1"
+                              textA1P.text = "A1+"
+                              textA2P.text = "A2+"
+                              textA3P.text = "A3+"
+                              textA4P.text = "A4+"
+                              textA5P.text = "A5+"
+                              textA6P.text = "A6+"
+                              textA1M.text = "A1-"
+                              textA2M.text = "A2-"
+                              textA3M.text = "A3-"
+                              textA4M.text = "A4-"
+                              textA5M.text = "A5-"
+                              textA6M.text = "A6-"
                         }
                         if(comboBox1.currentIndex == 1){
                               model.append({"text":"0.5"})
@@ -856,7 +984,19 @@ ApplicationWindow {
                               model.append({"text":"10"})
                               model.append({"text":"100"})
                               model.append({"text":"Бесконечно"})
-                             comboBox.displayText = "0.5"
+                              textCB_Inc.text = "0.5"
+                              textA1P.text = "X+"
+                              textA2P.text = "Y+"
+                              textA3P.text = "Z+"
+                              textA4P.text = "W+"
+                              textA5P.text = "P+"
+                              textA6P.text = "R+"
+                              textA1M.text = "X-"
+                              textA2M.text = "Y-"
+                              textA3M.text = "Z-"
+                              textA4M.text = "W-"
+                              textA5M.text = "P-"
+                              textA6M.text = "R-"
                         }
                     }
 

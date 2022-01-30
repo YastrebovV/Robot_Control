@@ -13,7 +13,7 @@ public:
 
 public:
     void JointMove(std::vector<double> Join, std::vector<double> NewJoin);
-    void RobotStoped();
+    void RobotStop();
     std::vector<double> getAngelAct() { return Join; }
     double getAngelAct(unsigned int index) { return Join[index]; }
     std::vector<double> getWFrame() { return WFrame; }
