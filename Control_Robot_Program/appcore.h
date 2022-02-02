@@ -28,6 +28,7 @@ public slots:
 
     std::vector<QString> getActCoord();
     std::vector<QString> getActAngles();
+   // double getAngelAct(unsigned int index);
     void setActCoord(std::vector<double>ActCoord);
 
 private:

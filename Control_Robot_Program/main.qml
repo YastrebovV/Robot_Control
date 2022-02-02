@@ -32,6 +32,7 @@ ApplicationWindow {
 
         Connections {
             target: appCore // Указываем целевое соединение
+
 //            onSendToQml: {
 //                textArea.text = count
 //            }
@@ -302,6 +303,23 @@ ApplicationWindow {
         Item {
             id: secondPage
 
+            function updateDate(state){
+                lab_pos.text = "";
+                let arr_str;
+                let arr_name;
+                if(state==="coords"){
+                    arr_name = ["x", "y", "z", "w", "p", "r"];
+                     arr_str = appCore.getActCoord();
+                }
+                if(state==="axis"){
+                    arr_name = ["A1", "A2", "A3", "A4", "A5", "A6"];
+                     arr_str = appCore.getActAngles();
+                }
+                 for (var i in arr_str){
+                    lab_pos.text += arr_name[i] + " " + parseFloat(arr_str[i]).toFixed(2) + ";";
+                 }
+            }
+
             Rectangle {
                 id: rectangle
                 x: 10
@@ -419,9 +437,11 @@ ApplicationWindow {
                             //если выбрано перемещение по осям
                             if(comboBox1.currentIndex==0){
                                 appCore.jointManMove(1, tempFloor)
+                                secondPage.updateDate("axis")
                             }
                             if(comboBox1.currentIndex==1){
                                 appCore.cartesianManMove(1, tempFloor)
+                                secondPage.updateDate("coords")
                             }
                         }
                         onReleased: {
@@ -460,9 +480,11 @@ ApplicationWindow {
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(1, tempFloor)
+                            secondPage.updateDate("axis")
                         }
                         if(comboBox1.currentIndex==1){
                             appCore.cartesianManMove(1, tempFloor)
+                            secondPage.updateDate("coords")
                         }
                     }
                     onReleased: {
@@ -503,9 +525,11 @@ ApplicationWindow {
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(2, tempFloor)
+                            secondPage.updateDate("axis")
                         }
                         if(comboBox1.currentIndex==1){
                             appCore.cartesianManMove(2, tempFloor)
+                            secondPage.updateDate("coords")
                         }
                     }
                     onReleased: {
@@ -544,9 +568,11 @@ ApplicationWindow {
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(2, tempFloor)
+                            secondPage.updateDate("axis")
                         }
                         if(comboBox1.currentIndex==1){
                             appCore.cartesianManMove(2, tempFloor)
+                            secondPage.updateDate("coords")
                         }
                     }
                     onReleased: {
@@ -709,7 +735,7 @@ ApplicationWindow {
                         var tempFloor = -(Number.parseFloat(comboBox.currentText));
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
-                            appCore.jointManMove(1, tempFloor)
+                            appCore.jointManMove(4, tempFloor)
                         }
                         if(comboBox1.currentIndex==4){
                             appCore.cartesianManMove(4, tempFloor)
@@ -1189,9 +1215,9 @@ ApplicationWindow {
             Button {
                 id: butTouchUp
 
-                x: 665
+                x: 642
                 y: 508
-                width: 125
+                width: 148
                 height: 48
                 //text: qsTr("Сохранить позицию")
                 flat: true
@@ -1221,20 +1247,25 @@ ApplicationWindow {
 
             Label {
                 id: label2
-                x: 408
+                x: 233
                 y: 513
-                width: 47
-                height: 24
-                text: qsTr("Label")
+                width: 131
+                height: 19
+                text: "Актуальня позиция:"
+                color: "white"
             }
 
             Label {
-                id: label3
-                x: 489
-                y: 513
-                text: qsTr("Label")
+                id: lab_pos
+                x: 368
+                y: 514
+                width: 12
+                height: 13
+                color: "white"
             }
+
         }
+
 
 }
     PageIndicator {
@@ -1243,6 +1274,18 @@ ApplicationWindow {
         currentIndex: swipeView.currentIndex
         anchors.bottom: swipeView.bottom
         anchors.horizontalCenter: parent.horizontalCenter
+
+        onCurrentIndexChanged: {
+            if(swipeView.currentIndex==1){
+                //если выбрано перемещение по осям
+                if(comboBox1.currentIndex==0){
+                    secondPage.updateDate("axis")
+                }
+                if(comboBox1.currentIndex==1){
+                    secondPage.updateDate("coords")
+                }
+            }
+        }
     }
 
 }
