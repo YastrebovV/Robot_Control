@@ -5,7 +5,9 @@ using namespace std;
 RobotControl::RobotControl()
 {
    //при создании класса загрузить данные из конфигурационного файла
-
+      pos_error.resize(6);
+      AxisAnglIncr.resize(6);
+      pos_err_temp.resize(6);
       ActCoord.resize(8);
 
       Reduction.resize(6);
@@ -90,16 +92,15 @@ RobotControl::RobotControl()
 }
 
 void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJoin)  //осевое перемещение робота
-{
-    int AxisAnglIncr[6];
+{    
     bool dir[6];
 
     for (unsigned int i = 0; i < 6; i++){
 
         AxisAnglIncr[i] = static_cast<int>(abs((Join[i] - NewJoin[i]) / (1.8/ Reduction[i])));
 
-        pos_error[i] += abs((Join[i] - NewJoin[i]) / (1.8 / Reduction[i])) - trunc(abs((Join[i] -
-        NewJoin[i]) / (1.8 / Reduction[i])));
+        pos_err_temp[i] = abs((Join[i] - NewJoin[i]) / (1.8 / Reduction[i])) - trunc(abs((Join[i] - NewJoin[i]) / (1.8 / Reduction[i])));
+        pos_error[i] += pos_err_temp[i];
 
         if (pos_error[i] > 1)
         {
@@ -109,8 +110,10 @@ void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJo
         if ((Join[i] - NewJoin[i]) > 0)
         {
             dir[i] = 1;
+        }else{
+            dir[i] = 0;
         }
-        else dir[i] = 0;
+
     }
 
     for (unsigned int i = 0; i < 6; i++)
@@ -123,11 +126,17 @@ void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJo
 
 void RobotControl::RobotStop()
 {
+    double temp;
     for (unsigned int i = 0; i < 6; i++)
     {
-        ethercatRT->setStart(i+1, false);
+        ethercatRT->setStart(i, false);
 
-        double temp = static_cast<double>(ethercatRT->getSteps(i)) * (1.8 / Reduction[i]);
+        if(ethercatRT->getSteps(i)!=0){
+            temp = static_cast<double>(AxisAnglIncr[i] - ethercatRT->getSteps(i)) * (1.8 / Reduction[i]);
+            pos_error[i] -= pos_err_temp[i];
+        }else{
+            temp = static_cast<double>(AxisAnglIncr[i]) * (1.8 / Reduction[i]);
+        }
         if(ethercatRT->getDir_mt(i) > 0){
             RobotControl::setJoin(i,RobotControl::getAngelAct(i) - temp);
         }else{

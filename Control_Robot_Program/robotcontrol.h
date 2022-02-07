@@ -27,15 +27,17 @@ public:
     void setJoin(unsigned int index, double angel){Join[index] = angel;}
 
 private:
-    double pos_error[6];
+    std::vector<double> pos_error;
+    std::vector<double> pos_err_temp;
+    std::vector<int> AxisAnglIncr;
     Kinematics kin;
     //Kinematics::ActCoord ActCoord;
     //Kinematics::ActCoord NewCoord;
     //Kinematics::Join Join;
     std::vector<double> Reduction;
-    std::vector<double>ActCoord;
-    std::vector<double>NewCoord;
-    std::vector<double>Join;
+    std::vector<double> ActCoord;
+    std::vector<double> NewCoord;
+    std::vector<double> Join;
     std::vector<double> WFrame;
     std::vector<double> TFrame;
     std::vector<std::vector<double>> DH_Param;//[3][6];

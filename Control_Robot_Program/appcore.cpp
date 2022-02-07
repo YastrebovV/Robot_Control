@@ -98,11 +98,15 @@ void AppCore::cartesianManMove(int axis, double valueOffset)
 
     Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, Join, JoinNew);
 
-   //RobotControl_C.setActCoord(ActCoord);
-  //  RobotControl_C.setJoin(JoinNew);
     JoinNew[2] = JoinNew[2] -90;
     JoinNew[5] = JoinNew[5] +180;
     RobotControl_C.JointMove(Join, JoinNew);
+
+    Join = RobotControl_C.getAngelAct();
+    Join[2] = Join[2] -90;
+    Join[5] = Join[5] +180;
+    Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
+    RobotControl_C.setActCoord(ActCoord);
 }
 void AppCore::stopMove()
 {

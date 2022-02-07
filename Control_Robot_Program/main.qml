@@ -437,15 +437,17 @@ ApplicationWindow {
                             //если выбрано перемещение по осям
                             if(comboBox1.currentIndex==0){
                                 appCore.jointManMove(1, tempFloor)
-                                secondPage.updateDate("axis")
                             }
                             if(comboBox1.currentIndex==1){
                                 appCore.cartesianManMove(1, tempFloor)
-                                secondPage.updateDate("coords")
                             }
                         }
                         onReleased: {
                             appCore.stopMove()
+                            if(comboBox1.currentIndex==0)
+                                secondPage.updateDate("axis")
+                            if(comboBox1.currentIndex==1)
+                                secondPage.updateDate("coords")
                         }
                 }
 
@@ -480,15 +482,17 @@ ApplicationWindow {
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(1, tempFloor)
-                            secondPage.updateDate("axis")
                         }
                         if(comboBox1.currentIndex==1){
                             appCore.cartesianManMove(1, tempFloor)
-                            secondPage.updateDate("coords")
                         }
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
 
@@ -525,15 +529,17 @@ ApplicationWindow {
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(2, tempFloor)
-                            secondPage.updateDate("axis")
                         }
                         if(comboBox1.currentIndex==1){
                             appCore.cartesianManMove(2, tempFloor)
-                            secondPage.updateDate("coords")
                         }
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -568,15 +574,17 @@ ApplicationWindow {
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(2, tempFloor)
-                            secondPage.updateDate("axis")
                         }
                         if(comboBox1.currentIndex==1){
                             appCore.cartesianManMove(2, tempFloor)
-                            secondPage.updateDate("coords")
                         }
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
 
@@ -619,6 +627,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -660,6 +672,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
 
@@ -702,6 +718,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -743,6 +763,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
 
@@ -784,6 +808,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -824,6 +852,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
 
@@ -865,6 +897,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -906,6 +942,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
+                        if(comboBox1.currentIndex==0)
+                            secondPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            secondPage.updateDate("coords")
                     }
                 }
 
