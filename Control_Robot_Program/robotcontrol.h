@@ -44,6 +44,7 @@ private:
     std::vector<std::vector<double>> TT;//[4][4];
     std::vector<std::vector<double>> T5;//[4][4];
     rt_ethercat *ethercatRT;
+    Kinematics Kinematics_C;
 
 };
 
