@@ -30,9 +30,11 @@ private:
     static bool start_ex_Arr[6];
     static int steps_ex_Arr[6];
     static bool pul_mt_ex_Arr[6];
-    static int speed_axis_move[6];
-    static int acc_axis_move[6];
-    static int absolutePos[6];
+    static unsigned long long speed_axis_move;
+    static unsigned int acc_axis_move[6];
+    static unsigned int absolutePos[6];
+    static bool startAxisMastering;
+    static bool masteringStarted;
 
 public:
      int rt_ethercat_start();
@@ -47,10 +49,14 @@ public:
      static void setSteps(unsigned int index, int steps){steps_ex_Arr[index] = steps;}
      static bool getPul_mt(unsigned int index) {return pul_mt_ex_Arr[index];}
      static void setPul_mt(unsigned int index, bool pul_mt){pul_mt_ex_Arr[index] = pul_mt;}
-     static int getAxisSpeed(unsigned int index) {return speed_axis_move[index];}
-     static void setAxisSpeed(unsigned int index, int axisSpeed){speed_axis_move[index]=axisSpeed;}
-     static int getAccSpeed(unsigned int index) {return acc_axis_move[index];}
-     static void setAccSpeed(unsigned int index, int axisAcc){acc_axis_move[index]=axisAcc;}
+     static unsigned long long getAxisSpeed() {return speed_axis_move;}
+     static void setAxisSpeed(unsigned long long axisSpeed){speed_axis_move=axisSpeed;}
+     static unsigned int getAccSpeed(int index) {return acc_axis_move[index];}
+     static void setStartAxMastering(bool start){startAxisMastering=start;}
+     static void setAccSpeed(int index, unsigned int axisAcc){acc_axis_move[index]=axisAcc;}
+     static void setmasteringStarted(bool started){masteringStarted=started;}
+     static bool getStartAxMastering(){return startAxisMastering;}
+     static bool getmasteringStarted(){return masteringStarted;}
 
 };
 

@@ -303,22 +303,6 @@ ApplicationWindow {
         Item {
             id: secondPage
 
-            function updateDate(state){
-                lab_pos.text = "";
-                let arr_str;
-                let arr_name;
-                if(state==="coords"){
-                    arr_name = ["x", "y", "z", "w", "p", "r"];
-                     arr_str = appCore.getActCoord();
-                }
-                if(state==="axis"){
-                    arr_name = ["A1", "A2", "A3", "A4", "A5", "A6"];
-                     arr_str = appCore.getActAngles();
-                }
-                 for (var i in arr_str){
-                    lab_pos.text += arr_name[i] + " " + parseFloat(arr_str[i]).toFixed(2) + ";";
-                 }
-            }
 
             Rectangle {
                 id: rectangle
@@ -409,7 +393,7 @@ ApplicationWindow {
                Button {
                         id: but_A1_Plus
                         x: 2
-                        y: 100
+                        y: 165
                         width: parent.width/2-3
                         height: 48
                         flat: true
@@ -444,10 +428,10 @@ ApplicationWindow {
                         }
                         onReleased: {
                             appCore.stopMove()
-                            if(comboBox1.currentIndex==0)
-                                secondPage.updateDate("axis")
-                            if(comboBox1.currentIndex==1)
-                                secondPage.updateDate("coords")
+//                            if(comboBox1.currentIndex==0)
+//                                thirdPage.updateDate("axis")
+//                            if(comboBox1.currentIndex==1)
+//                                thirdPage.updateDate("coords")
                         }
                 }
 
@@ -489,10 +473,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
-                        if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
-                        if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+//                        if(comboBox1.currentIndex==0)
+//                            thirdPage.updateDate("axis")
+//                        if(comboBox1.currentIndex==1)
+//                            thirdPage.updateDate("coords")
                     }
                 }
 
@@ -537,9 +521,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -582,9 +566,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
 
@@ -628,9 +612,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -673,9 +657,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
 
@@ -719,9 +703,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -764,9 +748,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
 
@@ -809,9 +793,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -853,9 +837,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
 
@@ -898,9 +882,9 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
                 Button {
@@ -943,16 +927,16 @@ ApplicationWindow {
                     onReleased: {
                         appCore.stopMove()
                         if(comboBox1.currentIndex==0)
-                            secondPage.updateDate("axis")
+                            thirdPage.updateDate("axis")
                         if(comboBox1.currentIndex==1)
-                            secondPage.updateDate("coords")
+                            thirdPage.updateDate("coords")
                     }
                 }
 
                 ComboBox {
                     id: comboBox
                     x: 2
-                    y: 8
+                    y: 73
                     width: 110
                     height: 25
                     displayText: currentText
@@ -993,7 +977,7 @@ ApplicationWindow {
                 ComboBox {
                     id: comboBox1
                     x: 2
-                    y: 54
+                    y: 119
                     width: 110
                     height: 27
                     displayText: currentText
@@ -1045,35 +1029,125 @@ ApplicationWindow {
                               textA6M.text = "A6-"
                         }
                         if(comboBox1.currentIndex == 1){
-                              model.append({"text":"0.5"})
-                              model.append({"text":"1"})
-                              model.append({"text":"10"})
-                              model.append({"text":"100"})
-                              model.append({"text":"Бесконечно"})
-                              textCB_Inc.text = "0.5"
-                              textA1P.text = "X+"
-                              textA2P.text = "Y+"
-                              textA3P.text = "Z+"
-                              textA4P.text = "W+"
-                              textA5P.text = "P+"
-                              textA6P.text = "R+"
-                              textA1M.text = "X-"
-                              textA2M.text = "Y-"
-                              textA3M.text = "Z-"
-                              textA4M.text = "W-"
-                              textA5M.text = "P-"
-                              textA6M.text = "R-"
+                            model.append({"text":"0.5"})
+                            model.append({"text":"1"})
+                            model.append({"text":"10"})
+                            model.append({"text":"100"})
+                            model.append({"text":"Бесконечно"})
+                            textCB_Inc.text = "0.5"
+                            textA1P.text = "X+"
+                            textA2P.text = "Y+"
+                            textA3P.text = "Z+"
+                            textA4P.text = "W+"
+                            textA5P.text = "P+"
+                            textA6P.text = "R+"
+                            textA1M.text = "X-"
+                            textA2M.text = "Y-"
+                            textA3M.text = "Z-"
+                            textA4M.text = "W-"
+                            textA5M.text = "P-"
+                            textA6M.text = "R-"
                         }
                     }
 
                 }
 
-//                Label {
-//                    id: label2
-//                    x: 17
-//                    y: 416
-//                    text: comboBox1.currentIndex
-//                }
+                Button {
+                    id: but_Speed_Plus
+                    x: 2
+                    y: 35
+                    width: parent.width/2-3
+                    height: 24
+                    autoRepeat: false
+                    background: Rectangle {
+                        color: but_Speed_Plus.down ? "white" : "#4c4e50"
+                        radius: 5
+                        anchors.fill: parent
+                        border.color: "#008000"
+                    }
+                    flat: true
+                    contentItem: Text {
+                        id: textSpPl
+                        color: but_Speed_Plus.down ? "#4c4e50" : "white"
+                        text: qsTr("+")
+                        elide: Text.ElideRight
+                        opacity: enabled ? 1.0 : 0.3
+                        font: but_Speed_Plus.font
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    onClicked: {
+                        var speed = 0;
+                        if(appCore.getAxisSpeed() > 500000)
+                           appCore.setSpeed(appCore.getAxisSpeed()-100000)
+                        speed = (15-appCore.getAxisSpeed()/100000)*10
+                        if (speed > 0 && speed < 100){
+                           lab_speed.text = speed
+                        }else if(speed ===0){
+                           lab_speed.text = 0
+                        }else if(speed >=100){
+                           lab_speed.text = 100
+                        }
+                    }
+                }
+                Button {
+                    id: but_Speed_Mn
+                    x: 58
+                    y: 35
+                    width: parent.width/2-3
+                    height: 24
+                    autoRepeat: false
+                    background: Rectangle {
+                        color: but_Speed_Mn.down ? "white" : "#4c4e50"
+                        radius: 5
+                        anchors.fill: parent
+                        border.color: "#008000"
+                    }
+                    flat: true
+                    contentItem: Text {
+                        id: textSpMn
+                        color: but_Speed_Mn.down ? "#4c4e50" : "white"
+                        text: qsTr("-")
+                        elide: Text.ElideRight
+                        opacity: enabled ? 1.0 : 0.3
+                        font: but_Speed_Mn.font
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    onClicked: {
+                        var speed = 0;
+                        if(appCore.getAxisSpeed() < 1500000)
+                           appCore.setSpeed(appCore.getAxisSpeed()+100000)
+                        speed = (15-appCore.getAxisSpeed()/100000)*10
+                        if (speed > 0 && speed < 100){
+                           lab_speed.text = speed
+                        }else if(speed ===0){
+                           lab_speed.text = 0
+                        }else if(speed >=100){
+                           lab_speed.text = 100
+                        }
+                    }
+                }
+
+                Label {
+                    id: label3
+                    x: 2
+                    y: 10
+                    width: 131
+                    height: 19
+                    color: "#ffffff"
+                    text: "Скорость:"
+                }
+
+                Label {
+                    id: lab_speed
+                    x: 71
+                    y: 10
+                    width: 12
+                    height: 13
+                    color: "#ffffff"
+                }
             }
 
             Label {
@@ -1285,10 +1359,35 @@ ApplicationWindow {
                 }
             }
 
+
+
+        }
+        // третья вкладка SwipeView
+        Item {
+            id: thirdPage
+
+            function updateDate(state){
+                lab_pos.text = "";
+                let arr_str;
+                let arr_name;
+                if(state==="coords"){
+                    arr_name = ["x", "y", "z", "w", "p", "r"];
+                    arr_str = appCore.getActCoord();
+                }
+                if(state==="axis"){
+                    arr_name = ["A1", "A2", "A3", "A4", "A5", "A6"];
+                    arr_str = appCore.getActAngles();
+                }
+                 for (var i in arr_str){
+                    lab_pos.text += arr_name[i] + " " + parseFloat(arr_str[i]).toFixed(2) + ";";
+                 }
+            }
+
+
             Label {
                 id: label2
-                x: 233
-                y: 513
+                x: 19
+                y: 60
                 width: 131
                 height: 19
                 text: "Актуальня позиция:"
@@ -1297,13 +1396,44 @@ ApplicationWindow {
 
             Label {
                 id: lab_pos
-                x: 368
-                y: 514
+                x: 154
+                y: 61
                 width: 12
                 height: 13
                 color: "white"
             }
 
+            Button {
+                id: butAxisMastering
+
+                x: 11
+                y: 504
+                width: 187
+                height: 48
+                flat: true
+                autoRepeat: false
+
+                contentItem: Text {
+                    text: qsTr("Выполнить мастеризацию")
+                    font: butTouchUp.font
+                    opacity: enabled ? 1.0 : 0.3
+                    color: butTouchUp.down ? "#4c4e50" : "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+
+                background: Rectangle {
+                    anchors.fill: parent
+                    border.color: "#008000"
+                    color: butTouchUp.down ? "white" : "#4c4e50"
+                    radius: 5
+                }
+
+                onClicked: {
+                   appCore.setAxisMastering(true)
+                }
+            }
         }
 
 
@@ -1316,13 +1446,15 @@ ApplicationWindow {
         anchors.horizontalCenter: parent.horizontalCenter
 
         onCurrentIndexChanged: {
-            if(swipeView.currentIndex==1){
+            if(swipeView.currentIndex==1)
+                lab_speed.text = (15-appCore.getAxisSpeed()/100000)*10
+            if(swipeView.currentIndex==2){
                 //если выбрано перемещение по осям
                 if(comboBox1.currentIndex==0){
-                    secondPage.updateDate("axis")
+                    thirdPage.updateDate("axis")
                 }
                 if(comboBox1.currentIndex==1){
-                    secondPage.updateDate("coords")
+                    thirdPage.updateDate("coords")
                 }
             }
         }

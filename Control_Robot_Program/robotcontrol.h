@@ -24,16 +24,13 @@ public:
     std::vector<double> getActCoord() {return ActCoord;}
     void setActCoord(std::vector<double> actCoord) { ActCoord = actCoord; }
     void setJoin(std::vector<double> NewJoin) {Join=NewJoin;}
-    void setJoin(unsigned int index, double angel){Join[index] = angel;}
+    void setJoin(unsigned int index, double angel){Join[index] = angel;}    
 
 private:
     std::vector<double> pos_error;
     std::vector<double> pos_err_temp;
     std::vector<int> AxisAnglIncr;
     Kinematics kin;
-    //Kinematics::ActCoord ActCoord;
-    //Kinematics::ActCoord NewCoord;
-    //Kinematics::Join Join;
     std::vector<double> Reduction;
     std::vector<double> ActCoord;
     std::vector<double> NewCoord;

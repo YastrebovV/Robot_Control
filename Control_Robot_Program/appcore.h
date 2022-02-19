@@ -30,6 +30,9 @@ public slots:
     std::vector<QString> getActAngles();
    // double getAngelAct(unsigned int index);
     void setActCoord(std::vector<double>ActCoord);
+    void setSpeed(unsigned int speed);
+    unsigned long long getAxisSpeed();
+    void setAxisMastering(bool start);
 
 private:
     FilesAndFolders FilesAndFolders_C;
