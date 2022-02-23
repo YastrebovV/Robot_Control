@@ -86,11 +86,11 @@ ApplicationWindow {
                     showDirs: true
                     showDirsFirst: true
                     showFiles: true
-                    folder: "file:///D:\\TEST_fILE\\"  //"file:///home/yastrebov/QT_Project/Control_Robot/Control_Robot_Program/Dir/Program/"
+                    folder: "file:///home/xenomai/git/Robot_Control/Control_Robot_Program/Dir/Program"
                     nameFilters: ["*.*"]
 
                     onCountChanged: {
-                       path = "D:\\TEST_fILE"
+                       path = "/home/xenomai/git/Robot_Control/Control_Robot_Program/Dir/Program"
                     }
                 }
 
@@ -162,7 +162,7 @@ ApplicationWindow {
 
                 onAccepted: {
                     if (textField.text != ""){
-                        appCore.createFile(path + "\\"+ textField.text + ".src", "Hello TEXT")
+                        appCore.createFile(path + "/"+ textField.text + ".src", textField.text)
                     }
                 }
             }
@@ -224,7 +224,7 @@ ApplicationWindow {
                     radius: 5
                 }
                 onClicked: {
-                    appCore.deleteFile(path + "\\"+ file);
+                    appCore.deleteFile(path + "/"+ file);
                 }
             }
 
@@ -254,7 +254,7 @@ ApplicationWindow {
                     radius: 5
                 }
                 onClicked: {
-                    var readFromFile = appCore.readFromFile(path + "\\"+ file)
+                    var readFromFile = appCore.readFromFile(path + "/"+ file)
                     var splitText = readFromFile.split('\n');
                     var textToFor = "";
 
@@ -1247,7 +1247,7 @@ ApplicationWindow {
                         actTextProg += textRobotProgram.text + "<font color='red'>Joint</font> <font color='green'>" +textNamePoint.text+ "<font color='red'>Tool </font> </font>
                         <font color='green'>" +textNumTool.text+ "<font color='red'>Base </font> </font> <font color='green'>" +textNumBase.text+ "\n</font>"
 
-                        appCore.writeToFile(path + "\\"+ file, actTextProg)
+                        appCore.writeToFile(path + "/"+ file, actTextProg)
                     }
                 }
             }
@@ -1262,7 +1262,8 @@ ApplicationWindow {
                 flat: true
                 autoRepeat: false
 
-                contentItem: Text {
+                contentItem:
+                    Text {
                     text: qsTr("Joint")
                     font: butJoinMove.font
                     opacity: enabled ? 1.0 : 0.3
