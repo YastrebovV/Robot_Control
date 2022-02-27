@@ -14,9 +14,9 @@ RobotControl::RobotControl()
       Reduction[0] = 30.0;
       Reduction[1] = 50.0;
       Reduction[2] = 30.0;
-      Reduction[3] = 5.18;
-      Reduction[4] = 5.18;
-      Reduction[5] = 5.18;
+      Reduction[3] = 5.18*1.11;
+      Reduction[4] = 5.18*(1.24*1.69*2.5);
+      Reduction[5] = (5.18/2.111111111)*(1.69*2.5);
 
       Join.resize(6);
       Join[0]= 0.000001;
