@@ -97,9 +97,9 @@ void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJo
 
     for (unsigned int i = 0; i < 6; i++){
 
-        AxisAnglIncr[i] = static_cast<int>(abs((Join[i] - NewJoin[i]) / (1.8/ Reduction[i])));
+        AxisAnglIncr[i] = static_cast<int>(abs((Join[i] - NewJoin[i]) / (0.45/ Reduction[i])));
 
-        pos_err_temp[i] = abs((Join[i] - NewJoin[i]) / (1.8 / Reduction[i])) - trunc(abs((Join[i] - NewJoin[i]) / (1.8 / Reduction[i])));
+        pos_err_temp[i] = abs((Join[i] - NewJoin[i]) / (0.45 / Reduction[i])) - trunc(abs((Join[i] - NewJoin[i]) / (0.45 / Reduction[i])));
         pos_error[i] += pos_err_temp[i];
 
         if (pos_error[i] > 1)
@@ -132,10 +132,10 @@ void RobotControl::RobotStop()
         ethercatRT->setStart(i, false);
 
         if(ethercatRT->getSteps(i)!=0){
-            temp = static_cast<double>(AxisAnglIncr[i] - ethercatRT->getSteps(i)) * (1.8 / Reduction[i]);
+            temp = static_cast<double>(AxisAnglIncr[i] - ethercatRT->getSteps(i)) * (0.45 / Reduction[i]);
             pos_error[i] -= pos_err_temp[i];
         }else{
-            temp = static_cast<double>(AxisAnglIncr[i]) * (1.8 / Reduction[i]);
+            temp = static_cast<double>(AxisAnglIncr[i]) * (0.45 / Reduction[i]);
         }
         if(ethercatRT->getDir_mt(i) > 0){
             RobotControl::setJoin(i,RobotControl::getAngelAct(i) - temp);

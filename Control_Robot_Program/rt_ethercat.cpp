@@ -344,7 +344,7 @@ void ethercat_task(void *arg)
              rt_ethercat::setmasteringStarted(true);
              rt_ethercat::setAxisSpeed(1500000);
              rt_ethercat::setDir_mt(0,true);
-             rt_ethercat::setSteps(0,720);
+             rt_ethercat::setSteps(0,2880);
              rt_ethercat::setStart(0, true);
         }
 

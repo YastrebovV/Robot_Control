@@ -1079,9 +1079,9 @@ ApplicationWindow {
 
                     onClicked: {
                         var speed = 0;
-                        if(appCore.getAxisSpeed() > 500000)
+                        if(appCore.getAxisSpeed() > 400000)
                            appCore.setSpeed(appCore.getAxisSpeed()-100000)
-                        speed = (15-appCore.getAxisSpeed()/100000)*10
+                        speed = (14-appCore.getAxisSpeed()/100000)*10
                         if (speed > 0 && speed < 100){
                            lab_speed.text = speed
                         }else if(speed ===0){
@@ -1117,9 +1117,9 @@ ApplicationWindow {
                     }
                     onClicked: {
                         var speed = 0;
-                        if(appCore.getAxisSpeed() < 1500000)
+                        if(appCore.getAxisSpeed() < 1400000)
                            appCore.setSpeed(appCore.getAxisSpeed()+100000)
-                        speed = (15-appCore.getAxisSpeed()/100000)*10
+                        speed = (14-appCore.getAxisSpeed()/100000)*10
                         if (speed > 0 && speed < 100){
                            lab_speed.text = speed
                         }else if(speed ===0){
