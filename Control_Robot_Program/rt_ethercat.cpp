@@ -488,9 +488,9 @@ void motor_1_task(void *arg)
              if(!rt_ethercat::getStart(0))
                  break;
              rt_ethercat::setPul_mt(0,true);
-             rt_task_sleep(rt_ethercat::getAxisSpeed());
+             rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(30/5.7498)));
              rt_ethercat::setPul_mt(0,false);
-             rt_task_sleep(rt_ethercat::getAxisSpeed());
+             rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(30/5.7498)));
              rt_ethercat::setSteps(0, rt_ethercat::getSteps(0)-1);
          }
          rt_ethercat::setStart(0, false);
@@ -509,9 +509,9 @@ void motor_2_task(void *arg)
               if(!rt_ethercat::getStart(1))
                   break;
               rt_ethercat::setPul_mt(1,true);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());//1000000);
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(50/5.7498)));
               rt_ethercat::setPul_mt(1,false);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(50/5.7498)));
               rt_ethercat::setSteps(1, rt_ethercat::getSteps(1)-1);
           }
           rt_ethercat::setStart(1, false);
@@ -530,9 +530,9 @@ void motor_3_task(void *arg)
               if(!rt_ethercat::getStart(2))
                   break;
               rt_ethercat::setPul_mt(2,true);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());//500000);
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(15/5.7498)));
               rt_ethercat::setPul_mt(2,false);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(15/5.7498)));
               rt_ethercat::setSteps(2, rt_ethercat::getSteps(2)-1);
           }
           rt_ethercat::setStart(2, false);
@@ -551,7 +551,7 @@ void motor_4_task(void *arg)
               if(!rt_ethercat::getStart(3))
                   break;
               rt_ethercat::setPul_mt(3,true);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());//1000000);
+              rt_task_sleep(rt_ethercat::getAxisSpeed());
               rt_ethercat::setPul_mt(3,false);
               rt_task_sleep(rt_ethercat::getAxisSpeed());
               rt_ethercat::setSteps(3, rt_ethercat::getSteps(3)-1);
@@ -572,9 +572,9 @@ void motor_5_task(void *arg)
               if(!rt_ethercat::getStart(4))
                   break;
               rt_ethercat::setPul_mt(4,true);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());//1000000);
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(27.138/5.7498)));
               rt_ethercat::setPul_mt(4,false);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(27.138/5.7498)));
               rt_ethercat::setSteps(4, rt_ethercat::getSteps(4)-1);
           }
           rt_ethercat::setStart(4, false);
@@ -593,9 +593,9 @@ void motor_6_task(void *arg)
               if(!rt_ethercat::getStart(5))
                   break;
               rt_ethercat::setPul_mt(5,true);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());//1000000);
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(10.3668/5.7498)));
               rt_ethercat::setPul_mt(5,false);
-              rt_task_sleep(rt_ethercat::getAxisSpeed());
+              rt_task_sleep(static_cast<RTIME>(rt_ethercat::getAxisSpeed()/(10.3668/5.7498)));
               rt_ethercat::setSteps(5, rt_ethercat::getSteps(5)-1);
           }
           rt_ethercat::setStart(5, false);

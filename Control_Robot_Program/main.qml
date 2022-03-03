@@ -428,10 +428,10 @@ ApplicationWindow {
                         }
                         onReleased: {
                             appCore.stopMove()
-//                            if(comboBox1.currentIndex==0)
-//                                thirdPage.updateDate("axis")
-//                            if(comboBox1.currentIndex==1)
-//                                thirdPage.updateDate("coords")
+                            if(comboBox1.currentIndex==0)
+                                thirdPage.updateDate("axis")
+                            if(comboBox1.currentIndex==1)
+                                thirdPage.updateDate("coords")
                         }
                 }
 
@@ -473,10 +473,10 @@ ApplicationWindow {
                     }
                     onReleased: {
                         appCore.stopMove()
-//                        if(comboBox1.currentIndex==0)
-//                            thirdPage.updateDate("axis")
-//                        if(comboBox1.currentIndex==1)
-//                            thirdPage.updateDate("coords")
+                        if(comboBox1.currentIndex==0)
+                           thirdPage.updateDate("axis")
+                        if(comboBox1.currentIndex==1)
+                            thirdPage.updateDate("coords")
                     }
                 }
 
