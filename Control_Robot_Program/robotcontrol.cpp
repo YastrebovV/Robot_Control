@@ -13,7 +13,7 @@ RobotControl::RobotControl()
       Reduction.resize(6);
       Reduction[0] = 30.0;
       Reduction[1] = 50.0;
-      Reduction[2] = 15.0;
+      Reduction[2] = 30.0;
       Reduction[3] = 5.18*1.11;
       Reduction[4] = 5.18*(1.24*1.69*2.5);
       Reduction[5] = (5.18/2.111111111)*(1.69*2.5);
@@ -23,7 +23,7 @@ RobotControl::RobotControl()
       Join[1] = -90;
       Join[2] = 90;
       Join[3] = 0.000001;
-      Join[4] = 5.001;
+      Join[4] = 0.000001;
       Join[5] = 0.000001;
 
       WFrame.resize(6);

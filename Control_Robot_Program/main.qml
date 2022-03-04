@@ -509,7 +509,17 @@ ApplicationWindow {
                     }
 
                     onPressed: {
-                        var tempFloor = Number.parseFloat(comboBox.currentText);
+                        var tempFloor = 0.0;
+                        if(comboBox.currentText === "Бесконечно"){
+                            if(comboBox1.currentIndex==0){
+                                tempFloor = 600
+                            }else{
+                                tempFloor = 360.0
+                            }
+                        }else{
+                            tempFloor = Number.parseFloat(comboBox.currentText);
+                        }
+
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(2, tempFloor)
@@ -554,7 +564,16 @@ ApplicationWindow {
                     }
 
                     onPressed: {
-                        var tempFloor = -(Number.parseFloat(comboBox.currentText));
+                        var tempFloor = 0.0;
+                        if(comboBox.currentText === "Бесконечно"){
+                            if(comboBox1.currentIndex==0){
+                                tempFloor = -600
+                            }else{
+                                tempFloor = -360.0
+                            }
+                        }else{
+                            tempFloor = -Number.parseFloat(comboBox.currentText);
+                        }
                         //если выбрано перемещение по осям
                         if(comboBox1.currentIndex==0){
                             appCore.jointManMove(2, tempFloor)
