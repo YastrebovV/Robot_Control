@@ -21,8 +21,11 @@ ApplicationWindow {
     property int counAx1: 0
 
     property int index_ext: 0
+    property int index_ext_priv: 0
     property int tool_n: 1
     property int base_n: 1
+
+    property bool newornot: false
 
     SwipeView {
         id: swipeView
@@ -336,23 +339,43 @@ ApplicationWindow {
                             anchors.fill: parent
                             anchors.margins: 0
                              Rectangle {
+                                 color: Color
                                  anchors.fill: parent
                                  border.width: 0
+
                                  Text{
+                                     color: FontColor
+                                     font.family: "Arial"
+                                     font.pointSize: 12
                                      x: 10
                                      y: 3
                                      text: name + Tool + Base
                                  }
                              }
 
-                            // По клику по кнопке отдаём в текстовое поле индекс элемента в ListView
                             onClicked: {
+                                index_ext_priv = index_ext
                                 index_ext = index
+                                listModel.set(index_ext, {Color: "white"})
+                                listModel.set(index_ext, {FontColor: "#4c4e50"})
+                                listModel.set(index_ext_priv, {Color: "#2e2f30"})
+                                listModel.set(index_ext_priv, {FontColor: "white"})
+                            }
+
+                            Keys.onReleased: {
+                               // if(event.key === Qt.Key_)
+                            }
+
+                            onDoubleClicked: {
+                                index_ext_priv = index_ext
+                                index_ext = index
+                                newornot=false
+                                dialogNewPoint.open()
                             }
                         }
                     }
 
-                    // Сама модель, в которой будут содержаться все элементы
+                    // модель, в которой будут содержаться все элементы
                     model: ListModel {
                         id: listModel // задаём ей id для обращения
                     }
@@ -1285,8 +1308,13 @@ ApplicationWindow {
                 }
 
                 onAccepted: {
-                    listModel.set(index_ext, {name: "PTP "+"P" + textNamePoint.text+" ",
+                    if(newornot){
+                        listModel.append({name: "PTP " + textNamePoint.text+" ",
+                                             Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text, Color: "#2e2f30", FontColor: "white"})
+                    }else{
+                        listModel.set(index_ext, {name: "PTP " + textNamePoint.text+" ",
                                       Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text})
+                    }
                 }
             }
 
@@ -1319,7 +1347,7 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                    listModel.append({name: "PTP "+"P"+" ", Tool: " Tool: "+ tool_n, Base: " Base: "+ base_n})
+                    newornot=true
                     dialogNewPoint.open()
                 }
             }
@@ -1359,19 +1387,19 @@ ApplicationWindow {
                 id: butDelLine
                 x: 219
                 y: 508
-                width: 90
+                width: 136
                 height: 48
                 contentItem: Text {
-                    color: butJoinMove1.down ? "#4c4e50" : "white"
+                    color: butDelLine.down ? "#4c4e50" : "white"
                     text: qsTr("Удалить линию")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    font: butJoinMove1.font
+                    font: butDelLine.font
                     elide: Text.ElideRight
                     opacity: enabled ? 1.0 : 0.3
                 }
                 background: Rectangle {
-                    color: butJoinMove1.down ? "white" : "#4c4e50"
+                    color: butDelLine.down ? "white" : "#4c4e50"
                     radius: 5
                     anchors.fill: parent
                     border.color: "#008000"
@@ -1380,7 +1408,7 @@ ApplicationWindow {
                 flat: true
 
                 onClicked: {
-                        listModel1.remove(index_ext)
+                      listModel.remove(index_ext)
                 }
             }
 
@@ -1413,6 +1441,7 @@ ApplicationWindow {
                 }
 
                 onClicked: {
+                    newornot=false
                     dialogNewPoint.open()
                 }
             }
