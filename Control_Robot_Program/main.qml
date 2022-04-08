@@ -20,6 +20,10 @@ ApplicationWindow {
     property string actTextProg: ""
     property int counAx1: 0
 
+    property int index_ext: 0
+    property int tool_n: 1
+    property int base_n: 1
+
     SwipeView {
         id: swipeView
         anchors.rightMargin: 0
@@ -261,8 +265,8 @@ ApplicationWindow {
                     for(var i = 0; i < splitText.length; i++){
                        textToFor +=  splitText[i]
                        if(splitText[i]==="</font> "){
-                           textRobotProgram.append(textToFor + "</font>")
-                           textToFor = ""
+                          // textRobotProgram.append(textToFor + "</font>")
+                          // textToFor = ""
                         }
                     }
 
@@ -313,22 +317,44 @@ ApplicationWindow {
                 color: "#2e2f30"
                 border.color: "black"
 
-                TextEdit {
-                    id: textRobotProgram
-                    textFormat: TextEdit.AutoText
-                    selectByMouse: true
-                    font.family: "Arial"
-                    font.pointSize: 14
-                    //readOnly: true
-                    cursorVisible: true
-                    anchors.rightMargin: 0
-                    anchors.leftMargin: 0
-                    anchors.topMargin: 2
-                    anchors.bottomMargin: -1
+                // ListView для представления данных в виде списка
+                ListView {
+                    id: listView1
                     anchors.fill: parent
-                    //color: "#008000"  //"#d6853b"
-                    onCursorPositionChanged: {
-                        label2.text = lineCount
+
+                    /* в данном свойстве задаём вёрстку одного объекта
+                     * который будем отображать в списке в качестве одного элемента списка
+                     * */
+                    delegate: Item {
+                        id: item_1
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        height: 25
+
+                        // В данном элементе будет находиться одна кнопка
+                        Button {
+                            anchors.fill: parent
+                            anchors.margins: 0
+                             Rectangle {
+                                 anchors.fill: parent
+                                 border.width: 0
+                                 Text{
+                                     x: 10
+                                     y: 3
+                                     text: name + Tool + Base
+                                 }
+                             }
+
+                            // По клику по кнопке отдаём в текстовое поле индекс элемента в ListView
+                            onClicked: {
+                                index_ext = index
+                            }
+                        }
+                    }
+
+                    // Сама модель, в которой будут содержаться все элементы
+                    model: ListModel {
+                        id: listModel // задаём ей id для обращения
                     }
                 }
 
@@ -1259,15 +1285,8 @@ ApplicationWindow {
                 }
 
                 onAccepted: {
-                    if (textNamePoint.text != "" && textNumTool.text != "" && textNumBase.text != ""){
-                        textRobotProgram.append("<font color='red'>Joint</font> <font color='green'>" +textNamePoint.text+ "<font color='red'>Tool </font> </font>
-                        <font color='green'>" +textNumTool.text+ "<font color='red'>Base </font> </font> <font color='green'>" +textNumBase.text+ "\n</font>")
-
-                        actTextProg += textRobotProgram.text + "<font color='red'>Joint</font> <font color='green'>" +textNamePoint.text+ "<font color='red'>Tool </font> </font>
-                        <font color='green'>" +textNumTool.text+ "<font color='red'>Base </font> </font> <font color='green'>" +textNumBase.text+ "\n</font>"
-
-                        appCore.writeToFile(path + "/"+ file, actTextProg)
-                    }
+                    listModel.set(index_ext, {name: "PTP "+"P" + textNamePoint.text+" ",
+                                      Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text})
                 }
             }
 
@@ -1300,18 +1319,8 @@ ApplicationWindow {
                 }
 
                 onClicked: {
+                    listModel.append({name: "PTP "+"P"+" ", Tool: " Tool: "+ tool_n, Base: " Base: "+ base_n})
                     dialogNewPoint.open()
-
-                    //textRobotProgram.cursorPosition = 5
-                    //textRobotProgram.moveCursorSelection(9, TextEdit.SelectCharacters)
-
-                    textRobotProgram.lineCount = 3
-
-                   //label2.text = textRobotProgram.getText(2, 6)
-                   // textRobotProgram.text = "<font color='red'>Hello</font> <font color='green'> world \n</font>"
-                   //textRobotProgram.append("<font color='red'>Joint</font> <font color='green'> P1 \n</font>")
-                   //textRobotProgram.append("<font color='red'>Joint</font> <font color='green'> P2 \n</font>")
-                    //appCore.createFile(path + "\\"+ file, "Hello TEXT")
                 }
             }
 
@@ -1342,7 +1351,36 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                    //appCore.createFile(path + "\\"+ file, "Hello TEXT")     //"D:\\TEST_fILE\\TEST_CREATE_FILE.txt", "Hello TEXT");
+
+                }
+            }
+
+            Button {
+                id: butDelLine
+                x: 219
+                y: 508
+                width: 90
+                height: 48
+                contentItem: Text {
+                    color: butJoinMove1.down ? "#4c4e50" : "white"
+                    text: qsTr("Удалить линию")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font: butJoinMove1.font
+                    elide: Text.ElideRight
+                    opacity: enabled ? 1.0 : 0.3
+                }
+                background: Rectangle {
+                    color: butJoinMove1.down ? "white" : "#4c4e50"
+                    radius: 5
+                    anchors.fill: parent
+                    border.color: "#008000"
+                }
+                autoRepeat: false
+                flat: true
+
+                onClicked: {
+                        listModel1.remove(index_ext)
                 }
             }
 
@@ -1375,7 +1413,7 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                    //appCore.createFile(path + "\\"+ file, "Hello TEXT")     //"D:\\TEST_fILE\\TEST_CREATE_FILE.txt", "Hello TEXT");
+                    dialogNewPoint.open()
                 }
             }
 
@@ -1451,7 +1489,7 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                   appCore.setAxisMastering(true)
+                    appCore.setAxisMastering(true)
                 }
             }
         }
