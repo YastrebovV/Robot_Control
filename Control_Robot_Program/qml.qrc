@@ -3,5 +3,7 @@
         <file>main.qml</file>
         <file>icons/folder.png</file>
         <file>icons/file.png</file>
+        <file>DialogNewPoint.qml</file>
+        <file>ManualMoveModul.qml</file>
     </qresource>
 </RCC>
