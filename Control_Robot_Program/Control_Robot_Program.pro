@@ -1,4 +1,4 @@
-QT += quick
+QT += quick xml
 
 CONFIG += c++11
 
@@ -15,12 +15,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         appcore.cpp \
-        codeparser.cpp \
         filesandfolders.cpp \
         kinematics.cpp \
         main.cpp \
         robotcontrol.cpp \
-        rt_ethercat.cpp
+        rt_ethercat.cpp \
+    programcodexml.cpp
 
 RESOURCES += qml.qrc \
     qml.qrc
@@ -42,8 +42,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     appcore.h \
-    codeparser.h \
     filesandfolders.h \
     kinematics.h \
     robotcontrol.h \
-    rt_ethercat.h
+    rt_ethercat.h \
+    programcodexml.h

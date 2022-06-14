@@ -5,24 +5,74 @@ AppCore::AppCore(QObject *parent) : QObject(parent)
     ethercatRT->rt_ethercat_start();
 }
 
-void AppCore::createFile(QString fileName, QString text)
+void AppCore::createFile(QString fileName, QString path)
 {
-    FilesAndFolders_C.createFile(fileName, text);
+    //FilesAndFolders_C.createFile(fileName, text);
+   domDoc = programcodeXML_C.createDomDoc(fileName);
+   writeToFile(fileName+".xml", path, "PTP", "P1", "1", "1");
+
 }
 
-void AppCore::deleteFile(QString fileName)
+void traverseNode(const QDomNode& node)
 {
-    FilesAndFolders_C.deleteFile(fileName);
+   QDomNode domNode = node.firstChild();
+   while(!domNode.isNull()) {
+       if(domNode.isElement()) {
+          QDomElement domElement = domNode.toElement();
+          if(!domElement.isNull()) {
+              if(domElement.tagName() == "point") {
+                  qDebug() << "Attr: "
+                           << domElement.attribute("name", "");
+                 // emit InsertToListMode()
+              }
+              else {
+                  qDebug() << "TagName: " << domElement.tagName()
+                           << "\tText: " << domElement.text();
+             }
+          }
+       }
+       traverseNode(domNode);
+       domNode = domNode.nextSibling();
+    }
 }
 
-void AppCore::writeToFile(QString fileName, QString text)
+void AppCore::openFile(QString fileName, QString path)
 {
-    FilesAndFolders_C.writeToFile(fileName, text);
+    QFile  file(path+"/"+fileName);
+
+    if(file.open(QIODevice::ReadOnly)) {
+        if(domDoc.setContent(&file)) {
+            QDomElement domElement= domDoc.documentElement();
+            traverseNode(domElement);
+        }
+        file.close();
+    }
 }
 
-QString AppCore::readFromFile(QString fileName)
+void AppCore::deleteFile(QString fileName, QString path)
 {
-   return FilesAndFolders_C.readFromFile(fileName);
+    FilesAndFolders_C.deleteFile(path+"/"+fileName);
+}
+
+void AppCore::writeToFile(QString fileName,
+                          QString path,
+                          QString type,
+                          QString name,
+                          QString tool,
+                          QString base)
+{  
+    programcodeXML_C.writeToDomDoc(domDoc, type, name, tool, base);
+
+    QFile file(path+"/"+fileName);
+    if(file.open(QIODevice::WriteOnly)) {
+        QTextStream(&file) << domDoc.toString();
+        file.close();
+    }
+}
+
+QString AppCore::readFromFile(QString fileName, QString path)
+{
+   return FilesAndFolders_C.readFromFile(path+"/"+fileName+".xml");
 }
 
 std::vector<QString> AppCore::getActCoord()
@@ -122,3 +172,4 @@ void AppCore::setAxisMastering(bool start)
 {
     ethercatRT->setStartAxMastering(start);
 }
+

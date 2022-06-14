@@ -19,6 +19,7 @@ ApplicationWindow {
     property string file: ""
     property string actTextProg: ""
     property int counAx1: 0
+    property string actProgName: ""
 
     property int index_ext: 0
     property int index_ext_priv: 0
@@ -37,14 +38,14 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 1
+        currentIndex: 0
 
         Connections {
             target: appCore // Указываем целевое соединение
 
-//            onSendToQml: {
-//                textArea.text = count
-//            }
+            onInsertToListMode: {
+
+            }
         }
 
         Item {
@@ -171,7 +172,8 @@ ApplicationWindow {
 
                 onAccepted: {
                     if (textField.text != ""){
-                        appCore.createFile(path + "/"+ textField.text + ".src", textField.text)
+                        actProgName = textField.text
+                        appCore.createFile(textField.text, path)
                     }
                 }
             }
@@ -233,7 +235,7 @@ ApplicationWindow {
                     radius: 5
                 }
                 onClicked: {
-                    appCore.deleteFile(path + "/"+ file);
+                    appCore.deleteFile(file, path);
                 }
             }
 
@@ -263,19 +265,21 @@ ApplicationWindow {
                     radius: 5
                 }
                 onClicked: {
-                    var readFromFile = appCore.readFromFile(path + "/"+ file)
-                    var splitText = readFromFile.split('\n');
-                    var textToFor = "";
+//                    var readFromFile = appCore.readFromFile(path + "/"+ file)
+//                    var splitText = readFromFile.split('\n');
+//                    var textToFor = "";
 
-                    for(var i = 0; i < splitText.length; i++){
-                       textToFor +=  splitText[i]
-                       if(splitText[i]==="</font> "){
-                          // textRobotProgram.append(textToFor + "</font>")
-                          // textToFor = ""
-                        }
-                    }
+//                    for(var i = 0; i < splitText.length; i++){
+//                       textToFor +=  splitText[i]
+//                       if(splitText[i]==="</font> "){
 
-                    actTextProg = ""
+//                        }
+//                    }
+
+//                    actTextProg = ""
+                    appCore.openFile(file, path)
+                   // listModel.append({name: " PTP " + textNamePoint.text+" ",
+                                 //        Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text, Color: "#2e2f30", FontColor: "white"})
                     swipeView.currentIndex = 1
                 }
             }
@@ -666,7 +670,8 @@ ApplicationWindow {
 
         onCurrentIndexChanged: {
             if(swipeView.currentIndex==1)
-              // manualMoveModul.labSpeedText((15-appCore.getAxisSpeed()/100000)*10) //lab_speed.text = (15-appCore.getAxisSpeed()/100000)*10
+               manualMoveModul.labSpeedText((15-appCore.getAxisSpeed()/100000)*10) //lab_speed.text = (15-appCore.getAxisSpeed()/100000)*10
+
             if(swipeView.currentIndex==2){
                 //если выбрано перемещение по осям
                 if(manualMoveModul.currentIndexCB1()===0){

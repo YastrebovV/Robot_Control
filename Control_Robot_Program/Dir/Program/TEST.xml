@@ -1,0 +1,36 @@
+<!DOCTYPE TEST>
+<TEST>
+ <point name="P1">
+  <type>PTP</type>
+  <tool>1</tool>
+  <base>1</base>
+  <x>0</x>
+  <y>0</y>
+  <z>0</z>
+  <a>0</a>
+  <b>0</b>
+  <c>0</c>
+ </point>
+ <point name="p2">
+  <type>PTP</type>
+  <tool>2</tool>
+  <base>2</base>
+  <x>0</x>
+  <y>0</y>
+  <z>0</z>
+  <a>0</a>
+  <b>0</b>
+  <c>0</c>
+ </point>
+ <point name="p3">
+  <type>PTP</type>
+  <tool>3</tool>
+  <base>3</base>
+  <x>0</x>
+  <y>0</y>
+  <z>0</z>
+  <a>0</a>
+  <b>0</b>
+  <c>0</c>
+ </point>
+</TEST>

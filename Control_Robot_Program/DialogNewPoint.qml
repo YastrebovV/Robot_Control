@@ -81,12 +81,20 @@ Item {
 
         onAccepted: {
             if(newornot){
-                listModel.append({name: "PTP " + textNamePoint.text+" ",
+                listModel.append({name: " PTP " + textNamePoint.text+" ",
                                      Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text, Color: "#2e2f30", FontColor: "white"})
             }else{
-                listModel.set(index_ext, {name: "PTP " + textNamePoint.text+" ",
+                listModel.set(index_ext, {name: " PTP " + textNamePoint.text+" ",
                               Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text})
             }
+
+            appCore.writeToFile(file, path, "PTP", textNamePoint.text, textNumTool.text, textNumBase.text)
+ //           var strArr = []
+ //           for(var i = 0; i < listModel.count; i++){
+ //               strArr[i] = listModel.get(i).name.split(' ')[2] + "," + listModel.get(i).Tool.split(' ')[2] +","+ listModel.get(i).Base.split(' ')[2]
+ //           }
+
+
         }
     }
 }

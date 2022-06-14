@@ -4,8 +4,11 @@
 #include <QObject>
 #include "filesandfolders.h"
 #include "robotcontrol.h"
+#include "programcodexml.h"
 #include <vector>
+#include<iostream>
 #include <string>
+#include <QtXml>
 
 class AppCore : public QObject
 {
@@ -13,15 +16,21 @@ class AppCore : public QObject
 public:
     explicit AppCore(QObject *parent = 0);
 
-//signals:
+signals:
     // Сигнал для передачи данных в qml-интерфейс
-   // void sendToQml(int count);
+    void InsertToListMode(QString name, QString tool, QString base);
 
 public slots:
-    void createFile(QString fileName, QString text);
-    void deleteFile(QString fileName);
-    void writeToFile(QString fileName, QString text);
-    QString readFromFile(QString fileName);
+    void createFile(QString fileName, QString path);
+    void deleteFile(QString fileName, QString path);
+    void openFile(QString fileName, QString path);
+    void writeToFile(QString fileName,
+                     QString path,
+                     QString type,
+                     QString name,
+                     QString tool,
+                     QString base);
+    QString readFromFile(QString fileName, QString path);
     void jointManMove(int numAxis, double valueOffset);
     void cartesianManMove(int axis, double valueOffset);
     void stopMove();
@@ -39,6 +48,11 @@ private:
     RobotControl RobotControl_C;
     Kinematics Kinematics_C;
     rt_ethercat *ethercatRT;
+    programcodeXML programcodeXML_C;
+    QString progName;
+    QDomDocument domDoc;
+
+
 };
 
 #endif // APPCORE_H
