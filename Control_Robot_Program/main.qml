@@ -44,7 +44,9 @@ ApplicationWindow {
             target: appCore // Указываем целевое соединение
 
             onInsertToListMode: {
-
+                 listModel.append({name: " PTP " + name +" ",
+                                     Tool: " Tool: "+ tool, Base: " Base: "+ base, Color: "#2e2f30", FontColor: "white"})
+                 swipeView.currentIndex = 1
             }
         }
 
@@ -280,7 +282,7 @@ ApplicationWindow {
                     appCore.openFile(file, path)
                    // listModel.append({name: " PTP " + textNamePoint.text+" ",
                                  //        Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text, Color: "#2e2f30", FontColor: "white"})
-                    swipeView.currentIndex = 1
+                   // swipeView.currentIndex = 1
                 }
             }
 

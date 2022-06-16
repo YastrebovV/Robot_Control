@@ -13,9 +13,14 @@ void AppCore::createFile(QString fileName, QString path)
 
 }
 
-void traverseNode(const QDomNode& node)
+void traverseNode(const QDomNode& node,
+                  std::vector<std::vector<QString>>& textProgram,
+                  std::vector<std::vector<double>>&  dataProgram,
+                  unsigned int countName,
+                  unsigned int countTag)
 {
    QDomNode domNode = node.firstChild();
+
    while(!domNode.isNull()) {
        if(domNode.isElement()) {
           QDomElement domElement = domNode.toElement();
@@ -23,15 +28,23 @@ void traverseNode(const QDomNode& node)
               if(domElement.tagName() == "point") {
                   qDebug() << "Attr: "
                            << domElement.attribute("name", "");
-                 // emit InsertToListMode()
+                  countName++;
+                  countTag=1;
+                  textProgram[countName][0] = domElement.attribute("name", "");
               }
               else {
                   qDebug() << "TagName: " << domElement.tagName()
                            << "\tText: " << domElement.text();
+                  if(countTag<=3){
+                      textProgram[countName][countTag]=domElement.text();
+                  }else{
+                      dataProgram[countName][countTag-4]=domElement.text().toDouble();
+                  }
+                  countTag++;
              }
           }
        }
-       traverseNode(domNode);
+       traverseNode(domNode, textProgram, dataProgram, countName, countTag);
        domNode = domNode.nextSibling();
     }
 }
@@ -43,7 +56,16 @@ void AppCore::openFile(QString fileName, QString path)
     if(file.open(QIODevice::ReadOnly)) {
         if(domDoc.setContent(&file)) {
             QDomElement domElement= domDoc.documentElement();
-            traverseNode(domElement);
+            QDomNodeList nodes = domDoc.elementsByTagName("point");
+            textProgram.resize(nodes.count());
+            dataProgram.resize(nodes.count());
+            for(unsigned int i=0; i<nodes.count(); i++){
+               textProgram[i].resize(4);
+               dataProgram[i].resize(6);
+            }
+            traverseNode(domElement, textProgram, dataProgram, -1, 1);
+            for(unsigned int i=0; i<textProgram.size(); i++)
+                    emit InsertToListMode(textProgram[i][0], textProgram[i][2], textProgram[i][3]);
         }
         file.close();
     }

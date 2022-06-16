@@ -51,6 +51,8 @@ private:
     programcodeXML programcodeXML_C;
     QString progName;
     QDomDocument domDoc;
+    std::vector<std::vector<QString>> textProgram;
+    std::vector<std::vector<double>>  dataProgram;
 
 
 };
