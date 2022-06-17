@@ -28,6 +28,8 @@ ApplicationWindow {
 
     property bool newornot: false
 
+
+
     DialogNewPoint{id: dialogNPoint}
 
     SwipeView {
@@ -42,7 +44,6 @@ ApplicationWindow {
 
         Connections {
             target: appCore // Указываем целевое соединение
-
             onInsertToListMode: {
                  listModel.append({name: " PTP " + name +" ",
                                      Tool: " Tool: "+ tool, Base: " Base: "+ base, Color: "#2e2f30", FontColor: "white"})
@@ -311,6 +312,13 @@ ApplicationWindow {
                     color: butStartProg.down ? "white" : "#4c4e50"
                     radius: 5
                 }
+            }
+
+            Label {
+                id: label3
+                x: 37
+                y: 564
+                text: qsTr("Label")
             }
         }
 

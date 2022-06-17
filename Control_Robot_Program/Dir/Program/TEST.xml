@@ -44,4 +44,15 @@
   <b>0</b>
   <c>0</c>
  </point>
+ <point name="p5">
+  <type>PTP</type>
+  <tool>5</tool>
+  <base>5</base>
+  <x>0</x>
+  <y>0</y>
+  <z>0</z>
+  <a>0</a>
+  <b>0</b>
+  <c>0</c>
+ </point>
 </TEST>

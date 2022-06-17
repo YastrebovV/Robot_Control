@@ -65,7 +65,7 @@ void AppCore::openFile(QString fileName, QString path)
             }
             traverseNode(domElement, textProgram, dataProgram, -1, 1);
             for(unsigned int i=0; i<textProgram.size(); i++)
-                    emit InsertToListMode(textProgram[i][0], textProgram[i][2], textProgram[i][3]);
+                    emit insertToListMode(textProgram[i][0], textProgram[i][2], textProgram[i][3]);
         }
         file.close();
     }

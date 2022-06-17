@@ -13,12 +13,13 @@
 class AppCore : public QObject
 {
     Q_OBJECT
+
 public:
     explicit AppCore(QObject *parent = 0);
 
 signals:
     // Сигнал для передачи данных в qml-интерфейс
-    void InsertToListMode(QString name, QString tool, QString base);
+    void insertToListMode(QString name, QString tool, QString base);
 
 public slots:
     void createFile(QString fileName, QString path);
