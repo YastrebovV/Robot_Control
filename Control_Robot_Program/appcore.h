@@ -20,18 +20,24 @@ public:
 signals:
     // Сигнал для передачи данных в qml-интерфейс
     void insertToListMode(QString name, QString tool, QString base);
+    void clearListMode();
 
 public slots:
     void createFile(QString fileName, QString path);
     void deleteFile(QString fileName, QString path);
     void openFile(QString fileName, QString path);
-    void writeToFile(QString fileName,
+    void writeToFile(const QString& fileName,
+                     const QString& path,
+                     const QDomDocument& domDoc);
+    void writeLineToFile(QString fileName,
                      QString path,
                      QString type,
                      QString name,
                      QString tool,
                      QString base);
-    QString readFromFile(QString fileName, QString path);
+    void deleteLineFromFile(QString fileName,
+                            QString path,
+                            QString name);
     void jointManMove(int numAxis, double valueOffset);
     void cartesianManMove(int axis, double valueOffset);
     void stopMove();

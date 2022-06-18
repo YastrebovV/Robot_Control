@@ -9,44 +9,8 @@ void AppCore::createFile(QString fileName, QString path)
 {
     //FilesAndFolders_C.createFile(fileName, text);
    domDoc = programcodeXML_C.createDomDoc(fileName);
-   writeToFile(fileName+".xml", path, "PTP", "P1", "1", "1");
+   writeLineToFile(fileName+".xml", path, "PTP", "P1", "1", "1");
 
-}
-
-void traverseNode(const QDomNode& node,
-                  std::vector<std::vector<QString>>& textProgram,
-                  std::vector<std::vector<double>>&  dataProgram,
-                  unsigned int countName,
-                  unsigned int countTag)
-{
-   QDomNode domNode = node.firstChild();
-
-   while(!domNode.isNull()) {
-       if(domNode.isElement()) {
-          QDomElement domElement = domNode.toElement();
-          if(!domElement.isNull()) {
-              if(domElement.tagName() == "point") {
-                  qDebug() << "Attr: "
-                           << domElement.attribute("name", "");
-                  countName++;
-                  countTag=1;
-                  textProgram[countName][0] = domElement.attribute("name", "");
-              }
-              else {
-                  qDebug() << "TagName: " << domElement.tagName()
-                           << "\tText: " << domElement.text();
-                  if(countTag<=3){
-                      textProgram[countName][countTag]=domElement.text();
-                  }else{
-                      dataProgram[countName][countTag-4]=domElement.text().toDouble();
-                  }
-                  countTag++;
-             }
-          }
-       }
-       traverseNode(domNode, textProgram, dataProgram, countName, countTag);
-       domNode = domNode.nextSibling();
-    }
 }
 
 void AppCore::openFile(QString fileName, QString path)
@@ -63,7 +27,9 @@ void AppCore::openFile(QString fileName, QString path)
                textProgram[i].resize(4);
                dataProgram[i].resize(6);
             }
-            traverseNode(domElement, textProgram, dataProgram, -1, 1);
+            programcodeXML_C.traverseNode(domElement, textProgram, dataProgram, -1, 1);
+
+            emit clearListMode();
             for(unsigned int i=0; i<textProgram.size(); i++)
                     emit insertToListMode(textProgram[i][0], textProgram[i][2], textProgram[i][3]);
         }
@@ -75,8 +41,18 @@ void AppCore::deleteFile(QString fileName, QString path)
 {
     FilesAndFolders_C.deleteFile(path+"/"+fileName);
 }
+void AppCore::writeToFile(const QString& fileName,
+                          const QString& path,
+                          const QDomDocument& domDoc)
+{
+    QFile file(path+"/"+fileName);
+    if(file.open(QIODevice::WriteOnly)) {
+        QTextStream(&file) << domDoc.toString();
+        file.close();
+    }
+}
 
-void AppCore::writeToFile(QString fileName,
+void AppCore::writeLineToFile(QString fileName,
                           QString path,
                           QString type,
                           QString name,
@@ -92,9 +68,13 @@ void AppCore::writeToFile(QString fileName,
     }
 }
 
-QString AppCore::readFromFile(QString fileName, QString path)
+void AppCore::deleteLineFromFile(QString fileName,
+                                 QString path,
+                                 QString name)
 {
-   return FilesAndFolders_C.readFromFile(path+"/"+fileName+".xml");
+    QDomElement domElement= domDoc.documentElement();
+    programcodeXML_C.deleteNode(domElement, name);
+    writeToFile(fileName, path, domDoc);
 }
 
 std::vector<QString> AppCore::getActCoord()

@@ -88,13 +88,7 @@ Item {
                               Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text})
             }
 
-            appCore.writeToFile(file, path, "PTP", textNamePoint.text, textNumTool.text, textNumBase.text)
- //           var strArr = []
- //           for(var i = 0; i < listModel.count; i++){
- //               strArr[i] = listModel.get(i).name.split(' ')[2] + "," + listModel.get(i).Tool.split(' ')[2] +","+ listModel.get(i).Base.split(' ')[2]
- //           }
-
-
+            appCore.writeLineToFile(file, path, "PTP", textNamePoint.text, textNumTool.text, textNumBase.text)
         }
     }
 }

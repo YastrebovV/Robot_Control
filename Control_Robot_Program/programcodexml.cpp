@@ -85,4 +85,72 @@ void programcodeXML::writeToDomDoc(QDomDocument& domDoc,
     domElement.appendChild(point);
 }
 
+void programcodeXML::traverseNode(const QDomNode& node,
+                  std::vector<std::vector<QString>>& textProgram,
+                  std::vector<std::vector<double>>&  dataProgram,
+                  unsigned int countName,
+                  unsigned int countTag)
+{
+   QDomNode domNode = node.firstChild();
 
+   while(!domNode.isNull()) {
+       if(domNode.isElement()) {
+          QDomElement domElement = domNode.toElement();
+          if(!domElement.isNull()) {
+              if(domElement.tagName() == "point") {
+                 // qDebug() << "Attr: "
+                       //    << domElement.attribute("name", "");
+                  countName++;
+                  countTag=1;
+                  textProgram[countName][0] = domElement.attribute("name", "");
+              }
+              else {
+                  //qDebug() << "TagName: " << domElement.tagName()
+                          // << "\tText: " << domElement.text();
+                  if(countTag<=3){
+                      textProgram[countName][countTag]=domElement.text();
+                  }else{
+                      dataProgram[countName][countTag-4]=domElement.text().toDouble();
+                  }
+                  countTag++;
+             }
+          }
+       }
+       traverseNode(domNode, textProgram, dataProgram, countName, countTag);
+       domNode = domNode.nextSibling();
+    }
+}
+
+void programcodeXML::deleteNode(QDomNode& node, const QString& name)
+{
+    QDomNode domNode = node.firstChild();
+
+    while(!domNode.isNull()) {
+        if(domNode.isElement()) {
+           QDomElement domElement = domNode.toElement();
+           if(!domElement.isNull()) {
+               if(domElement.tagName() == "point") {
+                    qDebug() << "Attr: "
+                             << domElement.attribute("name", "");
+                   if (domElement.attribute("name", "") == name){
+                        domNode.removeChild(domElement);
+                        break;
+                   }
+              }
+           }
+        }
+        deleteNode(domNode, name);
+        domNode = domNode.nextSibling();
+//    QDomNodeList nodes = domDoc.elementsByTagName("point");
+//    for (int i = 0; i < nodes.count(); ++i)
+//    {
+//        QDomNode node = nodes.at(i);
+//        QDomElement child = node.firstChildElement("point");
+//        child.attribute("name", "")
+//        if (!child.isNull() && child.attribute("name") == name)
+//        {
+//            node.removeChild(child);
+//        }
+//    }
+    }
+}

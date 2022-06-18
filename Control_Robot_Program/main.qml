@@ -44,6 +44,9 @@ ApplicationWindow {
 
         Connections {
             target: appCore // Указываем целевое соединение
+            onClearListMode: {
+                 listModel.clear()
+            }
             onInsertToListMode: {
                  listModel.append({name: " PTP " + name +" ",
                                      Tool: " Tool: "+ tool, Base: " Base: "+ base, Color: "#2e2f30", FontColor: "white"})
@@ -313,13 +316,6 @@ ApplicationWindow {
                     radius: 5
                 }
             }
-
-            Label {
-                id: label3
-                x: 37
-                y: 564
-                text: qsTr("Label")
-            }
         }
 
         // вторая вкладка SwipeView
@@ -531,6 +527,26 @@ ApplicationWindow {
                 }
             }
 
+            Dialog {
+                id: dialogDelLine
+                x: 250
+                y: 250
+                width: 350
+                height: 150
+                title: "Удалить линию"
+                modal: false
+                standardButtons: Dialog.Ok | Dialog.Cancel
+
+                onAccepted: {
+                    var splitText = listModel.get(index_ext).name.split(" ")
+                    appCore.deleteLineFromFile(file, path, splitText[2])
+                    listModel.remove(index_ext)
+
+                   // listModel.set(index_ext, {name: " PTP " + textNamePoint.text+" ",
+                               //   Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text})
+                }
+            }
+
             Button {
                 id: butDelLine
                 x: 219
@@ -556,7 +572,8 @@ ApplicationWindow {
                 flat: true
 
                 onClicked: {
-                      listModel.remove(index_ext)
+
+                    dialogDelLine.open()
                 }
             }
 

@@ -23,6 +23,12 @@ public:
                         const QString& name,
                         const QString& tool,
                         const QString& base);
+    void traverseNode(const QDomNode& node,
+                      std::vector<std::vector<QString>>& textProgram,
+                      std::vector<std::vector<double>>&  dataProgram,
+                      unsigned int countName,
+                      unsigned int countTag);
+    void deleteNode(QDomNode& node, const QString& name);
 
 private:
     QDomElement makeElement(      QDomDocument& domDoc,
