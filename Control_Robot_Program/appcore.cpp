@@ -68,6 +68,16 @@ void AppCore::writeLineToFile(QString fileName,
     }
 }
 
+void AppCore::changeLineInFile(QString fileName,
+                                QString path,
+                                QString type,
+                                QString name,
+                                QString tool,
+                                QString base)
+{
+
+}
+
 void AppCore::deleteLineFromFile(QString fileName,
                                  QString path,
                                  QString name)

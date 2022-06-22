@@ -35,6 +35,12 @@ public slots:
                      QString name,
                      QString tool,
                      QString base);
+    void changeLineInFile(QString fileName,
+                                    QString path,
+                                    QString type,
+                                    QString name,
+                                    QString tool,
+                                    QString base);
     void deleteLineFromFile(QString fileName,
                             QString path,
                             QString name);

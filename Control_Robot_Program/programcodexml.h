@@ -29,6 +29,15 @@ public:
                       unsigned int countName,
                       unsigned int countTag);
     void deleteNode(QDomNode& node, const QString& name);
+    void changeLineInDomDoc(QDomNode& node,
+                                   const QString& type,
+                                   const QString& name,
+                                   const QString& tool,
+                                   const QString& base,
+                            std::vector<std::vector<QString>>& textProgram,
+                            std::vector<std::vector<double>>&  dataProgram,
+                            unsigned int countName,
+                            unsigned int countTag);
 
 private:
     QDomElement makeElement(      QDomDocument& domDoc,

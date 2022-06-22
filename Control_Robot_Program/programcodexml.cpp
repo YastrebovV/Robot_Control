@@ -98,15 +98,14 @@ void programcodeXML::traverseNode(const QDomNode& node,
           QDomElement domElement = domNode.toElement();
           if(!domElement.isNull()) {
               if(domElement.tagName() == "point") {
-                 // qDebug() << "Attr: "
-                       //    << domElement.attribute("name", "");
+                  qDebug() << "Attr: "
+                           << domElement.attribute("name", "");
                   countName++;
                   countTag=1;
                   textProgram[countName][0] = domElement.attribute("name", "");
-              }
-              else {
-                  //qDebug() << "TagName: " << domElement.tagName()
-                          // << "\tText: " << domElement.text();
+              }else {
+                  qDebug() << "TagName: " << domElement.tagName()
+                           << "\tText: " << domElement.text();
                   if(countTag<=3){
                       textProgram[countName][countTag]=domElement.text();
                   }else{
@@ -130,10 +129,11 @@ void programcodeXML::deleteNode(QDomNode& node, const QString& name)
            QDomElement domElement = domNode.toElement();
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
-                    qDebug() << "Attr: "
-                             << domElement.attribute("name", "");
+                    //qDebug() << "Attr: "
+                            // << domElement.attribute("name", "");
                    if (domElement.attribute("name", "") == name){
-                        domNode.removeChild(domElement);
+                       QDomNode parentNode = domNode.parentNode();
+                       parentNode.removeChild(domNode);
                         break;
                    }
               }
@@ -141,16 +141,56 @@ void programcodeXML::deleteNode(QDomNode& node, const QString& name)
         }
         deleteNode(domNode, name);
         domNode = domNode.nextSibling();
-//    QDomNodeList nodes = domDoc.elementsByTagName("point");
-//    for (int i = 0; i < nodes.count(); ++i)
-//    {
-//        QDomNode node = nodes.at(i);
-//        QDomElement child = node.firstChildElement("point");
-//        child.attribute("name", "")
-//        if (!child.isNull() && child.attribute("name") == name)
-//        {
-//            node.removeChild(child);
-//        }
-//    }
     }
 }
+
+
+void programcodeXML::changeLineInDomDoc(QDomNode& node,
+                                        const QString& type,
+                                        const QString& name,
+                                        const QString& tool,
+                                        const QString& base,
+                                        std::vector<std::vector<QString>>& textProgram,
+                                        std::vector<std::vector<double>>&  dataProgram,
+                                        unsigned int countName,
+                                        unsigned int countTag)
+{
+    QDomNode domNode = node.firstChild();
+
+    while(!domNode.isNull()) {
+        if(domNode.isElement()) {
+           QDomElement domElement = domNode.toElement();
+           if(!domElement.isNull()) {
+               if(domElement.tagName() == "point") {
+                   if (domElement.attribute("name", "") == name){
+
+
+                   }
+              }else{
+//                   QDomElement domElement = node.createElement("tool");
+
+//                    QDomText domText = domDoc.createTextNode(tool);
+//                    domElement.appendChild(domText);
+
+//                    QDomNode parentNode = domNode.parentNode();
+//                    parentNode.removeChild(domNode);
+//                    parentNode.replaceChild()
+//                     break;
+               }
+//               if(domElement.tagName() == "point") {
+//                   countName++;
+//                   countTag=1;
+//                   textProgram[countName][0] = domElement.attribute("name", "");
+//               }else {
+//                   if(countTag<=3){
+//                       textProgram[countName][countTag]=domElement.text();
+//                   }
+//                   countTag++;
+//              }
+           }
+        }
+        deleteNode(domNode, name);
+        domNode = domNode.nextSibling();
+    }
+}
+

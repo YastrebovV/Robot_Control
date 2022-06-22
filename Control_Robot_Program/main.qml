@@ -40,7 +40,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 0
+        currentIndex: 1
 
         Connections {
             target: appCore // Указываем целевое соединение
