@@ -40,7 +40,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 1
+        currentIndex: 0
 
         Connections {
             target: appCore // Указываем целевое соединение
@@ -48,8 +48,8 @@ ApplicationWindow {
                  listModel.clear()
             }
             onInsertToListMode: {
-                 listModel.append({name: " PTP " + name +" ",
-                                     Tool: " Tool: "+ tool, Base: " Base: "+ base, Color: "#2e2f30", FontColor: "white"})
+                 listModel.append({type: "PTP", name: name ,
+                                     Tool: tool, Base: base, Color: "#2e2f30", FontColor: "white"})
                  swipeView.currentIndex = 1
             }
         }
@@ -271,22 +271,7 @@ ApplicationWindow {
                     radius: 5
                 }
                 onClicked: {
-//                    var readFromFile = appCore.readFromFile(path + "/"+ file)
-//                    var splitText = readFromFile.split('\n');
-//                    var textToFor = "";
-
-//                    for(var i = 0; i < splitText.length; i++){
-//                       textToFor +=  splitText[i]
-//                       if(splitText[i]==="</font> "){
-
-//                        }
-//                    }
-
-//                    actTextProg = ""
                     appCore.openFile(file, path)
-                   // listModel.append({name: " PTP " + textNamePoint.text+" ",
-                                 //        Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text, Color: "#2e2f30", FontColor: "white"})
-                   // swipeView.currentIndex = 1
                 }
             }
 
@@ -361,7 +346,7 @@ ApplicationWindow {
                                      font.pointSize: 12
                                      x: 10
                                      y: 3
-                                     text: name + Tool + Base
+                                     text: type+ " " + name + " Tool: " + Tool +" Base: " + Base
                                  }
                              }
 
@@ -538,12 +523,9 @@ ApplicationWindow {
                 standardButtons: Dialog.Ok | Dialog.Cancel
 
                 onAccepted: {
-                    var splitText = listModel.get(index_ext).name.split(" ")
-                    appCore.deleteLineFromFile(file, path, splitText[2])
+                    var nameForDel = listModel.get(index_ext).name
+                    appCore.deleteLineFromFile(file, path, nameForDel)
                     listModel.remove(index_ext)
-
-                   // listModel.set(index_ext, {name: " PTP " + textNamePoint.text+" ",
-                               //   Tool: " Tool: "+ textNumTool.text, Base: " Base: "+ textNumBase.text})
                 }
             }
 

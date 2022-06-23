@@ -1,9 +1,9 @@
 <!DOCTYPE TEST>
 <TEST>
- <point name="P1">
+ <point name="start1">
   <type>PTP</type>
-  <tool>1</tool>
-  <base>1</base>
+  <tool>12</tool>
+  <base>13</base>
   <x>0</x>
   <y>0</y>
   <z>0</z>
@@ -11,10 +11,21 @@
   <b>0</b>
   <c>0</c>
  </point>
- <point name="P3">
+ <point name="end">
   <type>PTP</type>
-  <tool>3</tool>
-  <base>3</base>
+  <tool>2</tool>
+  <base>2</base>
+  <x>0</x>
+  <y>0</y>
+  <z>0</z>
+  <a>0</a>
+  <b>0</b>
+  <c>0</c>
+ </point>
+ <point name="p2">
+  <type>PTP</type>
+  <tool>12</tool>
+  <base>13</base>
   <x>0</x>
   <y>0</y>
   <z>0</z>

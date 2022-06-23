@@ -71,11 +71,15 @@ void AppCore::writeLineToFile(QString fileName,
 void AppCore::changeLineInFile(QString fileName,
                                 QString path,
                                 QString type,
-                                QString name,
+                                QString newname,
+                                QString oldname,
                                 QString tool,
                                 QString base)
 {
+    QDomElement domElement= domDoc.documentElement();
 
+    programcodeXML_C.changeLineInDomDoc(domElement, type, newname, oldname, tool, base, textProgram, dataProgram, -1, 1, false);
+    writeToFile(fileName, path, domDoc);
 }
 
 void AppCore::deleteLineFromFile(QString fileName,

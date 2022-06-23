@@ -31,13 +31,15 @@ public:
     void deleteNode(QDomNode& node, const QString& name);
     void changeLineInDomDoc(QDomNode& node,
                                    const QString& type,
-                                   const QString& name,
+                                   const QString& newname,
+                                   const QString& oldname,
                                    const QString& tool,
                                    const QString& base,
                             std::vector<std::vector<QString>>& textProgram,
                             std::vector<std::vector<double>>&  dataProgram,
                             unsigned int countName,
-                            unsigned int countTag);
+                            unsigned int countTag,
+                            bool nameTrue);
 
 private:
     QDomElement makeElement(      QDomDocument& domDoc,

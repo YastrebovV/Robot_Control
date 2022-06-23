@@ -98,14 +98,14 @@ void programcodeXML::traverseNode(const QDomNode& node,
           QDomElement domElement = domNode.toElement();
           if(!domElement.isNull()) {
               if(domElement.tagName() == "point") {
-                  qDebug() << "Attr: "
-                           << domElement.attribute("name", "");
+                 // qDebug() << "Attr: "
+                         //  << domElement.attribute("name", "");
                   countName++;
                   countTag=1;
                   textProgram[countName][0] = domElement.attribute("name", "");
               }else {
-                  qDebug() << "TagName: " << domElement.tagName()
-                           << "\tText: " << domElement.text();
+                  //qDebug() << "TagName: " << domElement.tagName()
+                          // << "\tText: " << domElement.text();
                   if(countTag<=3){
                       textProgram[countName][countTag]=domElement.text();
                   }else{
@@ -147,14 +147,17 @@ void programcodeXML::deleteNode(QDomNode& node, const QString& name)
 
 void programcodeXML::changeLineInDomDoc(QDomNode& node,
                                         const QString& type,
-                                        const QString& name,
+                                        const QString& newname,
+                                        const QString& oldname,
                                         const QString& tool,
                                         const QString& base,
                                         std::vector<std::vector<QString>>& textProgram,
                                         std::vector<std::vector<double>>&  dataProgram,
                                         unsigned int countName,
-                                        unsigned int countTag)
+                                        unsigned int countTag,
+                                        bool nameTrue)
 {
+
     QDomNode domNode = node.firstChild();
 
     while(!domNode.isNull()) {
@@ -162,35 +165,43 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
            QDomElement domElement = domNode.toElement();
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
-                   if (domElement.attribute("name", "") == name){
+                  // qDebug() << "Attr: "
+                         //   << domElement.attribute("name", "");
+                   nameTrue = false;
+                   countName++;
+                   countTag=1;
 
-
+                   if (domElement.attribute("name", "") == oldname){
+                       domElement.removeAttribute("name");
+                       domElement.setAttribute("name", newname);
+                       nameTrue = true;
                    }
-              }else{
-//                   QDomElement domElement = node.createElement("tool");
+                   textProgram[countName][0] = domElement.attribute("name", "");
+               }else {
+                   //qDebug() << "TagName: " << domElement.tagName()
+                           // << "\tText: " << domElement.text();
+                   if(countTag<=3){
+                       if(nameTrue){
+                            QDomText t = domElement.firstChild().toText();
+                            if(domElement.tagName() == "type") {
 
-//                    QDomText domText = domDoc.createTextNode(tool);
-//                    domElement.appendChild(domText);
-
-//                    QDomNode parentNode = domNode.parentNode();
-//                    parentNode.removeChild(domNode);
-//                    parentNode.replaceChild()
-//                     break;
-               }
-//               if(domElement.tagName() == "point") {
-//                   countName++;
-//                   countTag=1;
-//                   textProgram[countName][0] = domElement.attribute("name", "");
-//               }else {
-//                   if(countTag<=3){
-//                       textProgram[countName][countTag]=domElement.text();
-//                   }
-//                   countTag++;
-//              }
+                            }
+                            if(domElement.tagName()== "tool") {
+                              t.setData(tool);
+                            }
+                            if(domElement.tagName() == "base") {
+                              t.setData(base);
+                            }
+                       }
+                       textProgram[countName][countTag]=domElement.text();
+                   }
+                   countTag++;
+              }
            }
         }
-        deleteNode(domNode, name);
+        changeLineInDomDoc(domNode, type, newname, oldname, tool, base, textProgram, dataProgram, countName, countTag, nameTrue);
         domNode = domNode.nextSibling();
-    }
+     }
+
 }
 
