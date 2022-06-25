@@ -81,9 +81,9 @@ Item {
 
         onAccepted: {
             if(newornot){
-                listModel.append({type: "PTP", name: textNamePoint.text,
+                listModel.insert(index_ext+1,{type: "PTP", name: textNamePoint.text,
                                      Tool: textNumTool.text, Base: textNumBase.text, Color: "#2e2f30", FontColor: "white"})
-                appCore.writeLineToFile(file, path, "PTP", textNamePoint.text, textNumTool.text, textNumBase.text)
+                appCore.writeLineToFile(file, path, "PTP", textNamePoint.text, textNumTool.text, textNumBase.text, index_ext+1)
             }else{
                 var oldName = listModel.get(index_ext).name;
                 listModel.set(index_ext, {type: "PTP", name: textNamePoint.text,

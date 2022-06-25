@@ -1,36 +1,8 @@
-<!DOCTYPE TEST>
-<TEST>
- <point name="start1">
-  <type>PTP</type>
-  <tool>12</tool>
-  <base>13</base>
-  <x>0</x>
-  <y>0</y>
-  <z>0</z>
-  <a>0</a>
-  <b>0</b>
-  <c>0</c>
- </point>
- <point name="end">
-  <type>PTP</type>
-  <tool>2</tool>
-  <base>2</base>
-  <x>0</x>
-  <y>0</y>
-  <z>0</z>
-  <a>0</a>
-  <b>0</b>
-  <c>0</c>
- </point>
- <point name="p2">
-  <type>PTP</type>
-  <tool>12</tool>
-  <base>13</base>
-  <x>0</x>
-  <y>0</y>
-  <z>0</z>
-  <a>0</a>
-  <b>0</b>
-  <c>0</c>
- </point>
-</TEST>
+<!DOCTYPE TEST3>
+<TEST3>
+ <point base="1" b="0" id="0" z="0" y="0" name="START" a="0" tool="1" type="PTP" x="0" c="0"/>
+ <point base="6" b="0" id="4" z="0" y="0" name="END" a="0" tool="6" type="PTP" x="0" c="0"/>
+ <point base="2" b="0" id="1" z="0" y="0" name="P2" a="0" tool="2" type="PTP" x="0" c="0"/>
+ <point base="3" b="0" id="2" z="0" y="0" name="P3" a="0" tool="3" type="PTP" x="0" c="0"/>
+ <point base="4" b="0" id="3" z="0" y="0" name="P4" a="0" tool="4" type="PTP" x="0" c="0"/>
+</TEST3>

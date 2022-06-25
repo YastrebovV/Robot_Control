@@ -27,14 +27,14 @@ public slots:
     void deleteFile(QString fileName, QString path);
     void openFile(QString fileName, QString path);
     void writeToFile(const QString& fileName,
-                     const QString& path,
-                     const QDomDocument& domDoc);
+                     const QString& path);
     void writeLineToFile(QString fileName,
                      QString path,
                      QString type,
                      QString name,
                      QString tool,
-                     QString base);
+                     QString base,
+                     QString id);
     void changeLineInFile(QString fileName,
                           QString path,
                           QString type,

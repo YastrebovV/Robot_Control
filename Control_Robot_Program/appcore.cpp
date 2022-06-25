@@ -9,7 +9,7 @@ void AppCore::createFile(QString fileName, QString path)
 {
     //FilesAndFolders_C.createFile(fileName, text);
    domDoc = programcodeXML_C.createDomDoc(fileName);
-   writeLineToFile(fileName+".xml", path, "PTP", "P1", "1", "1");
+   writeToFile(fileName+".xml", path);
 
 }
 
@@ -42,8 +42,7 @@ void AppCore::deleteFile(QString fileName, QString path)
     FilesAndFolders_C.deleteFile(path+"/"+fileName);
 }
 void AppCore::writeToFile(const QString& fileName,
-                          const QString& path,
-                          const QDomDocument& domDoc)
+                          const QString& path)
 {
     QFile file(path+"/"+fileName);
     if(file.open(QIODevice::WriteOnly)) {
@@ -57,9 +56,11 @@ void AppCore::writeLineToFile(QString fileName,
                           QString type,
                           QString name,
                           QString tool,
-                          QString base)
-{  
-    programcodeXML_C.writeToDomDoc(domDoc, type, name, tool, base);
+                          QString base,
+                          QString id)
+{
+    QDomElement domElement= domDoc.documentElement();
+    programcodeXML_C.writeToDomDoc(domDoc, type, name, tool, base, id);
 
     QFile file(path+"/"+fileName);
     if(file.open(QIODevice::WriteOnly)) {
@@ -78,8 +79,8 @@ void AppCore::changeLineInFile(QString fileName,
 {
     QDomElement domElement= domDoc.documentElement();
 
-    programcodeXML_C.changeLineInDomDoc(domElement, type, newname, oldname, tool, base, textProgram, dataProgram, -1, 1, false);
-    writeToFile(fileName, path, domDoc);
+    programcodeXML_C.changeLineInDomDoc(domElement, type, newname, oldname, tool, base, textProgram, dataProgram, -1, 1);
+    writeToFile(fileName, path);
 }
 
 void AppCore::deleteLineFromFile(QString fileName,
@@ -88,7 +89,7 @@ void AppCore::deleteLineFromFile(QString fileName,
 {
     QDomElement domElement= domDoc.documentElement();
     programcodeXML_C.deleteNode(domElement, name);
-    writeToFile(fileName, path, domDoc);
+    writeToFile(fileName, path);
 }
 
 std::vector<QString> AppCore::getActCoord()

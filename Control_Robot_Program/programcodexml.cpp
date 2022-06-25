@@ -5,24 +5,20 @@ programcodeXML::programcodeXML()
 
 }
 
-QDomElement programcodeXML::makeElement(      QDomDocument& domDoc,
-                        const QString&      strName,
-                        const QString&      strAttr,
-                        const QString&      strText
+QDomElement programcodeXML::makeElement(QDomDocument& domDoc,
+                        const QString& elemName,
+                        const std::vector<QString>&  arrAttr,
+                        const std::vector<QString>&  dataAttr
                        )
 {
-    QDomElement domElement = domDoc.createElement(strName);
-
-    if (!strAttr.isEmpty()) {
-        QDomAttr domAttr = domDoc.createAttribute("name");
-        domAttr.setValue(strAttr);
+    QDomElement domElement = domDoc.createElement(elemName);
+    QDomAttr domAttr;
+    for(unsigned int i =0; i < arrAttr.size(); i++){
+        QDomAttr domAttr = domDoc.createAttribute(arrAttr[i]);
+        domAttr.setValue(dataAttr[i]);
         domElement.setAttributeNode(domAttr);
     }
 
-    if (!strText.isEmpty()) {
-        QDomText domText = domDoc.createTextNode(strText);
-        domElement.appendChild(domText);
-    }
     return domElement;
 }
 
@@ -31,24 +27,20 @@ QDomElement programcodeXML::addPoint(      QDomDocument& domDoc,
                     const QString&      strName,
                     const QString&      strTool,
                     const QString&      strBase,
+                    const QString& id,
                     const coords&       coords
                    )
 {
+    std::vector<QString> nameAttr;
+    std::vector<QString> dataAttr;
 
-    QDomElement domElement = makeElement(domDoc,
-                                         "point",
-                                         strName
-                                        );
+    nameAttr.assign({"id", "type", "name", "tool", "base", "x", "y", "z", "a", "b", "c"});
+    dataAttr.assign({id, strType, strName, strTool, strBase,
+                    QString::number(coords.x), QString::number(coords.y),
+                    QString::number(coords.z), QString::number(coords.a),
+                    QString::number(coords.b), QString::number(coords.c)});
 
-    domElement.appendChild(makeElement(domDoc, "type", "", strType));
-    domElement.appendChild(makeElement(domDoc, "tool", "", strTool));
-    domElement.appendChild(makeElement(domDoc, "base", "", strBase));
-    domElement.appendChild(makeElement(domDoc, "x", "", QString::number(coords.x)));
-    domElement.appendChild(makeElement(domDoc, "y", "", QString::number(coords.y)));
-    domElement.appendChild(makeElement(domDoc, "z", "", QString::number(coords.z)));
-    domElement.appendChild(makeElement(domDoc, "a", "", QString::number(coords.a)));
-    domElement.appendChild(makeElement(domDoc, "b", "", QString::number(coords.b)));
-    domElement.appendChild(makeElement(domDoc, "c", "", QString::number(coords.c)));
+    QDomElement domElement = makeElement(domDoc,"point", nameAttr, dataAttr);
 
     return domElement;
 }
@@ -65,7 +57,8 @@ void programcodeXML::writeToDomDoc(QDomDocument& domDoc,
                                const QString& type,
                                const QString& name,
                                const QString& tool,
-                               const QString& base)
+                               const QString& base,
+                               const QString& id)
 {
     coords coordsLocal;
 
@@ -79,9 +72,11 @@ void programcodeXML::writeToDomDoc(QDomDocument& domDoc,
     coordsLocal.b = ActCoord[4];
     coordsLocal.c = ActCoord[5];
 
+    QDomElement domElement1= domDoc.documentElement();
 
-    QDomElement point = addPoint(domDoc, type, name, tool, base, coordsLocal);
+    changeLineId(domElement1, id);
 
+    QDomElement point = addPoint(domDoc, type, name, tool, base, id, coordsLocal);
     domElement.appendChild(point);
 }
 
@@ -98,21 +93,20 @@ void programcodeXML::traverseNode(const QDomNode& node,
           QDomElement domElement = domNode.toElement();
           if(!domElement.isNull()) {
               if(domElement.tagName() == "point") {
-                 // qDebug() << "Attr: "
-                         //  << domElement.attribute("name", "");
-                  countName++;
-                  countTag=1;
+
+                  countName = domElement.attribute("id", "").toUInt();
+
                   textProgram[countName][0] = domElement.attribute("name", "");
-              }else {
-                  //qDebug() << "TagName: " << domElement.tagName()
-                          // << "\tText: " << domElement.text();
-                  if(countTag<=3){
-                      textProgram[countName][countTag]=domElement.text();
-                  }else{
-                      dataProgram[countName][countTag-4]=domElement.text().toDouble();
-                  }
-                  countTag++;
-             }
+                  textProgram[countName][1] = domElement.attribute("type", "");
+                  textProgram[countName][2] = domElement.attribute("tool", "");
+                  textProgram[countName][3] = domElement.attribute("base", "");
+                  dataProgram[countName][0] = domElement.attribute("x", "").toDouble();
+                  dataProgram[countName][1] = domElement.attribute("y", "").toDouble();
+                  dataProgram[countName][2] = domElement.attribute("z", "").toDouble();
+                  dataProgram[countName][3] = domElement.attribute("a", "").toDouble();
+                  dataProgram[countName][4] = domElement.attribute("b", "").toDouble();
+                  dataProgram[countName][5] = domElement.attribute("c", "").toDouble();
+              }
           }
        }
        traverseNode(domNode, textProgram, dataProgram, countName, countTag);
@@ -144,7 +138,6 @@ void programcodeXML::deleteNode(QDomNode& node, const QString& name)
     }
 }
 
-
 void programcodeXML::changeLineInDomDoc(QDomNode& node,
                                         const QString& type,
                                         const QString& newname,
@@ -154,8 +147,7 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
                                         std::vector<std::vector<QString>>& textProgram,
                                         std::vector<std::vector<double>>&  dataProgram,
                                         unsigned int countName,
-                                        unsigned int countTag,
-                                        bool nameTrue)
+                                        unsigned int countTag)
 {
 
     QDomNode domNode = node.firstChild();
@@ -165,43 +157,51 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
            QDomElement domElement = domNode.toElement();
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
-                  // qDebug() << "Attr: "
-                         //   << domElement.attribute("name", "");
-                   nameTrue = false;
-                   countName++;
-                   countTag=1;
+
+                   countName = domElement.attribute("id", "").toUInt();
 
                    if (domElement.attribute("name", "") == oldname){
                        domElement.removeAttribute("name");
                        domElement.setAttribute("name", newname);
-                       nameTrue = true;
+                       domElement.removeAttribute("type");
+                       domElement.setAttribute("type", type);
+                       domElement.removeAttribute("tool");
+                       domElement.setAttribute("tool", tool);
+                       domElement.removeAttribute("base");
+                       domElement.setAttribute("base", base);
                    }
                    textProgram[countName][0] = domElement.attribute("name", "");
-               }else {
-                   //qDebug() << "TagName: " << domElement.tagName()
-                           // << "\tText: " << domElement.text();
-                   if(countTag<=3){
-                       if(nameTrue){
-                            QDomText t = domElement.firstChild().toText();
-                            if(domElement.tagName() == "type") {
-
-                            }
-                            if(domElement.tagName()== "tool") {
-                              t.setData(tool);
-                            }
-                            if(domElement.tagName() == "base") {
-                              t.setData(base);
-                            }
-                       }
-                       textProgram[countName][countTag]=domElement.text();
-                   }
-                   countTag++;
-              }
+                   textProgram[countName][1] = domElement.attribute("type", "");
+                   textProgram[countName][2] = domElement.attribute("tool", "");
+                   textProgram[countName][3] = domElement.attribute("base", "");
+               }
            }
         }
-        changeLineInDomDoc(domNode, type, newname, oldname, tool, base, textProgram, dataProgram, countName, countTag, nameTrue);
+        changeLineInDomDoc(domNode, type, newname, oldname, tool, base, textProgram, dataProgram, countName, countTag);
         domNode = domNode.nextSibling();
      }
 
 }
 
+void programcodeXML::changeLineId(QDomNode& node,
+                                  const QString& id)
+{
+    QDomNode domNode = node.firstChild();
+
+    while(!domNode.isNull()) {
+        if(domNode.isElement()) {
+           QDomElement domElement = domNode.toElement();
+           if(!domElement.isNull()) {
+               if(domElement.tagName() == "point") {
+                   if (domElement.attribute("id", "") == id){
+                       domElement.removeAttribute("id");
+                       QString tempStr = QString::number(id.toUInt()+1);
+                       domElement.setAttribute("id", tempStr);
+                   }
+               }
+           }
+        }
+        changeLineId(domNode, id);
+        domNode = domNode.nextSibling();
+     }
+}

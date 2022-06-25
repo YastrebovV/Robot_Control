@@ -22,7 +22,8 @@ public:
                         const QString& type,
                         const QString& name,
                         const QString& tool,
-                        const QString& base);
+                        const QString& base,
+                        const QString& id);
     void traverseNode(const QDomNode& node,
                       std::vector<std::vector<QString>>& textProgram,
                       std::vector<std::vector<double>>&  dataProgram,
@@ -38,22 +39,24 @@ public:
                             std::vector<std::vector<QString>>& textProgram,
                             std::vector<std::vector<double>>&  dataProgram,
                             unsigned int countName,
-                            unsigned int countTag,
-                            bool nameTrue);
+                            unsigned int countTag);
 
 private:
-    QDomElement makeElement(      QDomDocument& domDoc,
-                            const QString&      strName,
-                            const QString&      strAttr = QString::null,
-                            const QString&      strText = QString::null
+    QDomElement makeElement(QDomDocument& domDoc,
+                            const QString& elemName,
+                            const std::vector<QString>&  arrAttr,
+                            const std::vector<QString>&  dataAttr
                            );
     QDomElement addPoint(      QDomDocument& domDoc,
                         const QString&      strType,
                         const QString&      strName,
                         const QString&      strTool,
                         const QString&      strBase,
+                        const QString& id,
                         const coords&       coords
                        );
+    void changeLineId(QDomNode& node,
+                      const QString& id);
     RobotControl RobotControl_C;
 
 };
