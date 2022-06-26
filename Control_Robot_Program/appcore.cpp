@@ -85,9 +85,11 @@ void AppCore::changeLineInFile(QString fileName,
 
 void AppCore::deleteLineFromFile(QString fileName,
                                  QString path,
-                                 QString name)
+                                 QString name,
+                                 QString id)
 {
     QDomElement domElement= domDoc.documentElement();
+    programcodeXML_C.changeIdWhenDelLine(domElement, id);
     programcodeXML_C.deleteNode(domElement, name);
     writeToFile(fileName, path);
 }

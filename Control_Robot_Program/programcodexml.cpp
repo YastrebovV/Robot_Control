@@ -27,7 +27,7 @@ QDomElement programcodeXML::addPoint(      QDomDocument& domDoc,
                     const QString&      strName,
                     const QString&      strTool,
                     const QString&      strBase,
-                    const QString& id,
+                    const QString&      id,
                     const coords&       coords
                    )
 {
@@ -123,8 +123,6 @@ void programcodeXML::deleteNode(QDomNode& node, const QString& name)
            QDomElement domElement = domNode.toElement();
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
-                    //qDebug() << "Attr: "
-                            // << domElement.attribute("name", "");
                    if (domElement.attribute("name", "") == name){
                        QDomNode parentNode = domNode.parentNode();
                        parentNode.removeChild(domNode);
@@ -193,9 +191,32 @@ void programcodeXML::changeLineId(QDomNode& node,
            QDomElement domElement = domNode.toElement();
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
-                   if (domElement.attribute("id", "") == id){
+                   if (domElement.attribute("id", "").toUInt() >= id.toUInt()){
+                       QString tempStr = QString::number(domElement.attribute("id", "").toUInt()+1);
                        domElement.removeAttribute("id");
-                       QString tempStr = QString::number(id.toUInt()+1);
+                       domElement.setAttribute("id", tempStr);
+                   }
+               }
+           }
+        }
+        changeLineId(domNode, id);
+        domNode = domNode.nextSibling();
+     }
+}
+
+void programcodeXML::changeIdWhenDelLine(QDomNode& node,
+                                  const QString& id)
+{
+    QDomNode domNode = node.firstChild();
+
+    while(!domNode.isNull()) {
+        if(domNode.isElement()) {
+           QDomElement domElement = domNode.toElement();
+           if(!domElement.isNull()) {
+               if(domElement.tagName() == "point") {
+                   if (domElement.attribute("id", "").toUInt() > id.toUInt()){
+                       QString tempStr = QString::number(domElement.attribute("id", "").toUInt()-1);
+                       domElement.removeAttribute("id");
                        domElement.setAttribute("id", tempStr);
                    }
                }

@@ -44,7 +44,8 @@ public slots:
                           QString base);
     void deleteLineFromFile(QString fileName,
                             QString path,
-                            QString name);
+                            QString name,
+                            QString id);
     void jointManMove(int numAxis, double valueOffset);
     void cartesianManMove(int axis, double valueOffset);
     void stopMove();

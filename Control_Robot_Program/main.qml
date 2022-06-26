@@ -27,7 +27,7 @@ ApplicationWindow {
     property int base_n: 1
 
     property bool newornot: false
-
+    property bool ifDelEndLine: false
 
 
     DialogNewPoint{id: dialogNPoint}
@@ -355,8 +355,11 @@ ApplicationWindow {
                                 index_ext = index
                                 listModel.set(index_ext, {Color: "white"})
                                 listModel.set(index_ext, {FontColor: "#4c4e50"})
-                                listModel.set(index_ext_priv, {Color: "#2e2f30"})
-                                listModel.set(index_ext_priv, {FontColor: "white"})
+                                if(!ifDelEndLine&&index_ext_priv!=index_ext){
+                                    listModel.set(index_ext_priv, {Color: "#2e2f30"})
+                                    listModel.set(index_ext_priv, {FontColor: "white"})
+                                }
+                                ifDelEndLine = false
                             }
 
                             Keys.onReleased: {
@@ -524,8 +527,9 @@ ApplicationWindow {
 
                 onAccepted: {
                     var nameForDel = listModel.get(index_ext).name
-                    appCore.deleteLineFromFile(file, path, nameForDel)
+                    appCore.deleteLineFromFile(file, path, nameForDel, index_ext)
                     listModel.remove(index_ext)
+                    ifDelEndLine = true
                 }
             }
 

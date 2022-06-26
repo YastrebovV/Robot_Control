@@ -90,8 +90,6 @@ Item {
                               Tool: textNumTool.text, Base: textNumBase.text})
                 appCore.changeLineInFile(file, path, "PTP", textNamePoint.text, oldName, textNumTool.text, textNumBase.text)
             }
-
-
         }
     }
 }

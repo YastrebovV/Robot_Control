@@ -40,6 +40,8 @@ public:
                             std::vector<std::vector<double>>&  dataProgram,
                             unsigned int countName,
                             unsigned int countTag);
+    void changeIdWhenDelLine(QDomNode& node,
+                                      const QString& id);
 
 private:
     QDomElement makeElement(QDomDocument& domDoc,
@@ -57,6 +59,7 @@ private:
                        );
     void changeLineId(QDomNode& node,
                       const QString& id);
+
     RobotControl RobotControl_C;
 
 };
