@@ -80,11 +80,9 @@ void programcodeXML::writeToDomDoc(QDomDocument& domDoc,
     domElement.appendChild(point);
 }
 
-void programcodeXML::traverseNode(const QDomNode& node,
+void programcodeXML::getDataFromDom(const QDomNode& node,
                   std::vector<std::vector<QString>>& textProgram,
-                  std::vector<std::vector<double>>&  dataProgram,
-                  unsigned int countName,
-                  unsigned int countTag)
+                  std::vector<std::vector<double>>&  dataProgram)
 {
    QDomNode domNode = node.firstChild();
 
@@ -94,7 +92,7 @@ void programcodeXML::traverseNode(const QDomNode& node,
           if(!domElement.isNull()) {
               if(domElement.tagName() == "point") {
 
-                  countName = domElement.attribute("id", "").toUInt();
+                  unsigned int countName = domElement.attribute("id", "").toUInt();
 
                   textProgram[countName][0] = domElement.attribute("name", "");
                   textProgram[countName][1] = domElement.attribute("type", "");
@@ -109,7 +107,7 @@ void programcodeXML::traverseNode(const QDomNode& node,
               }
           }
        }
-       traverseNode(domNode, textProgram, dataProgram, countName, countTag);
+       getDataFromDom(domNode, textProgram, dataProgram);
        domNode = domNode.nextSibling();
     }
 }
@@ -141,11 +139,7 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
                                         const QString& newname,
                                         const QString& oldname,
                                         const QString& tool,
-                                        const QString& base,
-                                        std::vector<std::vector<QString>>& textProgram,
-                                        std::vector<std::vector<double>>&  dataProgram,
-                                        unsigned int countName,
-                                        unsigned int countTag)
+                                        const QString& base)
 {
 
     QDomNode domNode = node.firstChild();
@@ -155,8 +149,6 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
            QDomElement domElement = domNode.toElement();
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
-
-                   countName = domElement.attribute("id", "").toUInt();
 
                    if (domElement.attribute("name", "") == oldname){
                        domElement.removeAttribute("name");
@@ -168,14 +160,10 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
                        domElement.removeAttribute("base");
                        domElement.setAttribute("base", base);
                    }
-                   textProgram[countName][0] = domElement.attribute("name", "");
-                   textProgram[countName][1] = domElement.attribute("type", "");
-                   textProgram[countName][2] = domElement.attribute("tool", "");
-                   textProgram[countName][3] = domElement.attribute("base", "");
                }
            }
         }
-        changeLineInDomDoc(domNode, type, newname, oldname, tool, base, textProgram, dataProgram, countName, countTag);
+        changeLineInDomDoc(domNode, type, newname, oldname, tool, base);
         domNode = domNode.nextSibling();
      }
 

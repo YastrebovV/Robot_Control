@@ -40,7 +40,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 0
+        currentIndex: 1
 
         Connections {
             target: appCore // Указываем целевое соединение
@@ -528,7 +528,7 @@ ApplicationWindow {
                 onAccepted: {
                     var nameForDel = listModel.get(index_ext).name
                     appCore.deleteLineFromFile(file, path, nameForDel, index_ext)
-                    listModel.remove(index_ext)
+                   // listModel.remove(index_ext)
                     ifDelEndLine = true
                 }
             }

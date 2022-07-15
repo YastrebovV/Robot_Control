@@ -68,7 +68,8 @@ private:
     QDomDocument domDoc;
     std::vector<std::vector<QString>> textProgram;
     std::vector<std::vector<double>>  dataProgram;
-
+    void resizeVector2(const std::size_t& numRow, const std::size_t& colsRow, std::vector<std::vector<QString>>& vector);
+    void resizeVector2(const std::size_t& numRow, const std::size_t& colsRow, std::vector<std::vector<double>>& vector);
 
 };
 

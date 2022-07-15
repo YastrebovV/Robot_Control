@@ -24,22 +24,16 @@ public:
                         const QString& tool,
                         const QString& base,
                         const QString& id);
-    void traverseNode(const QDomNode& node,
+    void getDataFromDom(const QDomNode& node,
                       std::vector<std::vector<QString>>& textProgram,
-                      std::vector<std::vector<double>>&  dataProgram,
-                      unsigned int countName,
-                      unsigned int countTag);
+                      std::vector<std::vector<double>>&  dataProgram);
     void deleteNode(QDomNode& node, const QString& name);
     void changeLineInDomDoc(QDomNode& node,
                                    const QString& type,
                                    const QString& newname,
                                    const QString& oldname,
                                    const QString& tool,
-                                   const QString& base,
-                            std::vector<std::vector<QString>>& textProgram,
-                            std::vector<std::vector<double>>&  dataProgram,
-                            unsigned int countName,
-                            unsigned int countTag);
+                                   const QString& base);
     void changeIdWhenDelLine(QDomNode& node,
                                       const QString& id);
 

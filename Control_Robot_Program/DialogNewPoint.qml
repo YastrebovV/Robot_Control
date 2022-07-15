@@ -6,8 +6,23 @@ import Qt.labs.folderlistmodel 2.1
 
 Item {
 
+    property int type: 0;
+    property string namePoint: "";
+
     function openDialog()
     {
+        if(!newornot){
+            if(listModel.get(index_ext).type === "PTP"){
+                type = 0;
+            }else{
+                type = 1;
+            }
+
+            namePoint = listModel.get(index_ext).name
+        }else{
+            namePoint = "";
+        }
+
         dialogNewPoint.open()
     }
 
@@ -16,16 +31,46 @@ Item {
         id: dialogNewPoint
         x: 150
         y: 250
-        width: 550
-        height: 150
+        width: 498
+        height: 198
         title: "Введите параметры новой точки"
         modal: false
         standardButtons: Dialog.Ok | Dialog.Cancel
 
         Label {
+            id: labelTypePoint
+            x: 54
+            y: 8
+            width: 29
+            height: 23
+            font.family: "Arial"
+            font.pointSize: 11
+            color: "black"
+            text: qsTr("Тип:")
+        }
+        ComboBox {
+            id: pointType
+            x: 89
+            y: 1
+            width: 85
+            height: 30
+            font.family: "Arial"
+            font.pointSize: 12
+
+            background: Rectangle{
+                border.color: "#008000"
+                color:"white"
+            }
+
+            currentIndex: type
+            displayText: currentText
+            model: ["PTP", "LIN"]
+
+        }
+        Label {
             id: labelNamePoint
-            x: 3
-            y: 5
+            x: 193
+            y: 8
             font.family: "Arial"
             font.pointSize: 11
             color: "black"
@@ -34,62 +79,86 @@ Item {
 
         TextField {
             id: textNamePoint
-            x: 40
-            width: 70
+            x: 232
+            y: 1
+            width: 106
             height: 30
             font.family: "Arial"
             font.pointSize: 12
+
+            text: qsTr(namePoint)
         }
 
         Label {
             id: labelNumTool
-            x: 125
-            y: 5
+            x: 10
+            y: 51
             font.family: "Arial"
             font.pointSize: 11
             color: "black"
             text: qsTr("Номер инструмента:")
         }
 
-        TextField {
-            id: textNumTool
-            x: 270
+        ComboBox {
+            id: numTool
+            x: 167
+            y: 45
             width: 70
             height: 30
             font.family: "Arial"
             font.pointSize: 12
+
+            background: Rectangle{
+                border.color: "#008000"
+                color:"white"
+            }
+
+            model: ["1", "2", "3", "4", "5"]
         }
 
         Label {
             id: labelNumBase
-            x: 355
-            y: 5
+            x: 250
+            y: 52
             font.family: "Arial"
             font.pointSize: 11
             color: "black"
             text: qsTr("Номер базы:")
         }
-
-        TextField {
-            id: textNumBase
-            x: 450
-            width: 70
+        ComboBox {
+            id: numBase
+            x: 344
+            y: 45
+            width: 85
             height: 30
             font.family: "Arial"
             font.pointSize: 12
+
+            background: Rectangle{
+                border.color: "#008000"
+                color:"white"
+            }
+
+            model: ["1", "2", "3", "4", "5"]
         }
 
         onAccepted: {
             if(newornot){
-                listModel.insert(index_ext+1,{type: "PTP", name: textNamePoint.text,
-                                     Tool: textNumTool.text, Base: textNumBase.text, Color: "#2e2f30", FontColor: "white"})
-                appCore.writeLineToFile(file, path, "PTP", textNamePoint.text, textNumTool.text, textNumBase.text, index_ext+1)
+                listModel.insert(index_ext+1,{type: pointType.currentText, name: textNamePoint.text,
+                                     Tool: numTool.currentText, Base: numBase.currentText, Color: "#2e2f30", FontColor: "white"})
+                appCore.writeLineToFile(file, path, pointType.currentText, textNamePoint.text, numTool.currentText, numBase.currentText, index_ext+1)
             }else{
                 var oldName = listModel.get(index_ext).name;
-                listModel.set(index_ext, {type: "PTP", name: textNamePoint.text,
-                              Tool: textNumTool.text, Base: textNumBase.text})
-                appCore.changeLineInFile(file, path, "PTP", textNamePoint.text, oldName, textNumTool.text, textNumBase.text)
+                listModel.set(index_ext, {type: pointType.currentText, name: textNamePoint.text,
+                              Tool: numTool.currentText, Base: numBase.currentText})
+                appCore.changeLineInFile(file, path, pointType.currentText, textNamePoint.text, oldName, numTool.currentText, numBase.currentText)
             }
         }
     }
+
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

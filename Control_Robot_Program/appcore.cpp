@@ -5,9 +5,23 @@ AppCore::AppCore(QObject *parent) : QObject(parent)
     ethercatRT->rt_ethercat_start();
 }
 
+void AppCore::resizeVector2(const std::size_t& numRow, const std::size_t& colsRow, std::vector<std::vector<QString>>& vector)
+{
+    vector.resize(numRow);
+
+    for(unsigned int i=0; i < numRow; i++)
+       vector[i].resize(colsRow);
+}
+void AppCore::resizeVector2(const std::size_t& numRow, const std::size_t& colsRow, std::vector<std::vector<double>>& vector)
+{
+    vector.resize(numRow);
+
+    for(unsigned int i=0; i < numRow; i++)
+       vector[i].resize(colsRow);
+}
+
 void AppCore::createFile(QString fileName, QString path)
 {
-    //FilesAndFolders_C.createFile(fileName, text);
    domDoc = programcodeXML_C.createDomDoc(fileName);
    writeToFile(fileName+".xml", path);
 
@@ -21,13 +35,11 @@ void AppCore::openFile(QString fileName, QString path)
         if(domDoc.setContent(&file)) {
             QDomElement domElement= domDoc.documentElement();
             QDomNodeList nodes = domDoc.elementsByTagName("point");
-            textProgram.resize(nodes.count());
-            dataProgram.resize(nodes.count());
-            for(unsigned int i=0; i<nodes.count(); i++){
-               textProgram[i].resize(4);
-               dataProgram[i].resize(6);
-            }
-            programcodeXML_C.traverseNode(domElement, textProgram, dataProgram, -1, 1);
+
+            resizeVector2(static_cast<std::size_t>(nodes.count()), 4, textProgram);
+            resizeVector2(static_cast<std::size_t>(nodes.count()), 6, dataProgram);
+
+            programcodeXML_C.getDataFromDom(domElement, textProgram, dataProgram);
 
             emit clearListMode();
             for(unsigned int i=0; i<textProgram.size(); i++)
@@ -39,7 +51,9 @@ void AppCore::openFile(QString fileName, QString path)
 
 void AppCore::deleteFile(QString fileName, QString path)
 {
-    FilesAndFolders_C.deleteFile(path+"/"+fileName);
+    QFile file(path+"/"+fileName);
+    file.close();
+    file.remove();
 }
 void AppCore::writeToFile(const QString& fileName,
                           const QString& path)
@@ -62,11 +76,8 @@ void AppCore::writeLineToFile(QString fileName,
     QDomElement domElement= domDoc.documentElement();
     programcodeXML_C.writeToDomDoc(domDoc, type, name, tool, base, id);
 
-    QFile file(path+"/"+fileName);
-    if(file.open(QIODevice::WriteOnly)) {
-        QTextStream(&file) << domDoc.toString();
-        file.close();
-    }
+    writeToFile(fileName, path);
+    openFile(fileName, path);
 }
 
 void AppCore::changeLineInFile(QString fileName,
@@ -79,8 +90,9 @@ void AppCore::changeLineInFile(QString fileName,
 {
     QDomElement domElement= domDoc.documentElement();
 
-    programcodeXML_C.changeLineInDomDoc(domElement, type, newname, oldname, tool, base, textProgram, dataProgram, -1, 1);
+    programcodeXML_C.changeLineInDomDoc(domElement, type, newname, oldname, tool, base);
     writeToFile(fileName, path);
+    openFile(fileName, path);
 }
 
 void AppCore::deleteLineFromFile(QString fileName,
@@ -92,6 +104,7 @@ void AppCore::deleteLineFromFile(QString fileName,
     programcodeXML_C.changeIdWhenDelLine(domElement, id);
     programcodeXML_C.deleteNode(domElement, name);
     writeToFile(fileName, path);
+    openFile(fileName, path);
 }
 
 std::vector<QString> AppCore::getActCoord()
