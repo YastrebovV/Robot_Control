@@ -43,7 +43,7 @@ void AppCore::openFile(QString fileName, QString path)
 
             emit clearListMode();
             for(unsigned int i=0; i<textProgram.size(); i++)
-                    emit insertToListMode(textProgram[i][0], textProgram[i][2], textProgram[i][3]);
+                    emit insertToListMode(textProgram[i][0], textProgram[i][1], textProgram[i][2], textProgram[i][3]);
         }
         file.close();
     }

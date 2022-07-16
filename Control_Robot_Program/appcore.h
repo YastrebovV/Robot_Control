@@ -19,7 +19,7 @@ public:
 
 signals:
     // Сигнал для передачи данных в qml-интерфейс
-    void insertToListMode(QString name, QString tool, QString base);
+    void insertToListMode(QString name, QString type, QString tool, QString base);
     void clearListMode();
 
 public slots:

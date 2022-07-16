@@ -40,7 +40,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 1
+        currentIndex: 0
 
         Connections {
             target: appCore // Указываем целевое соединение
@@ -48,7 +48,7 @@ ApplicationWindow {
                  listModel.clear()
             }
             onInsertToListMode: {
-                 listModel.append({type: "PTP", name: name ,
+                 listModel.append({type: type, name: name ,
                                      Tool: tool, Base: base, Color: "#2e2f30", FontColor: "white"})
                  swipeView.currentIndex = 1
             }
@@ -452,20 +452,20 @@ ApplicationWindow {
             }
 
             Button {
-                id: butJoinMove
+                id: butMovePoint
                 x: 17
                 y: 508
-                width: 90
+                width: 146
                 height: 48
                 flat: true
                 autoRepeat: false
 
                 contentItem:
                     Text {
-                    text: qsTr("Joint")
-                    font: butJoinMove.font
+                    text: qsTr("Добавить точку")
+                    font: butMovePoint.font
                     opacity: enabled ? 1.0 : 0.3
-                    color: butJoinMove.down ? "#4c4e50" : "white"
+                    color: butMovePoint.down ? "#4c4e50" : "white"
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
@@ -474,7 +474,7 @@ ApplicationWindow {
                 background: Rectangle {
                     anchors.fill: parent
                     border.color: "#008000"
-                    color: butJoinMove.down ? "white" : "#4c4e50"
+                    color: butMovePoint.down ? "white" : "#4c4e50"
                     radius: 5
                 }
 
@@ -483,21 +483,21 @@ ApplicationWindow {
                     dialogNPoint.openDialog()
                 }
             }
-
             Button {
-                id: butLinMove
-                x: 118
+                id: butLogicLine
+                x: 171
                 y: 508
-                width: 90
+                width: 132
                 height: 48
                 flat: true
                 autoRepeat: false
 
-                contentItem: Text {
-                    text: qsTr("Lin")
-                    font: butLinMove.font
+                contentItem:
+                    Text {
+                    text: qsTr("Добавить логику")
+                    font: butLogicLine.font
                     opacity: enabled ? 1.0 : 0.3
-                    color: butLinMove.down ? "#4c4e50" : "white"
+                    color: butLogicLine.down ? "#4c4e50" : "white"
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
@@ -506,15 +506,15 @@ ApplicationWindow {
                 background: Rectangle {
                     anchors.fill: parent
                     border.color: "#008000"
-                    color: butLinMove.down ? "white" : "#4c4e50"
+                    color: butLogicLine.down ? "white" : "#4c4e50"
                     radius: 5
                 }
 
                 onClicked: {
-
+                  //  newornot=true
+                   // dialogNPoint.openDialog()
                 }
             }
-
             Dialog {
                 id: dialogDelLine
                 x: 250
@@ -535,13 +535,13 @@ ApplicationWindow {
 
             Button {
                 id: butDelLine
-                x: 219
+                x: 314
                 y: 508
                 width: 136
                 height: 48
                 contentItem: Text {
                     color: butDelLine.down ? "#4c4e50" : "white"
-                    text: qsTr("Удалить линию")
+                    text: qsTr("Удалить строку")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     font: butDelLine.font

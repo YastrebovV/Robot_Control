@@ -7,6 +7,8 @@ import Qt.labs.folderlistmodel 2.1
 Item {
 
     property int type: 0;
+    property int tool: 0;
+    property int base: 0;
     property string namePoint: "";
 
     function openDialog()
@@ -19,9 +21,13 @@ Item {
             }
 
             namePoint = listModel.get(index_ext).name
-        }else{
+            tool = Number(listModel.get(index_ext).Tool)-1
+            base = Number(listModel.get(index_ext).Base)-1
+        }/*else{
+            type = 0;
+            tool = 0;
             namePoint = "";
-        }
+        }*/
 
         dialogNewPoint.open()
     }
@@ -112,7 +118,8 @@ Item {
                 border.color: "#008000"
                 color:"white"
             }
-
+            currentIndex: tool
+            displayText: currentText
             model: ["1", "2", "3", "4", "5"]
         }
 
@@ -139,6 +146,8 @@ Item {
                 color:"white"
             }
 
+            currentIndex: base
+            displayText: currentText
             model: ["1", "2", "3", "4", "5"]
         }
 
@@ -158,7 +167,3 @@ Item {
 
 }
 
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/
