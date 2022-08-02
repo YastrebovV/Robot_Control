@@ -112,7 +112,7 @@ void programcodeXML::getDataFromDom(const QDomNode& node,
     }
 }
 
-void programcodeXML::deleteNode(QDomNode& node, const QString& name)
+void programcodeXML::deleteNode(QDomNode& node, const QString& name, const QString& id)
 {
     QDomNode domNode = node.firstChild();
 
@@ -121,7 +121,7 @@ void programcodeXML::deleteNode(QDomNode& node, const QString& name)
            QDomElement domElement = domNode.toElement();
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
-                   if (domElement.attribute("name", "") == name){
+                   if (domElement.attribute("name", "") == name && domElement.attribute("id", "") == id){
                        QDomNode parentNode = domNode.parentNode();
                        parentNode.removeChild(domNode);
                         break;
@@ -129,7 +129,7 @@ void programcodeXML::deleteNode(QDomNode& node, const QString& name)
               }
            }
         }
-        deleteNode(domNode, name);
+        deleteNode(domNode, name, id);
         domNode = domNode.nextSibling();
     }
 }
@@ -139,7 +139,8 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
                                         const QString& newname,
                                         const QString& oldname,
                                         const QString& tool,
-                                        const QString& base)
+                                        const QString& base,
+                                        const QString& id)
 {
 
     QDomNode domNode = node.firstChild();
@@ -150,7 +151,7 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
            if(!domElement.isNull()) {
                if(domElement.tagName() == "point") {
 
-                   if (domElement.attribute("name", "") == oldname){
+                   if (domElement.attribute("name", "") == oldname && domElement.attribute("id", "") == id){
                        domElement.removeAttribute("name");
                        domElement.setAttribute("name", newname);
                        domElement.removeAttribute("type");
@@ -163,7 +164,7 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
                }
            }
         }
-        changeLineInDomDoc(domNode, type, newname, oldname, tool, base);
+        changeLineInDomDoc(domNode, type, newname, oldname, tool, base, id);
         domNode = domNode.nextSibling();
      }
 

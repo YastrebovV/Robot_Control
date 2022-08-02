@@ -27,13 +27,14 @@ public:
     void getDataFromDom(const QDomNode& node,
                       std::vector<std::vector<QString>>& textProgram,
                       std::vector<std::vector<double>>&  dataProgram);
-    void deleteNode(QDomNode& node, const QString& name);
+    void deleteNode(QDomNode& node, const QString& name, const QString& id);
     void changeLineInDomDoc(QDomNode& node,
                                    const QString& type,
                                    const QString& newname,
                                    const QString& oldname,
                                    const QString& tool,
-                                   const QString& base);
+                                   const QString& base,
+                                   const QString& id);
     void changeIdWhenDelLine(QDomNode& node,
                                       const QString& id);
 

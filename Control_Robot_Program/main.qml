@@ -31,6 +31,7 @@ ApplicationWindow {
 
 
     DialogNewPoint{id: dialogNPoint}
+    DialogNewLogics{id: dialogNLogics}
 
     SwipeView {
         id: swipeView
@@ -48,8 +49,13 @@ ApplicationWindow {
                  listModel.clear()
             }
             onInsertToListMode: {
-                 listModel.append({type: type, name: name ,
-                                     Tool: tool, Base: base, Color: "#2e2f30", FontColor: "white"})
+                if(type === "PTP" || type === "LIN"){
+                 listModel.append({type: type, name: name,
+                                     Tool: " Tool: " + tool, Base: " Base: " + base, Color: "#2e2f30", FontColor: "white"})
+                }else{
+                    listModel.append({type: type, name: name,
+                                        Tool: " " +tool, Base: " " +base, Color: "#2e2f30", FontColor: "white"})
+                }
                  swipeView.currentIndex = 1
             }
         }
@@ -346,7 +352,7 @@ ApplicationWindow {
                                      font.pointSize: 12
                                      x: 10
                                      y: 3
-                                     text: type+ " " + name + " Tool: " + Tool +" Base: " + Base
+                                     text: type+ " " + name +  Tool + Base//type+ " " + name + " Tool: " + Tool +" Base: " + Base
                                  }
                              }
 
@@ -370,7 +376,11 @@ ApplicationWindow {
                                 index_ext_priv = index_ext
                                 index_ext = index
                                 newornot=false
-                                dialogNPoint.openDialog()
+                                if(listModel.get(index_ext).type === "PTP" || listModel.get(index_ext).type === "LIN"){
+                                    dialogNPoint.openDialog()
+                                }else{
+                                    dialogNLogics.openDialog()
+                                }
                             }
                         }
                     }
@@ -511,8 +521,8 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                  //  newornot=true
-                   // dialogNPoint.openDialog()
+                    newornot=true
+                    dialogNLogics.openDialog()
                 }
             }
             Dialog {
