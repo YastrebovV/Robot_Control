@@ -1,4 +1,4 @@
-import QtQuick 2.7
+ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
@@ -35,13 +35,14 @@ ApplicationWindow {
 
     SwipeView {
         id: swipeView
+        width: 800
         anchors.rightMargin: 0
         anchors.bottomMargin: 0
         anchors.leftMargin: 0
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 0
+        currentIndex: 1
 
         Connections {
             target: appCore // Указываем целевое соединение

@@ -20,7 +20,8 @@ SOURCES += \
         main.cpp \
         robotcontrol.cpp \
         rt_ethercat.cpp \
-    programcodexml.cpp
+    programcodexml.cpp \
+    executionprogram.cpp
 
 RESOURCES += qml.qrc \
     qml.qrc
@@ -46,4 +47,5 @@ HEADERS += \
     kinematics.h \
     robotcontrol.h \
     rt_ethercat.h \
-    programcodexml.h
+    programcodexml.h \
+    executionprogram.h

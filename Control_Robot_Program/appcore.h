@@ -6,7 +6,7 @@
 #include "robotcontrol.h"
 #include "programcodexml.h"
 #include <vector>
-#include<iostream>
+#include <iostream>
 #include <string>
 #include <QtXml>
 
@@ -58,6 +58,8 @@ public slots:
     void setSpeed(unsigned int speed);
     unsigned long long getAxisSpeed();
     void setAxisMastering(bool start);
+    std::vector<std::vector<QString>> getTextProgram(){return textProgram;}
+    std::vector<std::vector<double>> getDataProgram(){return dataProgram;}
 
 private:
     FilesAndFolders FilesAndFolders_C;
@@ -67,6 +69,7 @@ private:
     programcodeXML programcodeXML_C;
     QString progName;
     QDomDocument domDoc;
+    QThread exeProgramThread;
     std::vector<std::vector<QString>> textProgram;
     std::vector<std::vector<double>>  dataProgram;
     void resizeVector2(const std::size_t& numRow, const std::size_t& colsRow, std::vector<std::vector<QString>>& vector);

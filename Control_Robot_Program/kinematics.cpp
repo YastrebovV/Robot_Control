@@ -353,10 +353,7 @@ Kinematics::Kinematics()
      double armLen1, armLen2, armLen3, armLen3_1, vekP_J2, vekP_J3, armHeight;
      double theta1, theta2_cos, theta2_atan, theta4, theta5, theta6;
 
-     //WFrame = new double[6];
-     //DH_Param = new double[6][3];
-     //TT = new double[4][4];
-     //anglesAct = new double[6];
+     Join.resize(6);
 
      double WFM[4][4];
      double J1[4][4];

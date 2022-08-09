@@ -112,23 +112,18 @@ std::vector<QString> AppCore::getActCoord()
 {
     std::vector<QString> vecStr;
     std::vector<double> actCoord = RobotControl_C.getActCoord();
-    vecStr.push_back(QString::number(actCoord[0]));
-    vecStr.push_back(QString::number(actCoord[1]));
-    vecStr.push_back(QString::number(actCoord[2]));
-    vecStr.push_back(QString::number(actCoord[4]));
-    vecStr.push_back(QString::number(actCoord[5]));
-    vecStr.push_back(QString::number(actCoord[3]));
+
+    for(unsigned i = 0; i < 6; ++i)
+         vecStr.push_back(QString::number(actCoord[i]));
+
     return vecStr;
 }
 std::vector<QString> AppCore::getActAngles()
 {
     std::vector<QString> vecStr;
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[0]));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[1]));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[2]));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[3]));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[4]));
-    vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[5]));
+    for(unsigned i = 0; i < 6; ++i)
+        vecStr.push_back(QString::number(RobotControl_C.getAngelAct()[i]));
+
     return vecStr;
 }
 void AppCore::setActCoord(std::vector<double> ActCoord)
