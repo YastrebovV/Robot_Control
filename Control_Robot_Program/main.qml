@@ -42,7 +42,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 1
+        currentIndex: 0
 
         Connections {
             target: appCore // Указываем целевое соединение
@@ -137,32 +137,35 @@ ApplicationWindow {
                         y: 15
                         text: fileName
                         color: "white"
+
+                        onTextChanged: {
+                          //  if (!fileIsDir && file !== fileName) {
+                           //    file = fileName
+                          //  }
+                        }
                    }
 
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            listView.currentIndex = index
+                             listView.currentIndex = index
                              if (!fileIsDir) {
-                              file = fileName
+                                file = fileName
                              }
                         }
 
                         onDoubleClicked: {
                             if (fileIsDir) {
-                               dataModel.folder = fileURL
+                                dataModel.folder = fileURL
                                 path = filePath
                             }
                         }
                     }
-
                 }
               }
-                highlight: Rectangle {
-                    color: "#eeeded"
-                }
-
-
+              highlight: Rectangle {
+                  color: "#eeeded"
+              }
             }
 
             Dialog {

@@ -8,7 +8,7 @@ RobotControl::RobotControl()
       pos_error.resize(6);
       AxisAnglIncr.resize(6);
       pos_err_temp.resize(6);
-      ActCoord.resize(8);
+      ActCoord.resize(6);
 
       Reduction.resize(6);
       Reduction[0] = 30.0;
