@@ -254,7 +254,7 @@ Rectangle{
         modal: false
         standardButtons: Dialog.Ok | Dialog.Cancel
      Rectangle{
-         id: rec
+        id: rec
         Label {
             id: labelTypeLogics
             x: 26

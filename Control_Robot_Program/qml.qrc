@@ -6,5 +6,6 @@
         <file>DialogNewPoint.qml</file>
         <file>ManualMoveModul.qml</file>
         <file>DialogNewLogics.qml</file>
+        <file>OneOrTwoScreen.qml</file>
     </qresource>
 </RCC>

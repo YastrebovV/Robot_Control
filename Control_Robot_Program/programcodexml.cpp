@@ -28,7 +28,7 @@ QDomElement programcodeXML::addPoint(      QDomDocument& domDoc,
                     const QString&      strTool,
                     const QString&      strBase,
                     const QString&      id,
-                    const coords&       coords
+                    const std::vector<double>&   coords
                    )
 {
     std::vector<QString> nameAttr;
@@ -36,9 +36,9 @@ QDomElement programcodeXML::addPoint(      QDomDocument& domDoc,
 
     nameAttr.assign({"id", "type", "name", "tool", "base", "x", "y", "z", "a", "b", "c"});
     dataAttr.assign({id, strType, strName, strTool, strBase,
-                    QString::number(coords.x), QString::number(coords.y),
-                    QString::number(coords.z), QString::number(coords.a),
-                    QString::number(coords.b), QString::number(coords.c)});
+                    QString::number(coords[0]), QString::number(coords[1]),
+                    QString::number(coords[2]), QString::number(coords[3]),
+                    QString::number(coords[4]), QString::number(coords[5])});
 
     QDomElement domElement = makeElement(domDoc,"point", nameAttr, dataAttr);
 
@@ -58,25 +58,16 @@ void programcodeXML::writeToDomDoc(QDomDocument& domDoc,
                                const QString& name,
                                const QString& tool,
                                const QString& base,
-                               const QString& id)
+                               const QString& id,
+                               const std::vector<double> ActCoord)
 {
-    coords coordsLocal;
 
     QDomElement  domElement = domDoc.firstChildElement();
-
-    std::vector<double> ActCoord = RobotControl_C.getActCoord();
-    coordsLocal.x = ActCoord[0];
-    coordsLocal.y = ActCoord[1];
-    coordsLocal.z = ActCoord[2];
-    coordsLocal.a = ActCoord[3];
-    coordsLocal.b = ActCoord[4];
-    coordsLocal.c = ActCoord[5];
-
     QDomElement domElement1= domDoc.documentElement();
 
     changeLineId(domElement1, id);
 
-    QDomElement point = addPoint(domDoc, type, name, tool, base, id, coordsLocal);
+    QDomElement point = addPoint(domDoc, type, name, tool, base, id, ActCoord);
     domElement.appendChild(point);
 }
 
@@ -140,7 +131,8 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
                                         const QString& oldname,
                                         const QString& tool,
                                         const QString& base,
-                                        const QString& id)
+                                        const QString& id,
+                                        const std::vector<double> ActCoord)
 {
 
     QDomNode domNode = node.firstChild();
@@ -160,11 +152,25 @@ void programcodeXML::changeLineInDomDoc(QDomNode& node,
                        domElement.setAttribute("tool", tool);
                        domElement.removeAttribute("base");
                        domElement.setAttribute("base", base);
+                       if(ActCoord.size() == 6){
+                           domElement.removeAttribute("x");
+                           domElement.setAttribute("x", ActCoord[0]);
+                           domElement.removeAttribute("y");
+                           domElement.setAttribute("y", ActCoord[1]);
+                           domElement.removeAttribute("z");
+                           domElement.setAttribute("z", ActCoord[2]);
+                           domElement.removeAttribute("a");
+                           domElement.setAttribute("a", ActCoord[3]);
+                           domElement.removeAttribute("b");
+                           domElement.setAttribute("b", ActCoord[4]);
+                           domElement.removeAttribute("c");
+                           domElement.setAttribute("c", ActCoord[5]);
+                       }
                    }
                }
            }
         }
-        changeLineInDomDoc(domNode, type, newname, oldname, tool, base, id);
+        changeLineInDomDoc(domNode, type, newname, oldname, tool, base, id, ActCoord);
         domNode = domNode.nextSibling();
      }
 

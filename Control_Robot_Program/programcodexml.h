@@ -4,15 +4,6 @@
 #include <QtXml>
 #include "robotcontrol.h"
 
-struct coords{
-    double x;
-    double y;
-    double z;
-    double a;
-    double b;
-    double c;
-};
-
 class programcodeXML
 {
 public:
@@ -23,7 +14,8 @@ public:
                         const QString& name,
                         const QString& tool,
                         const QString& base,
-                        const QString& id);
+                        const QString& id,
+                        const std::vector<double> ActCoord);
     void getDataFromDom(const QDomNode& node,
                       std::vector<std::vector<QString>>& textProgram,
                       std::vector<std::vector<double>>&  dataProgram);
@@ -34,7 +26,8 @@ public:
                                    const QString& oldname,
                                    const QString& tool,
                                    const QString& base,
-                                   const QString& id);
+                                   const QString& id,
+                                   const std::vector<double> ActCoord);
     void changeIdWhenDelLine(QDomNode& node,
                                       const QString& id);
 
@@ -50,7 +43,7 @@ private:
                         const QString&      strTool,
                         const QString&      strBase,
                         const QString& id,
-                        const coords&       coords
+                        const std::vector<double>&   coords
                        );
     void changeLineId(QDomNode& node,
                       const QString& id);

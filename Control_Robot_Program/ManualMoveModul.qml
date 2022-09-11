@@ -15,6 +15,15 @@ Item {
         return comboBox1.currentIndex;
     }
 
+    function outputActPos(){
+        if(comboBox1.currentIndex==0)
+            if(twoScreensSwitch.checked)
+                rowLayout.data[1].children[0].data[1].text = thirdPage.updateDate("axis")
+        if(comboBox1.currentIndex==1)
+            if(twoScreensSwitch.checked)
+                rowLayout.data[1].children[0].data[1].text = thirdPage.updateDate("coords")
+    }
+
     Rectangle {
         objectName: "manualMoves"
         id: manualMoves
@@ -64,10 +73,7 @@ Item {
                 }
                 onReleased: {
                     appCore.stopMove()
-                    if(comboBox1.currentIndex==0)
-                        thirdPage.updateDate("axis")
-                    if(comboBox1.currentIndex==1)
-                        thirdPage.updateDate("coords")
+                    outputActPos()
                 }
         }
 
@@ -109,10 +115,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                   thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
 
@@ -166,10 +169,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
         Button {
@@ -220,10 +220,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
 
@@ -266,10 +263,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
         Button {
@@ -311,10 +305,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
 
@@ -357,10 +348,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
         Button {
@@ -402,10 +390,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
 
@@ -447,10 +432,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
         Button {
@@ -491,10 +473,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
 
@@ -536,10 +515,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
         Button {
@@ -581,10 +557,7 @@ Item {
             }
             onReleased: {
                 appCore.stopMove()
-                if(comboBox1.currentIndex==0)
-                    thirdPage.updateDate("axis")
-                if(comboBox1.currentIndex==1)
-                    thirdPage.updateDate("coords")
+                outputActPos()
             }
         }
 
@@ -805,3 +778,8 @@ Item {
         }
     }
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

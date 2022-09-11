@@ -32,6 +32,7 @@ ApplicationWindow {
 
     DialogNewPoint{id: dialogNPoint}
     DialogNewLogics{id: dialogNLogics}
+    OneOrTwoScreen{id: oneOrTwoScreen}
 
     SwipeView {
         id: swipeView
@@ -42,7 +43,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 0
+        currentIndex: 1
 
         Connections {
             target: appCore // Указываем целевое соединение
@@ -51,10 +52,10 @@ ApplicationWindow {
             }
             onInsertToListMode: {
                 if(type === "PTP" || type === "LIN"){
-                 listModel.append({type: type, name: name,
+                   listModel.append({type: type, name: name,
                                      Tool: " Tool: " + tool, Base: " Base: " + base, Color: "#2e2f30", FontColor: "white"})
                 }else{
-                    listModel.append({type: type, name: name,
+                   listModel.append({type: type, name: name,
                                         Tool: " " +tool, Base: " " +base, Color: "#2e2f30", FontColor: "white"})
                 }
                  swipeView.currentIndex = 1
@@ -180,6 +181,8 @@ ApplicationWindow {
 
                 TextField {
                     id: textField
+                    x: 16
+                    y: 20
                     width: 326
                     height: 30
                     font.family: "Arial"
@@ -314,9 +317,16 @@ ApplicationWindow {
         }
 
         // вторая вкладка SwipeView
-        Item {
-            id: secondPage
-            ManualMoveModul{id: manualMoveModul}
+     Item {
+        id: secondPage
+        ManualMoveModul{id: manualMoveModul}
+
+       RowLayout {
+            id: rowLayout
+            x: 10
+            y: 34
+            width: 659
+            height: 324
 
             Rectangle {
                 id: rectangle
@@ -394,8 +404,9 @@ ApplicationWindow {
                         id: listModel // задаём ей id для обращения
                     }
                 }
-
             }
+
+        }//RowLayout
 
             Rectangle {
                 id: rectangle_2
@@ -427,7 +438,6 @@ ApplicationWindow {
                 height: 20
                 color: "#2e2f30"
                 border.color: "black"
-
 
                 Label {
                     id: nameProg
@@ -469,7 +479,7 @@ ApplicationWindow {
                 id: butMovePoint
                 x: 17
                 y: 508
-                width: 146
+                width: 120
                 height: 48
                 flat: true
                 autoRepeat: false
@@ -499,9 +509,9 @@ ApplicationWindow {
             }
             Button {
                 id: butLogicLine
-                x: 171
+                x: 144
                 y: 508
-                width: 132
+                width: 125
                 height: 48
                 flat: true
                 autoRepeat: false
@@ -549,10 +559,11 @@ ApplicationWindow {
 
             Button {
                 id: butDelLine
-                x: 314
+                x: 277
                 y: 508
-                width: 136
+                width: 125
                 height: 48
+
                 contentItem: Text {
                     color: butDelLine.down ? "#4c4e50" : "white"
                     text: qsTr("Удалить строку")
@@ -562,17 +573,18 @@ ApplicationWindow {
                     elide: Text.ElideRight
                     opacity: enabled ? 1.0 : 0.3
                 }
+
                 background: Rectangle {
                     color: butDelLine.down ? "white" : "#4c4e50"
                     radius: 5
                     anchors.fill: parent
                     border.color: "#008000"
                 }
+
                 autoRepeat: false
                 flat: true
 
                 onClicked: {
-
                     dialogDelLine.open()
                 }
             }
@@ -580,11 +592,10 @@ ApplicationWindow {
             Button {
                 id: butTouchUp
 
-                x: 642
+                x: 413
                 y: 508
                 width: 148
                 height: 48
-                //text: qsTr("Сохранить позицию")
                 flat: true
                 autoRepeat: false
 
@@ -606,31 +617,67 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                   //newornot=true
-                   //dialogNPoint.openDialog()
+                    appCore.changeLineInFile(file, path,  listModel.get(index_ext).type, listModel.get(index_ext).name,
+                                             listModel.get(index_ext).name, (listModel.get(index_ext).Tool).split(' ')[2],
+                                             (listModel.get(index_ext).Base).split(' ')[2],
+                                             index_ext, true)
                 }
             }
 
+            Button {
+                id: startButton
+                x: 657
+                y: 504
+                width: 60
+                height: 60
+                text: "Старт"
+
+                background: Rectangle {
+                    anchors.fill: parent
+                    border.color: "#4c4e50"
+                    color: startButton.down ? "white" : "#008000"
+                    radius: 5
+                }
+            }
+
+            Button {
+                id: stopButton
+                x: 729
+                y: 504
+                width: 60
+                height: 60
+                text: "Стоп"
+
+                background: Rectangle {
+                    anchors.fill: parent
+                    border.color: "#4c4e50"
+                    color:  stopButton.down ? "white" : "red"
+                    radius: 5
+                }
+            }
         }
         // третья вкладка SwipeView
         Item {
             id: thirdPage
 
             function updateDate(state){
-                lab_pos.text = "";
-                let arr_str;
-                let arr_name;
+                var text = '';
+                var arr_str;
+                var arr_name;
+
                 if(state==="coords"){
-                    arr_name = ["x", "y", "z", "w", "p", "r"];
+                    arr_name = ['x', 'y', 'z', 'w', 'p', 'r'];
                     arr_str = appCore.getActCoord();
                 }
                 if(state==="axis"){
-                    arr_name = ["A1", "A2", "A3", "A4", "A5", "A6"];
+                    arr_name = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6'];
                     arr_str = appCore.getActAngles();
                 }
                  for (var i in arr_str){
-                    lab_pos.text += arr_name[i] + " " + parseFloat(arr_str[i]).toFixed(2) + ";";
+                    text += arr_name[i] + " " + parseFloat(arr_str[i]).toFixed(2) + "; ";
                  }
+
+                 return text;
             }
 
 
@@ -685,8 +732,6 @@ ApplicationWindow {
                 }
             }
         }
-
-
 }
     PageIndicator {
         id: indicator
@@ -702,13 +747,42 @@ ApplicationWindow {
             if(swipeView.currentIndex==2){
                 //если выбрано перемещение по осям
                 if(manualMoveModul.currentIndexCB1()===0){
-                    thirdPage.updateDate("axis")
+                    lab_pos.text = '';
+                    lab_pos.text = thirdPage.updateDate("axis")
                 }
                 if(manualMoveModul.currentIndexCB1()===1){
-                    thirdPage.updateDate("coords")
+                    lab_pos.text = '';
+                    lab_pos.text = thirdPage.updateDate("coords")
                 }
             }
         }
     }
 
+    Switch {
+        id: twoScreensSwitch
+        x: 658
+        y: -2
+        width: 75
+        height: 40
+        checked: false
+        checkable: true
+
+        Text{
+            x: 70
+            y: 12
+            text: "Два экран"
+            color: "white"
+        }
+
+        onCheckedChanged: {
+             twoScreensSwitch.checked ? oneOrTwoScreen.numberOfScreens(2) : oneOrTwoScreen.numberOfScreens(1)
+
+            if(manualMoveModul.data[0].children[13].currentIndex===0)
+                if(twoScreensSwitch.checked)
+                    rowLayout.data[1].children[0].data[1].text = thirdPage.updateDate("axis")
+            if(manualMoveModul.data[0].children[13].currentIndex===1)
+                if(twoScreensSwitch.checked)
+                    rowLayout.data[1].children[0].data[1].text = thirdPage.updateDate("coords")
+        }
+    }
 }

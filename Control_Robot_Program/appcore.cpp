@@ -74,7 +74,7 @@ void AppCore::writeLineToFile(QString fileName,
                           QString id)
 {
     QDomElement domElement= domDoc.documentElement();
-    programcodeXML_C.writeToDomDoc(domDoc, type, name, tool, base, id);
+    programcodeXML_C.writeToDomDoc(domDoc, type, name, tool, base, id, RobotControl_C.getActCoord());
 
     writeToFile(fileName, path);
     openFile(fileName, path);
@@ -87,11 +87,16 @@ void AppCore::changeLineInFile(QString fileName,
                                 QString oldname,
                                 QString tool,
                                 QString base,
-                                QString id)
+                                QString id,
+                                bool newPos)
 {
     QDomElement domElement= domDoc.documentElement();
+    std::vector<double> actPos;
 
-    programcodeXML_C.changeLineInDomDoc(domElement, type, newname, oldname, tool, base, id);
+    if(newPos)
+        actPos = RobotControl_C.getActCoord();
+
+    programcodeXML_C.changeLineInDomDoc(domElement, type, newname, oldname, tool, base, id, actPos);
     writeToFile(fileName, path);
     openFile(fileName, path);
 }

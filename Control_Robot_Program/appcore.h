@@ -42,7 +42,8 @@ public slots:
                           QString oldname,
                           QString tool,
                           QString base,
-                          QString id);
+                          QString id,
+                          bool newPos);
     void deleteLineFromFile(QString fileName,
                             QString path,
                             QString name,
