@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.folderlistmodel 2.1
-//import QtQuick.Dialogs 1.1
+
 
 ApplicationWindow {
     visible: true
@@ -62,7 +62,7 @@ ApplicationWindow {
             }
         }
 
-        Item {
+     Item {
             id: firstPage
 
             Button {
@@ -319,7 +319,7 @@ ApplicationWindow {
         // вторая вкладка SwipeView
      Item {
         id: secondPage
-        ManualMoveModul{id: manualMoveModul}
+       ManualMoveModul{id: manualMoveModul}
 
        RowLayout {
             id: rowLayout

@@ -3,6 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.folderlistmodel 2.1
+import QtQuick.VirtualKeyboard 2.1
 
 Item {
     id: itemDialog
@@ -28,6 +29,7 @@ Item {
         import QtQuick.Layouts 1.0
         import QtQuick.Controls.Styles 1.4
         import Qt.labs.folderlistmodel 2.1
+        import QtQuick.VirtualKeyboard 2.1
 
 Rectangle{
             Label {
@@ -48,6 +50,7 @@ Rectangle{
                 height: 30
                 font.family: "Arial"
                 font.pointSize: 12
+                inputMethodHints: Qt.ImhFormattedNumbersOnly
              }
 }
 '; dialogNewLogics.width = 400; dialogNewLogics.height = 172; break;
@@ -56,6 +59,7 @@ Rectangle{
         import QtQuick.Controls 2.3
         import QtQuick.Layouts 1.0
         import QtQuick.Controls.Styles 1.4
+
 Rectangle{
             Label {
                 id: labelIO
@@ -75,6 +79,7 @@ Rectangle{
                 height: 30
                 font.family: "Arial"
                 font.pointSize: 12
+                inputMethodHints: Qt.ImhFormattedNumbersOnly
             }
 
             Label {
@@ -130,6 +135,7 @@ Rectangle{
             font.family: "Arial"
             font.pointSize: 12
             text: qsTr("1")
+            inputMethodHints: Qt.ImhFormattedNumbersOnly
         }
 
         Label {
@@ -185,6 +191,7 @@ Rectangle{
             font.family: "Arial"
             font.pointSize: 12
             text: qsTr("1")
+            inputMethodHints: Qt.ImhFormattedNumbersOnly
         }
 
         Label {
@@ -233,6 +240,7 @@ Rectangle{
             font.family: "Arial"
             font.pointSize: 12
             text: qsTr("1")
+            inputMethodHints: Qt.ImhFormattedNumbersOnly
         }
 }
 '; dialogNewLogics.width = 645; dialogNewLogics.height = 200; break;
@@ -246,8 +254,8 @@ Rectangle{
     Dialog {
         objectName: "dialogNewLogics"
         id: dialogNewLogics
-        x: 150
-        y: 250
+        x: 161
+        y: 160
         width: 658
         height: 172
         title: "Логические операции"
@@ -255,6 +263,26 @@ Rectangle{
         standardButtons: Dialog.Ok | Dialog.Cancel
      Rectangle{
         id: rec
+
+        InputPanel {
+            id: inputPanel
+            z: 99
+            // Меняем x, y, чтобы изменить положение клавиатуры
+            x: -120
+            y: 500
+                 // Изменяем ширину, чтобы изменить размер клавиатуры
+            width: 700
+
+            states: State {
+                name: "visible"
+                when: inputPanel.active
+                PropertyChanges {
+                    target: inputPanel
+                    y: 170
+                }
+            }
+        }
+
         Label {
             id: labelTypeLogics
             x: 26
@@ -304,22 +332,22 @@ Rectangle{
      }
 
      onAccepted: {
-
+         var temppp =  rec
          if(newornot){
              switch(logicsType.currentIndex){
              case 0: //listModel.insert(index_ext+1,{type: logicsType.currentText, name: rec.children[2].data[1].text,
                                    //        Tool: " ", Base: " ", Color: "#2e2f30", FontColor: "white"});
-                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[2].data[1].text, "", "", index_ext+1);
+                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[3].data[1].text, "", "", index_ext+1);
                      break;
              case 1:
-                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[2].data[3].displayText, rec.children[2].data[1].text, "", index_ext+1);
+                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[3].data[3].displayText, rec.children[3].data[1].text, "", index_ext+1);
                      break;
              case 2:
-                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[2].data[1].text, rec.children[2].data[3].displayText, "", index_ext+1);
+                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[3].data[1].text, rec.children[3].data[3].displayText, "", index_ext+1);
                      break;
              case 3:
-                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[2].data[1].text, rec.children[2].data[3].displayText,
-                     rec.children[2].data[5].text, index_ext+1);
+                     appCore.writeLineToFile(file, path, logicsType.currentText, rec.children[3].data[1].text, rec.children[3].data[3].displayText,
+                     rec.children[3].data[5].text, index_ext+1);
                      break;
              }
 
@@ -327,21 +355,21 @@ Rectangle{
              var oldName = listModel.get(index_ext).name;
              switch(listModel.get(index_ext).type)
              {
-                case "Wait sec": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[2].data[1].text,
+                case "Wait sec": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[1].text,
                                                 Tool: " ", Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[2].data[1].text, oldName, "", "", index_ext);
+                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, "", "", index_ext, false);
                               break;
-                case "Wait for": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[2].data[3].displayText,
-                                                Tool: rec.children[2].data[1].text, Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[2].data[3].displayText, oldName, rec.children[2].data[1].text, "", index_ext);
+                case "Wait for": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[3].displayText,
+                                                Tool: rec.children[3].data[1].text, Base: " "});
+                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[3].displayText, oldName, rec.children[3].data[1].text, "", index_ext, false);
                               break;
-                case "OUT": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[2].data[1].text,
-                                                Tool: rec.children[2].data[3].displayText, Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[2].data[1].text, oldName, rec.children[2].data[3].displayText, "", index_ext);
+                case "OUT": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[1].text,
+                                                Tool: rec.children[3].data[3].displayText, Base: " "});
+                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, rec.children[3].data[3].displayText, "", index_ext, false);
                               break;
-                case "PULSE": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[2].data[1].text,
-                                                Tool: rec.children[2].data[3].displayText, Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[2].data[1].text, oldName, rec.children[2].data[3].displayText, "", index_ext);
+                case "PULSE": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[1].text,
+                                                Tool: rec.children[3].data[3].displayText, Base: " "});
+                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, rec.children[3].data[3].displayText, "", index_ext, false);
                               break;
              }
          }
@@ -354,3 +382,8 @@ Rectangle{
     }
 
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

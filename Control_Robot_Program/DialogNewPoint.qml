@@ -3,6 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.folderlistmodel 2.1
+import QtQuick.VirtualKeyboard 2.1
 
 Item {
     id: itemDialog
@@ -181,13 +182,32 @@ Item {
     Dialog {
         objectName: "dialogNewPoint"
         id: dialogNewPoint
-        x: 150
-        y: 250
+        x: 148
+        y: 117
         width: 498
         height: 198
         title: "Введите параметры новой точки"
         modal: false
         standardButtons: Dialog.Ok | Dialog.Cancel
+
+        InputPanel {
+            id: inputPanel
+            z: 99
+            // Меняем x, y, чтобы изменить положение клавиатуры
+            x: -120
+            y: 500
+                 // Изменяем ширину, чтобы изменить размер клавиатуры
+            width: 700
+
+            states: State {
+                name: "visible"
+                when: inputPanel.active
+                PropertyChanges {
+                    target: inputPanel
+                    y: 170
+                }
+            }
+        }
 
         Label {
             id: labelTypePoint
@@ -315,3 +335,8 @@ Item {
 
 }
 
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
