@@ -43,7 +43,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.fill: parent
 
-        currentIndex: 1
+        currentIndex: 0
 
         Connections {
             target: appCore // Указываем целевое соединение
@@ -55,8 +55,13 @@ ApplicationWindow {
                    listModel.append({type: type, name: name,
                                      Tool: " Tool: " + tool, Base: " Base: " + base, Color: "#2e2f30", FontColor: "white"})
                 }else{
-                   listModel.append({type: type, name: name,
+                    if(type !== "PULSE"){
+                        listModel.append({type: type, name: name,
                                         Tool: " " +tool, Base: " " +base, Color: "#2e2f30", FontColor: "white"})
+                    }else{
+                        listModel.append({type: type, name: " OUT: " + name,
+                                        Tool: " State: " +tool, Base: " Time: " +base, Color: "#2e2f30", FontColor: "white"})
+                    }
                 }
                  swipeView.currentIndex = 1
             }
@@ -551,6 +556,8 @@ ApplicationWindow {
 
                 onAccepted: {
                     var nameForDel = listModel.get(index_ext).name
+                    if(listModel.get(index_ext).type === "PULSE")
+                        nameForDel = nameForDel.split(' ')[2]
                     appCore.deleteLineFromFile(file, path, nameForDel, index_ext)
                    // listModel.remove(index_ext)
                     ifDelEndLine = true
@@ -617,7 +624,8 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                    appCore.changeLineInFile(file, path,  listModel.get(index_ext).type, listModel.get(index_ext).name,
+                    if(listModel.get(index_ext).type === "PTP" || listModel.get(index_ext).type === "LIN")
+                            appCore.changeLineInFile(file, path,  listModel.get(index_ext).type, listModel.get(index_ext).name,
                                              listModel.get(index_ext).name, (listModel.get(index_ext).Tool).split(' ')[2],
                                              (listModel.get(index_ext).Base).split(' ')[2],
                                              index_ext, true)
@@ -638,6 +646,9 @@ ApplicationWindow {
                     color: startButton.down ? "white" : "#008000"
                     radius: 5
                 }
+                onClicked: {
+                    appCore.startProgram()
+                }
             }
 
             Button {
@@ -653,6 +664,10 @@ ApplicationWindow {
                     border.color: "#4c4e50"
                     color:  stopButton.down ? "white" : "red"
                     radius: 5
+                }
+
+                onClicked: {
+                    appCore.stopProgram()
                 }
             }
         }

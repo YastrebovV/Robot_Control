@@ -12,8 +12,10 @@ public:
     RobotControl();
 
 public:
-    void JointMove(std::vector<double> Join, std::vector<double> NewJoin);
     void RobotStop();
+    void jointManMove(const int & numAxis, const double & valueOffset);
+    void cartesianManMove(const int & axis, const double & valueOffset);
+    void executionProgram(const std::vector<double> & dataProgramLine);
     std::vector<double> getAngelAct() { return Join; }
     double getAngelAct(unsigned int index) { return Join[index]; }
     std::vector<double> getWFrame() { return WFrame; }
@@ -27,6 +29,7 @@ public:
     void setJoin(unsigned int index, double angel){Join[index] = angel;}    
 
 private:
+    void JointMove(const std::vector<double> & Join, const std::vector<double> & NewJoin);
     std::vector<double> pos_error;
     std::vector<double> pos_err_temp;
     std::vector<int> AxisAnglIncr;

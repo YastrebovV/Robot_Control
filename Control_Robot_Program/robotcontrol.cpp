@@ -89,9 +89,15 @@ RobotControl::RobotControl()
       TT.resize(4);
       for(unsigned int i=0; i<4; i++)
          TT[i].resize(4);
+
+      std::vector<double> Join = getAngelAct();
+      Join[2] = Join[2] -90;
+      Join[5] = Join[5] +180;
+      Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
+      setActCoord(ActCoord);
 }
 
-void RobotControl::JointMove(std::vector<double> Join, std::vector<double> NewJoin)  //осевое перемещение робота
+void RobotControl::JointMove(const std::vector<double> & Join, const std::vector<double>  & NewJoin)  //осевое перемещение робота
 {    
     bool dir[6];
 
@@ -149,4 +155,60 @@ void RobotControl::RobotStop()
         Join[5] = Join[5] +180;
         Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
         setActCoord(ActCoord);
+}
+
+void RobotControl::jointManMove(const int & numAxis, const double & valueOffset)
+{
+    std::vector<double> JoinNew = Join;
+    switch (numAxis){
+        case 1: JoinNew[0]=Join[0]+valueOffset; break;
+        case 2: JoinNew[1]=Join[1]+valueOffset; break;
+        case 3: JoinNew[2]=Join[2]+valueOffset; break;
+        case 4: JoinNew[3]=Join[3]+valueOffset; break;
+        case 5: JoinNew[4]=Join[4]+valueOffset; break;
+        case 6: JoinNew[5]=Join[5]+valueOffset; break;
+    }
+
+    JointMove(Join, JoinNew);
+}
+
+void RobotControl::cartesianManMove(const int & axis, const double & valueOffset)
+{
+    std::vector<double> ActCoordNew;
+    std::vector<double> JoinNew;
+
+    ActCoordNew.resize(6);
+    JoinNew.resize(6);
+
+    switch (axis){
+        case 1: ActCoordNew[0] = valueOffset; break;
+        case 2: ActCoordNew[1] = valueOffset; break;
+        case 3: ActCoordNew[2] = valueOffset; break;
+        case 4: ActCoordNew[3] = valueOffset; break;
+        case 5: ActCoordNew[4] = valueOffset; break;
+        case 6: ActCoordNew[5] = valueOffset; break;
+    }
+
+    Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, Join, JoinNew);
+
+    JoinNew[2] = JoinNew[2] -90;
+    JoinNew[5] = JoinNew[5] +180;
+    JointMove(Join, JoinNew);
+}
+void RobotControl::executionProgram(const std::vector<double> & dataProgramLine)
+{
+    std::vector<double> ActCoordNew;
+    std::vector<double> JoinNew;
+
+    ActCoordNew.resize(6);
+    JoinNew.resize(6);
+
+    for(unsigned j = 0; j < 6; ++j)
+        ActCoordNew[j] = ActCoord[j] - dataProgramLine[j];
+
+    Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, Join, JoinNew);
+
+    JoinNew[2] = JoinNew[2] -90;
+    JoinNew[5] = JoinNew[5] +180;
+    JointMove(Join, JoinNew);
 }

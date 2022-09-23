@@ -112,6 +112,25 @@ void AppCore::deleteLineFromFile(QString fileName,
     writeToFile(fileName, path);
     openFile(fileName, path);
 }
+//Старт потока, в котором будет выполняться программа робота
+void AppCore::startProgram(){
+    // Запуск выполнения метода run будет осуществляться по сигналу запуска от соответствующего потока
+    connect(&exeProgramThread, &QThread::started, &executionProgram, &ExecutionProgram::run);
+    //Остановка потока же будет выполняться по сигналу finished от соответствующего объекта в потоке
+    connect(&executionProgram, &ExecutionProgram::finished, &exeProgramThread, &QThread::terminate);
+
+    executionProgram.moveToThread(&exeProgramThread);    // Передаём объекты в соответствующие потоки
+
+    executionProgram.setRobotData(RobotControl_C);
+    executionProgram.setProgram(textProgram, dataProgram);
+
+    exeProgramThread.start();
+}
+
+void AppCore::stopProgram(){
+    if(exeProgramThread.isRunning())
+        exeProgramThread.quit();
+}
 
 std::vector<QString> AppCore::getActCoord()
 {
@@ -138,54 +157,13 @@ void AppCore::setActCoord(std::vector<double> ActCoord)
 
 void AppCore::jointManMove(int numAxis, double valueOffset)
 {
-    std::vector<double> Join = RobotControl_C.getAngelAct();
-    std::vector<double> JoinNew = Join;
-
-    switch (numAxis){
-        case 1: JoinNew[0]=Join[0]+valueOffset; break;
-        case 2: JoinNew[1]=Join[1]+valueOffset; break;
-        case 3: JoinNew[2]=Join[2]+valueOffset; break;
-        case 4: JoinNew[3]=Join[3]+valueOffset; break;
-        case 5: JoinNew[4]=Join[4]+valueOffset; break;
-        case 6: JoinNew[5]=Join[5]+valueOffset; break;
-    }
-
-    RobotControl_C.JointMove(Join, JoinNew);
+    RobotControl_C.jointManMove(numAxis, valueOffset);
 }
 void AppCore::cartesianManMove(int axis, double valueOffset)
 {
-    std::vector<double> WFrame = RobotControl_C.getWFrame();
-    std::vector<double> TFrame = RobotControl_C.getTFrame();
-    std::vector<std::vector<double>> DH_Param = RobotControl_C.getDH_Param();
-    std::vector<std::vector<double>> TT = RobotControl_C.getTT();
-    std::vector<std::vector<double>> T5 = RobotControl_C.getT5();;
-    std::vector<double> ActCoord = RobotControl_C.getActCoord();
-    std::vector<double> ActCoordNew;// = ActCoord;
-    std::vector<double> Join = RobotControl_C.getAngelAct();
-    std::vector<double> JoinNew;
-
-    ActCoordNew.resize(8);
-    Join[2] = Join[2] - 90;
-    Join[5] = Join[5] + 180;
-    JoinNew = Join;
-
-    Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
-
-    switch (axis){
-        case 1: ActCoordNew[0] = valueOffset; break;
-        case 2: ActCoordNew[1] = valueOffset; break;
-        case 3: ActCoordNew[2] = valueOffset; break;
-        case 4: ActCoordNew[3] = valueOffset; break;
-        case 5: ActCoordNew[4] = valueOffset; break;
-        case 6: ActCoordNew[5] = valueOffset; break;
-    }
-
-    Kinematics_C.invKinematics(ActCoord, ActCoordNew, DH_Param, WFrame, TT, Join, JoinNew);
-
-    JoinNew[2] = JoinNew[2] -90;
-    JoinNew[5] = JoinNew[5] +180;
-    RobotControl_C.JointMove(Join, JoinNew);
+    RobotControl_C.cartesianManMove(axis, valueOffset);
 }
+
 void AppCore::stopMove()
 {
     RobotControl_C.RobotStop();

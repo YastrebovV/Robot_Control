@@ -51,6 +51,7 @@ Rectangle{
                 font.family: "Arial"
                 font.pointSize: 12
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
+                text: newornot ? "" : listModel.get(index_ext).name
              }
 }
 '; dialogNewLogics.width = 400; dialogNewLogics.height = 172; break;
@@ -320,14 +321,22 @@ Rectangle{
             selectionElements(0);
             logicsType.currentIndex = 0;
          }else{
-             if(listModel.get(index_ext).type === "Wait sec")
+             if(listModel.get(index_ext).type === "Wait sec"){
                  selectionElements(0);
-             if(listModel.get(index_ext).type === "Wait for")
+                 logicsType.currentIndex = 0;
+             }
+             if(listModel.get(index_ext).type === "Wait for"){
                  selectionElements(1);
-             if(listModel.get(index_ext).type === "OUT")
+                 logicsType.currentIndex = 1;
+             }
+             if(listModel.get(index_ext).type === "OUT"){
                  selectionElements(2);
-             if(listModel.get(index_ext).type === "PULSE")
+                 logicsType.currentIndex = 2;
+             }
+             if(listModel.get(index_ext).type === "PULSE"){
                  selectionElements(3);
+                 logicsType.currentIndex = 3;
+             }
          }
      }
 
@@ -355,21 +364,14 @@ Rectangle{
              var oldName = listModel.get(index_ext).name;
              switch(listModel.get(index_ext).type)
              {
-                case "Wait sec": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[1].text,
-                                                Tool: " ", Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, "", "", index_ext, false);
+                case "Wait sec": appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, "", "", index_ext, false);
                               break;
-                case "Wait for": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[3].displayText,
-                                                Tool: rec.children[3].data[1].text, Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[3].displayText, oldName, rec.children[3].data[1].text, "", index_ext, false);
+                case "Wait for": appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[3].displayText, oldName, rec.children[3].data[1].text, "", index_ext, false);
                               break;
-                case "OUT": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[1].text,
-                                                Tool: rec.children[3].data[3].displayText, Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, rec.children[3].data[3].displayText, "", index_ext, false);
+                case "OUT": appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, rec.children[3].data[3].displayText, "", index_ext, false);
                               break;
-                case "PULSE": listModel.set(index_ext, {type: logicsType.currentText, name: rec.children[3].data[1].text,
-                                                Tool: rec.children[3].data[3].displayText, Base: " "});
-                              appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName, rec.children[3].data[3].displayText, "", index_ext, false);
+                case "PULSE": appCore.changeLineInFile(file, path, logicsType.currentText, rec.children[3].data[1].text, oldName.split(' ')[2], rec.children[3].data[3].displayText,
+                                                       rec.children[3].data[5].text, index_ext, false);
                               break;
              }
          }

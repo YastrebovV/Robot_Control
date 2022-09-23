@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <QtXml>
+#include "executionprogram.h"
 
 class AppCore : public QObject
 {
@@ -61,6 +62,8 @@ public slots:
     void setAxisMastering(bool start);
     std::vector<std::vector<QString>> getTextProgram(){return textProgram;}
     std::vector<std::vector<double>> getDataProgram(){return dataProgram;}
+    void startProgram();
+    void stopProgram();
 
 private:
     FilesAndFolders FilesAndFolders_C;
@@ -71,6 +74,7 @@ private:
     QString progName;
     QDomDocument domDoc;
     QThread exeProgramThread;
+    ExecutionProgram executionProgram;
     std::vector<std::vector<QString>> textProgram;
     std::vector<std::vector<double>>  dataProgram;
     void resizeVector2(const std::size_t& numRow, const std::size_t& colsRow, std::vector<std::vector<QString>>& vector);

@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QDebug>
 #include <QThread>
-#include "appcore.h"
+#include "kinematics.h"
+#include "rt_ethercat.h"
+#include "robotcontrol.h"
 
 class ExecutionProgram : public QObject
 {
@@ -12,9 +14,8 @@ class ExecutionProgram : public QObject
 
 public:
     explicit ExecutionProgram(QObject *parent = nullptr);
-
-    QString message() const;
-    void settingThread(QThread &exeProgramThread, ExecutionProgram &objProgram);
+    void setRobotData(const RobotControl & robotControl);
+    void setProgram(const std::vector<std::vector<QString>> & textProgram, const std::vector<std::vector<double>> & dataProgram);
 
 signals:
     void finished();    // Сигнал, по которому будем завершать поток, после завершения метода run
@@ -24,9 +25,10 @@ public slots:
 
 private:
    RobotControl robotControl;
-   AppCore appCore;
    Kinematics kinematics;
    rt_ethercat *ethercatRT;
+   std::vector<std::vector<QString>> textProgram;
+   std::vector<std::vector<double>> dataProgram;
 
 };
 

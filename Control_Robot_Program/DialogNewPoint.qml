@@ -323,20 +323,13 @@ Item {
                          listModel.insert(index_ext+1,{type: pointType.currentText, name: textNamePoint.text,
                                              Tool: " Tool: " + numTool.currentText, Base: " Base: " + numBase.currentText, Color: "#2e2f30", FontColor: "white"})
                          appCore.writeLineToFile(file, path, pointType.currentText, textNamePoint.text, numTool.currentText, numBase.currentText, index_ext+1)
-                   }else{
+                      }else{
                         var oldName = listModel.get(index_ext).name;
                         listModel.set(index_ext, {type: pointType.currentText, name: textNamePoint.text,
                                       Tool: " Tool: " + numTool.currentText, Base: " Base: " +numBase.currentText})
                         appCore.changeLineInFile(file, path, pointType.currentText, textNamePoint.text, oldName, numTool.currentText, numBase.currentText, index_ext, false)
-                   }
-               }
+                      }
+                  }
         }
     }
-
 }
-
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/

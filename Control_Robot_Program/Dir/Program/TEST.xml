@@ -1,14 +1,10 @@
 <!DOCTYPE TEST3>
 <TEST3>
- <point name="START" y="0" id="0" c="0" type="PTP" tool="1" z="0" b="0" base="0" a="0" x="0"/>
- <point name="p1" y="0" id="1" c="0" type="PTP" tool="1" z="0" b="0" base="1" a="0" x="0"/>
- <point name="p2" y="0" id="2" c="0" type="PTP" tool="2" z="0" b="0" base="2" a="0" x="0"/>
- <point name="p3" y="0" id="5" c="0" type="PTP" tool="3" z="0" b="0" base="0" a="0" x="0"/>
- <point name="P5" y="0" id="6" c="0" type="PTP" tool="5" z="0" b="0" base="2" a="0" x="0"/>
- <point name="P6" y="0" id="9" c="0" type="LIN" tool="1" z="0" b="0" base="1" a="0" x="0"/>
- <point name="P7" y="0" id="10" c="0" type="PTP" tool="1" z="0" b="0" base="2" a="0" x="0"/>
- <point name="In" y="0" id="4" c="0" type="Wait for" tool="48" z="0" b="0" base="" a="0" x="0"/>
- <point name="2" y="0" id="8" c="0" type="Wait sec" tool="" z="0" b="0" base="" a="0" x="0"/>
- <point name="P5_2" y="0" id="7" c="0" type="PTP" tool="1" z="0" b="0" base="1" a="0" x="0"/>
- <point name="P2_2" y="0" id="3" c="0" type="PTP" tool="1" z="0" b="0" base="1" a="0" x="0"/>
+ <point a="0" b="0" type="PTP" tool="1" y="0" c="0" z="0" x="0" name="START" id="0" base="0"/>
+ <point a="0" b="0" type="PTP" tool="3" y="0" c="0" z="0" x="0" name="p1" id="1" base="3"/>
+ <point a="0" b="0" type="PTP" tool="3" y="0" c="0" z="0" x="0" name="p3" id="3" base="0"/>
+ <point a="0" b="0" type="PTP" tool="5" y="0" c="0" z="0" x="0" name="P5" id="4" base="3"/>
+ <point a="0" b="0" type="LIN" tool="1" y="0" c="0" z="0" x="0" name="P6" id="5" base="1"/>
+ <point a="0" b="0" type="PTP" tool="1" y="0" c="0" z="0" x="0" name="P7" id="6" base="2"/>
+ <point a="0" b="0" type="Wait sec" tool="" y="0" c="0" z="0" x="0" name="3" id="2" base=""/>
 </TEST3>

@@ -2,7 +2,6 @@
 #define PROGRAMCODEXML_H
 
 #include <QtXml>
-#include "robotcontrol.h"
 
 class programcodeXML
 {
@@ -47,8 +46,6 @@ private:
                        );
     void changeLineId(QDomNode& node,
                       const QString& id);
-
-    RobotControl RobotControl_C;
 
 };
 
