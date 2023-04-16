@@ -320,9 +320,20 @@ Item {
         onAccepted: {
                   if(textNamePoint.text !== "" && textNamePoint.text !== " "){
                       if(newornot){
-                         listModel.insert(index_ext+1,{type: pointType.currentText, name: textNamePoint.text,
-                                             Tool: " Tool: " + numTool.currentText, Base: " Base: " + numBase.currentText, Color: "#2e2f30", FontColor: "white"})
-                         appCore.writeLineToFile(file, path, pointType.currentText, textNamePoint.text, numTool.currentText, numBase.currentText, index_ext+1)
+                         if(listModel.count === 0){
+                             listModel.insert(index_ext,{type: pointType.currentText, name: textNamePoint.text,
+                                                 Tool: " Tool: " + numTool.currentText, Base: " Base: " + numBase.currentText, Color: "#2e2f30", FontColor: "white"})
+                             appCore.writeLineToFile(file, path, pointType.currentText, textNamePoint.text, numTool.currentText, numBase.currentText, index_ext)
+                             listModel.set(index_ext, {Color: "white"})
+                             listModel.set(index_ext, {FontColor: "#4c4e50"})
+                         }else{
+                             listModel.insert(index_ext+1,{type: pointType.currentText, name: textNamePoint.text,
+                                                 Tool: " Tool: " + numTool.currentText, Base: " Base: " + numBase.currentText, Color: "#2e2f30", FontColor: "white"})
+                             appCore.writeLineToFile(file, path, pointType.currentText, textNamePoint.text, numTool.currentText, numBase.currentText, index_ext+1)
+                             listModel.set(index_ext+1, {Color: "white"})
+                             listModel.set(index_ext+1, {FontColor: "#4c4e50"})
+                             ++index_ext
+                         }
                       }else{
                         var oldName = listModel.get(index_ext).name;
                         listModel.set(index_ext, {type: pointType.currentText, name: textNamePoint.text,

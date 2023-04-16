@@ -8,6 +8,7 @@ RT_TASK mt_3_task;
 RT_TASK mt_4_task;
 RT_TASK mt_5_task;
 RT_TASK mt_6_task;
+RT_TASK st_motion_task;
 
 static int run = 1;
 
@@ -21,6 +22,7 @@ unsigned int rt_ethercat::acc_axis_move[6];
 unsigned int rt_ethercat::absolutePos[6];
 bool rt_ethercat::startAxisMastering = false;
 bool rt_ethercat::masteringStarted = false;
+bool rt_ethercat::robotMoving = false;
 
 char byte1= 0x00;
 char byte2 = 0x00;
@@ -603,6 +605,21 @@ void motor_6_task(void *arg)
         rt_task_wait_period(NULL);
     }
 }
+
+void stateMotion(void *arg)
+{
+    rt_task_set_periodic(NULL, TM_NOW, 300000); // ns
+
+    while(1){
+        if(rt_ethercat::getStart(0) || rt_ethercat::getStart(1) || rt_ethercat::getStart(2)
+                || rt_ethercat::getStart(3) || rt_ethercat::getStart(4) || rt_ethercat::getStart(5)){
+            rt_ethercat::setRobotMoving(true);
+        }else{
+            rt_ethercat::setRobotMoving(false);
+        }
+     rt_task_wait_period(NULL);
+    }
+}
 /****************************************************************************
  * Signal handler
  ***************************************************************************/
@@ -764,6 +781,12 @@ int rt_ethercat::rt_ethercat_start()
         return -1;
     }
 
+    ret = rt_task_create(&st_motion_task, "st_motion_task", 0, 60, 0);
+    if (ret < 0) {
+        fprintf(stderr, "Failed to create task: %s\n", strerror(-ret));
+        return -1;
+    }
+
     printf("Starting ec_task...\n");
     ret = rt_task_start(&ec_task, &ethercat_task, NULL);
     if (ret < 0) {
@@ -804,6 +827,12 @@ int rt_ethercat::rt_ethercat_start()
     }
     printf("Starting mt_6_task...\n");
     ret = rt_task_start(&mt_6_task, &motor_6_task, NULL);
+    if (ret < 0) {
+        fprintf(stderr, "Failed to start task: %s\n", strerror(-ret));
+        return -1;
+    }
+    printf("Starting st_motion_task...\n");
+    ret = rt_task_start(&st_motion_task, &stateMotion, NULL);
     if (ret < 0) {
         fprintf(stderr, "Failed to start task: %s\n", strerror(-ret));
         return -1;

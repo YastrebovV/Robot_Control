@@ -3,6 +3,10 @@
 AppCore::AppCore(QObject *parent) : QObject(parent)
 {
     ethercatRT->rt_ethercat_start();
+    // Запуск выполнения метода run будет осуществляться по сигналу запуска от соответствующего потока
+    connect(&exeProgramThread, &QThread::started, &executionProgram, &ExecutionProgram::run);
+    //Остановка потока же будет выполняться по сигналу finished от соответствующего объекта в потоке
+    connect(&executionProgram, &ExecutionProgram::finished, &exeProgramThread, &QThread::terminate);
 }
 
 void AppCore::resizeVector2(const std::size_t& numRow, const std::size_t& colsRow, std::vector<std::vector<QString>>& vector)
@@ -114,17 +118,14 @@ void AppCore::deleteLineFromFile(QString fileName,
 }
 //Старт потока, в котором будет выполняться программа робота
 void AppCore::startProgram(){
-    // Запуск выполнения метода run будет осуществляться по сигналу запуска от соответствующего потока
-    connect(&exeProgramThread, &QThread::started, &executionProgram, &ExecutionProgram::run);
-    //Остановка потока же будет выполняться по сигналу finished от соответствующего объекта в потоке
-    connect(&executionProgram, &ExecutionProgram::finished, &exeProgramThread, &QThread::terminate);
+    if(!exeProgramThread.isRunning()){
+        executionProgram.moveToThread(&exeProgramThread);    // Передаём объекты в соответствующие потоки
 
-    executionProgram.moveToThread(&exeProgramThread);    // Передаём объекты в соответствующие потоки
+        executionProgram.setRobotData(RobotControl_C);
+        executionProgram.setProgram(textProgram, dataProgram);
 
-    executionProgram.setRobotData(RobotControl_C);
-    executionProgram.setProgram(textProgram, dataProgram);
-
-    exeProgramThread.start();
+        exeProgramThread.start();
+    }
 }
 
 void AppCore::stopProgram(){

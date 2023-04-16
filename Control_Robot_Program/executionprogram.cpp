@@ -17,6 +17,7 @@ void ExecutionProgram::setProgram(const std::vector<std::vector<QString>> & text
 
 void ExecutionProgram::run()
 {
+    int countTemp = 0;
     for(unsigned i = 0; i < textProgram.size(); ++i)
     {
          if(textProgram[i][1] == "Wait sec"){
@@ -26,13 +27,15 @@ void ExecutionProgram::run()
 
         robotControl.executionProgram(dataProgram[i]);
 
-        //Ожидание окончания перемещения.
-        while (ethercatRT->getSteps(0) > 0 && ethercatRT->getSteps(1) > 0 && ethercatRT->getSteps(2) > 0
-               && ethercatRT->getSteps(3) > 0 && ethercatRT->getSteps(4) > 0 && ethercatRT->getSteps(5) > 0) {
+        qDebug() << ethercatRT->getSteps(1) << endl;
 
-        }
+        //Ожидание окончания перемещения.
+        while (ethercatRT->getRobotMoving()) {};
+
         robotControl.RobotStop();
+        countTemp++;
     }
+    qDebug() << countTemp << endl;
 
     emit finished();
 }

@@ -1,2 +1,7 @@
 <!DOCTYPE TEST2>
-<TEST2/>
+<TEST2>
+ <point type="PTP" base="1" z="568.64" c="-90" tool="1" a="-90" x="397.31" id="0" b="90" name="P1" y="6.93437e-06"/>
+ <point type="PTP" base="1" z="568.64" c="-90" tool="1" a="-90" x="397.31" id="1" b="90" name="P2" y="6.93437e-06"/>
+ <point type="PTP" base="1" z="568.64" c="-90" tool="1" a="-90" x="397.31" b="90" id="3" name="P3" y="6.93437e-06"/>
+ <point type="PTP" base="1" z="568.64" c="-90" tool="1" a="-90" x="397.31" id="2" b="90" name="P2-2" y="6.93437e-06"/>
+</TEST2>

@@ -8,7 +8,31 @@ Item {
 
     function labSpeedText(text)
     {
-       lab_speed.text = text
+       var speed = 0;
+       appCore.setSpeed(400000)
+       speed = (14-appCore.getAxisSpeed()/100000)*10
+       lab_speed.text = speed
+    }
+
+    function changeSpeed(dir)
+    {
+        var speed = 0;
+        if(appCore.getAxisSpeed() > 400000 && dir)
+           appCore.setSpeed(appCore.getAxisSpeed()-100000)
+
+        if(appCore.getAxisSpeed() < 1400000 && !dir)
+           appCore.setSpeed(appCore.getAxisSpeed()+100000)
+
+        var tempp = appCore.getAxisSpeed();
+
+        speed = (14-appCore.getAxisSpeed()/100000)*10
+        if (speed > 0 && speed < 100){
+           lab_speed.text = speed
+        }else if(speed ===0){
+           lab_speed.text = 0
+        }else if(speed >=100){
+           lab_speed.text = 100
+        }
     }
 
     function currentIndexCB1(){
@@ -35,7 +59,7 @@ Item {
         border.color: "black"
         border.width: 1
 
-       Button {
+        Button {
                 id: but_A1_Plus
                 x: 2
                 y: 165
@@ -76,7 +100,6 @@ Item {
                     outputActPos()
                 }
         }
-
         Button {
             id: but_A1_Minus
             x: but_A1_Plus.width+3
@@ -601,7 +624,6 @@ Item {
                 textCB_Inc.text = comboBox.currentText
             }
         }
-
         ComboBox {
             id: comboBox1
             x: 2
@@ -706,17 +728,7 @@ Item {
             }
 
             onClicked: {
-                var speed = 0;
-                if(appCore.getAxisSpeed() > 400000)
-                   appCore.setSpeed(appCore.getAxisSpeed()-100000)
-                speed = (14-appCore.getAxisSpeed()/100000)*10
-                if (speed > 0 && speed < 100){
-                   lab_speed.text = speed
-                }else if(speed ===0){
-                   lab_speed.text = 0
-                }else if(speed >=100){
-                   lab_speed.text = 100
-                }
+                changeSpeed(true)
             }
         }
         Button {
@@ -744,17 +756,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
             }
             onClicked: {
-                var speed = 0;
-                if(appCore.getAxisSpeed() < 1400000)
-                   appCore.setSpeed(appCore.getAxisSpeed()+100000)
-                speed = (14-appCore.getAxisSpeed()/100000)*10
-                if (speed > 0 && speed < 100){
-                   lab_speed.text = speed
-                }else if(speed ===0){
-                   lab_speed.text = 0
-                }else if(speed >=100){
-                   lab_speed.text = 100
-                }
+                changeSpeed(false)
             }
         }
 
@@ -767,7 +769,6 @@ Item {
             color: "#ffffff"
             text: "Скорость:"
         }
-
         Label {
             id: lab_speed
             x: 71

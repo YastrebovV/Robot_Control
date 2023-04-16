@@ -154,7 +154,7 @@ void RobotControl::RobotStop()
         Join[2] = Join[2] -90;
         Join[5] = Join[5] +180;
         Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
-        setActCoord(ActCoord);
+       // setActCoord(ActCoord);
 }
 
 void RobotControl::jointManMove(const int & numAxis, const double & valueOffset)
@@ -180,6 +180,12 @@ void RobotControl::cartesianManMove(const int & axis, const double & valueOffset
     ActCoordNew.resize(6);
     JoinNew.resize(6);
 
+    std::vector<double> Join = getAngelAct();
+    Join[2] = Join[2] -90;
+    Join[5] = Join[5] +180;
+
+    Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
+
     switch (axis){
         case 1: ActCoordNew[0] = valueOffset; break;
         case 2: ActCoordNew[1] = valueOffset; break;
@@ -202,6 +208,12 @@ void RobotControl::executionProgram(const std::vector<double> & dataProgramLine)
 
     ActCoordNew.resize(6);
     JoinNew.resize(6);
+
+    std::vector<double> Join = getAngelAct();
+    Join[2] = Join[2] -90;
+    Join[5] = Join[5] +180;
+
+    Kinematics_C.dirKinematics(Join, WFrame, TFrame, DH_Param, ActCoord, T5, TT);
 
     for(unsigned j = 0; j < 6; ++j)
         ActCoordNew[j] = ActCoord[j] - dataProgramLine[j];

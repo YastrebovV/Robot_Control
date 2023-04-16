@@ -2,6 +2,7 @@
 #define ROBOTCONTROL_H
 
 #include <QObject>
+#include <QDebug>
 #include "kinematics.h"
 #include <vector>
 #include "rt_ethercat.h"

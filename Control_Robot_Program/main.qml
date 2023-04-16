@@ -111,7 +111,7 @@ ApplicationWindow {
                 clip: true
 
                 model: FolderListModel{
-                    id: dataModel
+                    id: dataModel               
                     showDirs: true
                     showDirsFirst: true
                     showFiles: true
@@ -123,7 +123,7 @@ ApplicationWindow {
                     }
                 }
 
-                delegate:Component {
+                delegate:Component {                  
                     Item {
                     x: 5
                     width: parent.width
@@ -144,7 +144,7 @@ ApplicationWindow {
                         text: fileName
                         color: "white"
 
-                        onTextChanged: {
+                        onTextChanged: {                            
                           //  if (!fileIsDir && file !== fileName) {
                            //    file = fileName
                           //  }
@@ -155,9 +155,9 @@ ApplicationWindow {
                         anchors.fill: parent
                         onClicked: {
                              listView.currentIndex = index
-                             if (!fileIsDir) {
-                                file = fileName
-                             }
+                             //if (!fileIsDir) {
+                               // file = fileName
+                            // }
                         }
 
                         onDoubleClicked: {
@@ -179,16 +179,16 @@ ApplicationWindow {
                 x: 250
                 y: 250
                 width: 350
-                height: 150
+                height: 160
                 title: "Введите имя файла"
                 modal: false
                 standardButtons: Dialog.Ok | Dialog.Cancel
 
                 TextField {
                     id: textField
-                    x: 16
+                    x: 5
                     y: 20
-                    width: 326
+                    width: 320
                     height: 30
                     font.family: "Arial"
                     font.pointSize: 12
@@ -289,7 +289,11 @@ ApplicationWindow {
                     radius: 5
                 }
                 onClicked: {
+                    if (!dataModel.isFolder(listView.currentIndex)) {
+                       file = dataModel.get(listView.currentIndex, "fileName")
+                    }
                     appCore.openFile(file, path)
+                    swipeView.currentIndex = 1
                 }
             }
 
@@ -380,7 +384,7 @@ ApplicationWindow {
                                 index_ext = index
                                 listModel.set(index_ext, {Color: "white"})
                                 listModel.set(index_ext, {FontColor: "#4c4e50"})
-                                if(!ifDelEndLine&&index_ext_priv!=index_ext){
+                                if(!ifDelEndLine && index_ext_priv != index_ext){
                                     listModel.set(index_ext_priv, {Color: "#2e2f30"})
                                     listModel.set(index_ext_priv, {FontColor: "white"})
                                 }

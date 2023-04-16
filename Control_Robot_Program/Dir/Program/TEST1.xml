@@ -1,0 +1,6 @@
+<!DOCTYPE TEST1>
+<TEST1>
+ <point tool="1" z="568.64" id="0" name="P1" type="PTP" y="6.93437e-06" a="-90" c="-90" x="397.31" b="90" base="1"/>
+ <point tool="1" z="568.64" id="1" name="P2" type="PTP" y="6.93437e-06" a="-90" c="-90" x="397.31" b="90" base="1"/>
+ <point tool="1" z="568.64" id="2" name="P3" type="PTP" y="6.93437e-06" a="-90" c="-90" x="397.31" b="90" base="1"/>
+</TEST1>

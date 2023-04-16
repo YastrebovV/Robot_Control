@@ -35,6 +35,7 @@ private:
     static unsigned int absolutePos[6];
     static bool startAxisMastering;
     static bool masteringStarted;
+    static bool robotMoving;
 
 public:
      int rt_ethercat_start();
@@ -57,7 +58,8 @@ public:
      static void setmasteringStarted(bool started){masteringStarted=started;}
      static bool getStartAxMastering(){return startAxisMastering;}
      static bool getmasteringStarted(){return masteringStarted;}
-
+     static bool getRobotMoving(){return robotMoving;}
+     static void setRobotMoving(bool stateMove){robotMoving = stateMove;}
 };
 
 #endif // RT_ETHERCAT_H

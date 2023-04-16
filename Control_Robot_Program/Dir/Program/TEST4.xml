@@ -1,0 +1,8 @@
+<!DOCTYPE TEST4>
+<TEST4>
+ <point a="-90" y="6.93437e-06" z="568.64" base="1" name="P1" id="0" type="PTP" x="397.31" b="90" tool="1" c="-90"/>
+ <point a="-90" y="6.93437e-06" z="568.64" base="1" name="P3" id="1" type="PTP" x="397.31" b="90" tool="1" c="-90"/>
+ <point a="-90" y="6.93437e-06" z="568.64" base="1" name="P4" id="2" x="397.31" type="PTP" b="90" c="-90" tool="1"/>
+ <point a="-90" y="6.93437e-06" z="568.64" base="1" name="P5" id="3" type="PTP" x="397.31" b="90" tool="1" c="-90"/>
+ <point a="-90" y="6.93437e-06" z="568.64" base="1" name="P6" id="4" type="PTP" x="397.31" b="90" tool="1" c="-90"/>
+</TEST4>
